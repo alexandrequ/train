@@ -1,0 +1,267 @@
+:root {
+  --bg: #f4f8f1;
+  --ink: #1d2a24;
+  --muted: #465a51;
+  --brand: #087f5b;
+  --brand-dark: #055f44;
+  --card: rgba(255, 255, 255, 0.86);
+  --border: rgba(29, 42, 36, 0.12);
+  --shadow: 0 12px 40px rgba(10, 42, 30, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Bricolage Grotesque", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 15% 15%, #d8efe3 0%, transparent 42%),
+    radial-gradient(circle at 85% 30%, #ffe8c7 0%, transparent 32%), var(--bg);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bg-orb {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.orb-1 {
+  width: 280px;
+  height: 280px;
+  background: rgba(8, 127, 91, 0.18);
+  top: -80px;
+  right: -40px;
+}
+
+.orb-2 {
+  width: 260px;
+  height: 260px;
+  background: rgba(251, 146, 60, 0.16);
+  bottom: -90px;
+  left: -70px;
+}
+
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3.5rem 1.2rem 1.2rem;
+  animation: enter 0.7s ease-out;
+}
+
+.kicker {
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.74rem;
+  color: var(--brand-dark);
+  margin-bottom: 0.4rem;
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: "Fraunces", serif;
+  font-size: clamp(1.9rem, 4vw, 3.3rem);
+  line-height: 1.05;
+}
+
+.hero p {
+  margin-top: 0.9rem;
+  max-width: 700px;
+  color: var(--muted);
+  font-size: 1.06rem;
+}
+
+.tabs {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.tab {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--ink);
+  padding: 0.68rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.24s ease;
+}
+
+.tab:hover,
+.tab:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(8, 127, 91, 0.45);
+}
+
+.tab.is-active {
+  background: var(--brand);
+  color: #fff;
+  border-color: transparent;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.2rem;
+}
+
+.panel {
+  display: none;
+  animation: fade 0.35s ease;
+}
+
+.panel.is-active {
+  display: block;
+}
+
+.panel h2 {
+  font-family: "Fraunces", serif;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.lead {
+  font-size: 1.08rem;
+  color: var(--muted);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  grid-column: span 12;
+  background: var(--card);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.1rem 1.1rem 1rem;
+  box-shadow: var(--shadow);
+}
+
+.card h3 {
+  margin-top: 0.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.68rem;
+}
+
+.card li {
+  line-height: 1.45;
+}
+
+.card a {
+  color: var(--brand-dark);
+  font-weight: 600;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  margin-left: 0.25rem;
+}
+
+.map-card {
+  padding-bottom: 1rem;
+}
+
+#map {
+  width: 100%;
+  height: 380px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.map-info {
+  margin-top: 0.8rem;
+  border-radius: 12px;
+  border: 1px dashed rgba(8, 127, 91, 0.45);
+  padding: 0.7rem 0.8rem;
+  background: rgba(8, 127, 91, 0.07);
+  font-size: 0.95rem;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.82rem 1.3rem;
+  font-weight: 700;
+  margin-top: 0.8rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  transform: translateY(-2px);
+  background: var(--brand-dark);
+}
+
+.sources {
+  margin-top: 1.2rem;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+}
+
+.sources h3 {
+  margin-top: 0.15rem;
+}
+
+.sources ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+@media (min-width: 860px) {
+  .cards-grid .card:nth-child(1),
+  .cards-grid .card:nth-child(2) {
+    grid-column: span 6;
+  }
+
+  .cards-grid .card:nth-child(3) {
+    grid-column: span 12;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

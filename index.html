@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trainfluance</title>
+    <meta
+      name="description"
+      content="Trainfluance - bons plans train, carte interactive et ressources de voyage collaboratives."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <header class="hero">
+      <p class="kicker">TRAINFLUANCE</p>
+      <h1>Explorer le rail autrement</h1>
+      <p>
+        Une plateforme collaborative pour dénicher des bons plans, partager des itinéraires
+        et voyager plus loin en train.
+      </p>
+    </header>
+
+    <nav class="tabs" aria-label="Onglets principaux">
+      <button class="tab is-active" data-tab="bons-plans">Le wagon des bons plans</button>
+      <button class="tab" data-tab="carte-voyages">La carte des voyages</button>
+      <button class="tab" data-tab="a-propos">A propos</button>
+    </nav>
+
+    <main>
+      <section id="bons-plans" class="panel is-active" aria-labelledby="tab-bons-plans">
+        <h2>Le wagon des bons plans</h2>
+        <p class="lead">
+          Psst, cette page est également collaborative, si tu as des bons plans à partager
+          n'hésite pas à m'envoyer un message.
+        </p>
+        <p>
+          Bienvenue dans le wagon des bons plans. Voyager en train, ça a son petit prix et
+          parfois cet aspect financier est un frein. Heureusement, ici, l'idée est de centraliser
+          les ressources les plus utiles.
+        </p>
+
+        <div class="cards-grid">
+          <article class="card">
+            <h3>Les cartes de promotions</h3>
+            <ul>
+              <li>
+                <strong>Europe :</strong> Interrail. Le mythe, c'est que ce n'est que pour les
+                jeunes, mais non. Même si le pass devient plus cher après 28 ans, il reste souvent
+                très intéressant.
+                <a href="https://www.interrail.eu/fr" target="_blank" rel="noopener noreferrer"
+                  >Voir Interrail</a
+                >
+                <a
+                  href="https://www.interrail.eu/en/interrail-passes/deals"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Voir les promos Interrail</a
+                >
+              </li>
+              <li>
+                <strong>France :</strong> Carte Avantage SNCF.
+                <a
+                  href="https://www.sncf-connect.com/app/catalogue"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Voir la carte Avantage</a
+                >
+              </li>
+              <li>
+                <strong>Belgique :</strong> offres Train+.
+                <a
+                  href="https://www.belgiantrain.be/fr/tickets-and-railcards"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Voir les offres SNCB</a
+                >
+              </li>
+              <li>
+                <strong>Suisse :</strong> Demi-tarif.
+                <a
+                  href="https://www.sbb.ch/fr/abonnements-et-billets/abonnements/demi-tarif.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Voir le demi-tarif</a
+                >
+              </li>
+              <li>
+                <strong>Italie :</strong> pass d'été sur les trains régionaux.
+                <a
+                  href="https://www.trenitalia.com/it/offerte_e_servizi/italia-in-tour.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Voir Italia in Tour</a
+                >
+              </li>
+              <li>
+                <strong>Réservations Interrail (sièges/couchettes) :</strong> Rail Europe.
+                <a
+                  href="https://www.raileurope.com/en-us/help/rail-passes/interrail-pass/how-do-i-book-seats-for-my-interrail-pass-trip"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Réserver avec Rail Europe</a
+                >
+              </li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Planification d'itinéraires</h3>
+            <p>
+              Si l'idée est de partager des expériences personnalisées, il existe aussi des sites
+              qui suggèrent des itinéraires selon la durée du voyage, la région à explorer et le
+              type d'aventure recherché.
+            </p>
+            <ul>
+              <li>
+                <a href="https://www.hourrail.com" target="_blank" rel="noopener noreferrer"
+                  >Hourrail</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.voyagerentrain.fr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Voyager en train.fr</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.chronotrains.com/fr?city=Madrid%2CES"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Mollow / Chronotrains</a
+                >
+                : voir jusqu'où on peut aller depuis n'importe quelle ville selon le temps de
+                trajet.
+              </li>
+              <li>
+                <a href="https://www.seat61.com/index.html" target="_blank" rel="noopener noreferrer"
+                  >Seat61</a
+                >
+                : la pépite la plus complète pour voyager en train dans le monde.
+              </li>
+              <li>
+                Groupes Facebook : recherche des communautés locales selon ton pays ou ta région.
+              </li>
+            </ul>
+          </article>
+
+          <article class="card map-card">
+            <h3>Interactive clickable map</h3>
+            <p>Clique sur un pays pour afficher les bons plans associés.</p>
+            <div id="map" aria-label="Carte interactive des bons plans"></div>
+            <div id="map-info" class="map-info">Sélectionne un pays sur la carte.</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="carte-voyages" class="panel" aria-labelledby="tab-carte-voyages">
+        <h2>La carte des voyages</h2>
+        <p>
+          Ajoute ton expérience et découvre les itinéraires de la communauté en un clic.
+        </p>
+        <a class="cta" href="https://form.jotform.com/261065258654057" target="_blank" rel="noopener noreferrer"
+          >Accéder au formulaire</a
+        >
+      </section>
+
+      <section id="a-propos" class="panel" aria-labelledby="tab-a-propos">
+        <h2>A propos</h2>
+        <p>
+          J'utilise le « tu » à des fins de facilitation de narratif, à ne pas prendre
+          personnellement.
+        </p>
+        <p>
+          Trainfluance est un espace collaboratif pour inspirer des voyages en train plus humains,
+          plus accessibles et mieux partagés.
+        </p>
+
+        <div class="sources">
+          <h3>Inspirations</h3>
+          <ul>
+            <li>
+              <a href="https://www.youtube.com/watch?v=ysI-yxzlNxQ" target="_blank" rel="noopener noreferrer"
+                >fla-shop</a
+              >
+            </li>
+            <li>
+              <a href="https://www.youtube.com/watch?v=uAgSYhcU9BA" target="_blank" rel="noopener noreferrer"
+                >interactive geo maps</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://mickael-maury.fr/2018/04/12/une-carte-interactive-sur-wordpress/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >autres ressources</a
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
