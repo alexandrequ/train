@@ -3,229 +3,499 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trainfluance</title>
-    <meta
-      name="description"
-      content="Trainfluance - bons plans train, carte interactive et ressources de voyage collaboratives."
-    />
+    <title>Rail Stories — des récits qui prennent le train</title>
+    <meta name="description" content="Rail Stories — un espace collaboratif de partage de récits et d'expériences autour du voyage en train." />
 
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap"
-      rel="stylesheet"
-    />
-
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Custom -->
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
 
-    <header class="hero">
-      <p class="kicker">TRAINFLUANCE</p>
-      <h1>Explorer le rail autrement</h1>
-      <p>
-        Une plateforme collaborative pour dénicher des bons plans, partager des itinéraires
-        et voyager plus loin en train.
-      </p>
-    </header>
-
-    <nav class="tabs" aria-label="Onglets principaux">
-      <button class="tab is-active" data-tab="bons-plans">Le wagon des bons plans</button>
-      <button class="tab" data-tab="carte-voyages">La carte des voyages</button>
-      <button class="tab" data-tab="a-propos">A propos</button>
-    </nav>
-
-    <main>
-      <section id="bons-plans" class="panel is-active" aria-labelledby="tab-bons-plans">
-        <h2>Le wagon des bons plans</h2>
-        <p class="lead">
-          Psst, cette page est également collaborative, si tu as des bons plans à partager
-          n'hésite pas à m'envoyer un message.
-        </p>
-        <p>
-          Bienvenue dans le wagon des bons plans. Voyager en train, ça a son petit prix et
-          parfois cet aspect financier est un frein. Heureusement, ici, l'idée est de centraliser
-          les ressources les plus utiles.
-        </p>
-
-        <div class="cards-grid">
-          <article class="card">
-            <h3>Les cartes de promotions</h3>
-            <ul>
-              <li>
-                <strong>Europe :</strong> Interrail. Le mythe, c'est que ce n'est que pour les
-                jeunes, mais non. Même si le pass devient plus cher après 28 ans, il reste souvent
-                très intéressant.
-                <a href="https://www.interrail.eu/fr" target="_blank" rel="noopener noreferrer"
-                  >Voir Interrail</a
-                >
-                <a
-                  href="https://www.interrail.eu/en/interrail-passes/deals"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Voir les promos Interrail</a
-                >
-              </li>
-              <li>
-                <strong>France :</strong> Carte Avantage SNCF.
-                <a
-                  href="https://www.sncf-connect.com/app/catalogue"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Voir la carte Avantage</a
-                >
-              </li>
-              <li>
-                <strong>Belgique :</strong> offres Train+.
-                <a
-                  href="https://www.belgiantrain.be/fr/tickets-and-railcards"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Voir les offres SNCB</a
-                >
-              </li>
-              <li>
-                <strong>Suisse :</strong> Demi-tarif.
-                <a
-                  href="https://www.sbb.ch/fr/abonnements-et-billets/abonnements/demi-tarif.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Voir le demi-tarif</a
-                >
-              </li>
-              <li>
-                <strong>Italie :</strong> pass d'été sur les trains régionaux.
-                <a
-                  href="https://www.trenitalia.com/it/offerte_e_servizi/italia-in-tour.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Voir Italia in Tour</a
-                >
-              </li>
-              <li>
-                <strong>Réservations Interrail (sièges/couchettes) :</strong> Rail Europe.
-                <a
-                  href="https://www.raileurope.com/en-us/help/rail-passes/interrail-pass/how-do-i-book-seats-for-my-interrail-pass-trip"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Réserver avec Rail Europe</a
-                >
-              </li>
-            </ul>
-          </article>
-
-          <article class="card">
-            <h3>Planification d'itinéraires</h3>
-            <p>
-              Si l'idée est de partager des expériences personnalisées, il existe aussi des sites
-              qui suggèrent des itinéraires selon la durée du voyage, la région à explorer et le
-              type d'aventure recherché.
-            </p>
-            <ul>
-              <li>
-                <a href="https://www.hourrail.com" target="_blank" rel="noopener noreferrer"
-                  >Hourrail</a
-                >
-              </li>
-              <li>
-                <a
-                  href="https://www.voyagerentrain.fr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Voyager en train.fr</a
-                >
-              </li>
-              <li>
-                <a
-                  href="https://www.chronotrains.com/fr?city=Madrid%2CES"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Mollow / Chronotrains</a
-                >
-                : voir jusqu'où on peut aller depuis n'importe quelle ville selon le temps de
-                trajet.
-              </li>
-              <li>
-                <a href="https://www.seat61.com/index.html" target="_blank" rel="noopener noreferrer"
-                  >Seat61</a
-                >
-                : la pépite la plus complète pour voyager en train dans le monde.
-              </li>
-              <li>
-                Groupes Facebook : recherche des communautés locales selon ton pays ou ta région.
-              </li>
-            </ul>
-          </article>
-
-          <article class="card map-card">
-            <h3>Interactive clickable map</h3>
-            <p>Clique sur un pays pour afficher les bons plans associés.</p>
-            <div id="map" aria-label="Carte interactive des bons plans"></div>
-            <div id="map-info" class="map-info">Sélectionne un pays sur la carte.</div>
-          </article>
-        </div>
-      </section>
-
-      <section id="carte-voyages" class="panel" aria-labelledby="tab-carte-voyages">
-        <h2>La carte des voyages</h2>
-        <p>
-          Ajoute ton expérience et découvre les itinéraires de la communauté en un clic.
-        </p>
-        <a class="cta" href="https://form.jotform.com/261065258654057" target="_blank" rel="noopener noreferrer"
-          >Accéder au formulaire</a
-        >
-      </section>
-
-      <section id="a-propos" class="panel" aria-labelledby="tab-a-propos">
-        <h2>A propos</h2>
-        <p>
-          J'utilise le « tu » à des fins de facilitation de narratif, à ne pas prendre
-          personnellement.
-        </p>
-        <p>
-          Trainfluance est un espace collaboratif pour inspirer des voyages en train plus humains,
-          plus accessibles et mieux partagés.
-        </p>
-
-        <div class="sources">
-          <h3>Inspirations</h3>
-          <ul>
-            <li>
-              <a href="https://www.youtube.com/watch?v=ysI-yxzlNxQ" target="_blank" rel="noopener noreferrer"
-                >fla-shop</a
-              >
-            </li>
-            <li>
-              <a href="https://www.youtube.com/watch?v=uAgSYhcU9BA" target="_blank" rel="noopener noreferrer"
-                >interactive geo maps</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://mickael-maury.fr/2018/04/12/une-carte-interactive-sur-wordpress/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >autres ressources</a
-              >
-            </li>
+    <!-- ═══ NAVBAR ═══════════════════════════════════════════════════════════════ -->
+    <nav class="navbar navbar-expand-lg rs-navbar" id="site-header">
+      <div class="container-xl">
+        <a class="navbar-brand" href="#accueil">Rail Stories</a>
+        <button class="navbar-toggler border-0" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Navigation">
+          <i class="bi bi-list text-white fs-4"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto gap-1">
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#accueil">Accueil</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#carte">Carte des voyages</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#bons-plans">Bons plans</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#je-monte">Je monte à bord</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#contact">Contact</a></li>
           </ul>
         </div>
-      </section>
-    </main>
+      </div>
+    </nav>
 
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
+    <!-- ═══ HERO ══════════════════════════════════════════════════════════════════ -->
+    <section id="accueil" class="rs-hero">
+      <div class="rs-hero-grid"></div>
+      <div class="rs-hero-glow"></div>
+      <div class="container py-5 position-relative" style="z-index:1">
+        <div class="rs-hero-content">
+          <span class="badge rounded-pill rs-badge-kicker mb-3">DES RÉCITS QUI PRENNENT LE TRAIN</span>
+          <h1 class="rs-hero-h1 mb-0">Rail</h1>
+          <h1 class="rs-hero-h1 rs-hero-h1-italic mb-4">Stories</h1>
+          <p class="rs-hero-desc mb-5">
+            Un espace collaboratif pour partager récits et expériences autour du voyage en train —
+            s'inspirer, échanger les meilleurs souvenirs et bons plans,
+            tous réunis sur une carte interactive.
+          </p>
+          <div class="d-flex gap-2 flex-wrap">
+            <a href="#carte" class="btn rs-btn-rose rounded-pill fw-bold px-4">
+              Explorer la carte
+            </a>
+            <a href="#je-monte" class="btn btn-outline-light rounded-pill fw-bold px-4">
+              Partager mon voyage
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="rs-hero-wordmark" aria-hidden="true">RAIL</div>
+      <a class="rs-scroll-hint" href="#carte" aria-label="Défiler">
+        <i class="bi bi-chevron-double-down"></i>
+      </a>
+    </section>
+
+    <!-- ═══ BENTO INTRO ════════════════════════════════════════════════════════════ -->
+    <section class="py-5 rs-section-light border-bottom">
+      <div class="container-xl">
+        <div class="row g-3">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="card rs-bento-card h-100 p-1">
+              <div class="card-body p-4 d-flex flex-column">
+                <i class="bi bi-map-fill text-warning mb-3" style="font-size:1.75rem"></i>
+                <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Une carte interactive</h6>
+                <p class="text-muted small mb-0">Chaque pays coloré cache des récits de voyage. Clique pour les découvrir.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="card rs-bento-card h-100 p-1">
+              <div class="card-body p-4 d-flex flex-column">
+                <i class="bi bi-people-fill text-warning mb-3" style="font-size:1.75rem"></i>
+                <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Un projet collaboratif</h6>
+                <p class="text-muted small mb-0">Si écrire te parle, le formulaire de partage n'attend plus que toi.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="card rs-bento-card h-100 p-1">
+              <div class="card-body p-4 d-flex flex-column">
+                <i class="bi bi-train-front-fill text-warning mb-3" style="font-size:1.75rem"></i>
+                <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Voyager depuis chez toi</h6>
+                <p class="text-muted small mb-0">Lire, s'inspirer, trouver les bons plans — c'est déjà très bien.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CARTE DES VOYAGES ══════════════════════════════════════════════════════ -->
+    <section id="carte" class="py-5 rs-map-section">
+      <div class="container-xl">
+        <div class="mb-4">
+          <span class="badge rounded-pill rs-badge-kicker mb-2">
+            <i class="bi bi-globe-europe-africa me-1"></i>Communauté
+          </span>
+          <h2 class="rs-heading">La carte des voyages</h2>
+          <p class="text-muted" style="max-width:600px">
+            Cette carte, c'est le cœur du projet Rail Stories. Interactive et collaborative,
+            clique sur les pays colorés pour y voir les récits de voyages en train.
+          </p>
+        </div>
+
+        <div class="row g-3 align-items-start">
+          <div class="col-lg-8">
+            <div class="card border-0 overflow-hidden rounded-4 rs-map-card">
+              <div id="map" aria-label="Carte interactive des voyages en train"></div>
+              <div class="card-footer border-0 rs-map-footer small">
+                <i class="bi bi-cursor me-1"></i>Les pays en bleu ont des récits — clique pour les découvrir.
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="rs-story-panel rounded-4" id="story-panel" aria-live="polite">
+              <div class="text-center py-4 px-3">
+                <i class="bi bi-globe2 display-4 rs-icon-dim d-block mb-3"></i>
+                <p class="text-muted small mb-0">Sélectionne un pays coloré sur la carte pour découvrir les récits de la communauté.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 flex-wrap mt-4">
+          <p class="text-muted small mb-0">Tu veux ajouter ton expérience ? Rendez-vous dans <em>Je monte à bord</em>.</p>
+          <a href="#je-monte" class="btn btn-outline-primary btn-sm rounded-pill">
+            <i class="bi bi-pencil me-1"></i>Partager mon récit
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ WAGON DES BONS PLANS ═══════════════════════════════════════════════════ -->
+    <section id="bons-plans" class="py-5 rs-section-light">
+      <div class="container-xl">
+
+        <!-- Section header -->
+        <div class="mb-5" style="max-width:640px">
+          <span class="badge rounded-pill rs-badge-kicker rs-badge-kicker-light mb-2">
+            <i class="bi bi-ticket-perforated me-1"></i>Ressources
+          </span>
+          <h2 class="rs-heading">Le wagon des bons plans</h2>
+          <p class="text-muted">
+            Voyager en train, ça a son petit prix — et parfois cet aspect financier est un frein
+            (on a tous·tes déjà pris un bus vert pomme, soyons honnêtes). Le wagon des bons plans
+            est là pour te faire économiser un max de blé. 🌾
+          </p>
+          <p class="text-muted fst-italic small mb-0">
+            <i class="bi bi-info-circle me-1"></i>Cette page est collaborative ! Si tu as des bons plans à partager, n'hésite pas à
+            <a href="#contact">m'envoyer un message</a>.
+          </p>
+        </div>
+
+        <!-- ── Interrail ───────────────────────────────────────────────────── -->
+        <div class="card rs-bento-card mb-4 p-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge rounded-pill rs-badge-pink">Pass Europe</span>
+              <h3 class="rs-bp-heading">Interrail</h3>
+            </div>
+            <p class="text-muted">
+              On ne le présente plus — et pourtant, beaucoup de fausses idées circulent ! Si tu pensais que le pass Interrail c'était uniquement pour les jeunes, détrompe-toi. Il existe quatre catégories selon l'âge, et si tu prévois plus d'un aller-retour, ce sera toujours rentable.
+            </p>
+            <p class="text-muted">
+              <strong>Petit plus :</strong> essaie d'acheter ton pass lors des promotions (en général deux fois par an : hiver et été). Une fois acheté, tu as un an pour l'activer.
+            </p>
+            <div class="alert rs-alert-warning d-flex gap-2 align-items-start">
+              <i class="bi bi-exclamation-triangle-fill flex-shrink-0 mt-1"></i>
+              <div><strong>Si tu as 27 ans :</strong> un pass jeune doit être activé avant ton anniversaire de 28 ans, même si tu l'as acheté il y a moins d'un an.</div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <div class="p-3 bg-light border rounded-3 d-flex justify-content-between align-items-center">
+                  <div><span class="fw-semibold">4 jours / 1 mois</span><br/><small class="text-muted">12–27 ans</small></div>
+                  <div class="text-end"><strong class="text-dark">212 €</strong><br/><small class="text-muted">~53 €/jour</small></div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-light border rounded-3 d-flex justify-content-between align-items-center">
+                  <div><span class="fw-semibold">5 jours / 1 mois</span><br/><small class="text-muted">28–59 ans</small></div>
+                  <div class="text-end"><strong class="text-dark">318 €</strong><br/><small class="text-muted">~64 €/jour</small></div>
+                </div>
+              </div>
+            </div>
+            <div class="alert rs-alert-info d-flex gap-2 align-items-start">
+              <i class="bi bi-info-circle-fill flex-shrink-0 mt-1"></i>
+              <div><strong>Réservations :</strong> certains trains (surtout France et Allemagne l'été) nécessitent une réservation payante. Réserve via <a href="https://www.raileurope.com/" target="_blank" rel="noopener">raileurope.com</a>. L'app <strong>Rail Planner</strong> d'Interrail indique si c'est nécessaire.</div>
+            </div>
+            <p class="text-muted fst-italic small border-start border-2 border-info ps-3 mb-2">
+              <i class="bi bi-lightbulb me-1"></i>L'app Rail Planner ne met pas toujours en avant les trains de nuit — coche "trains de nuit uniquement" dans les paramètres.
+            </p>
+            <p class="text-muted fst-italic small border-start border-2 border-info ps-3 mb-4">
+              <i class="bi bi-lightbulb me-1"></i>Si tu passes par la Suisse, réduis les correspondances au minimum — les horaires y sont toujours très fiables.
+            </p>
+            <div class="d-flex gap-2 flex-wrap">
+              <a href="https://www.interrail.eu/fr" target="_blank" rel="noopener" class="btn btn-dark btn-sm rounded-pill">
+                <i class="bi bi-box-arrow-up-right me-1"></i>Site Interrail
+              </a>
+              <a href="https://www.interrail.eu/en/interrail-passes/deals" target="_blank" rel="noopener" class="btn btn-dark btn-sm rounded-pill">
+                <i class="bi bi-tag me-1"></i>Promotions
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Cartes nationales ───────────────────────────────────────────── -->
+        <div class="card rs-bento-card mb-4 p-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge rounded-pill rs-badge-pink">Par pays</span>
+              <h3 class="rs-bp-heading">Les cartes de réduction nationales</h3>
+            </div>
+            <p class="text-muted mb-4">Si tu prévois de voyager intensément dans un seul pays, une carte nationale peut être plus avantageuse qu'un pass global.</p>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="card h-100 border rs-card-hover">
+                  <div class="card-body d-flex gap-3">
+                    <span class="fs-3 flex-shrink-0">🇫🇷</span>
+                    <div>
+                      <h6 class="fw-bold mb-1">France — Carte Avantage SNCF</h6>
+                      <p class="text-muted small mb-2">Version Jeunes (12–27 ans), Adultes (27–59 ans) et Seniors (60+).</p>
+                      <a href="https://www.sncf-connect.com/app/catalogue" target="_blank" rel="noopener" class="btn btn-outline-dark btn-sm rounded-pill">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>sncf-connect.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card h-100 border rs-card-hover">
+                  <div class="card-body d-flex gap-3">
+                    <span class="fs-3 flex-shrink-0">🇧🇪</span>
+                    <div>
+                      <h6 class="fw-bold mb-1">Belgique — Train+</h6>
+                      <p class="text-muted small mb-2">Différents tarifs selon l'âge, valable par mois ou à l'année.</p>
+                      <a href="https://www.belgiantrain.be/fr/tickets-and-railcards" target="_blank" rel="noopener" class="btn btn-outline-dark btn-sm rounded-pill">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>belgiantrain.be
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card h-100 border rs-card-hover">
+                  <div class="card-body d-flex gap-3">
+                    <span class="fs-3 flex-shrink-0">🇨🇭</span>
+                    <div>
+                      <h6 class="fw-bold mb-1">Suisse — Demi-tarif CFF</h6>
+                      <p class="text-muted small mb-2">Réduit le tarif de moitié. Rentable si tu voyages souvent en Suisse.</p>
+                      <a href="https://www.sbb.ch/fr/abonnements-et-billets/abonnements/demi-tarif.html" target="_blank" rel="noopener" class="btn btn-outline-dark btn-sm rounded-pill">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>sbb.ch
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card h-100 border rs-card-hover">
+                  <div class="card-body d-flex gap-3">
+                    <span class="fs-3 flex-shrink-0">🇮🇹</span>
+                    <div>
+                      <h6 class="fw-bold mb-1">Italie — Italia in Tour</h6>
+                      <p class="text-muted small mb-2">3 jours illimités à 35 € ou 5 jours à 59 € sur les trains régionaux Trenitalia.</p>
+                      <a href="https://www.trenitalia.com/it/offerte_e_servizi/italia-in-tour.html" target="_blank" rel="noopener" class="btn btn-outline-dark btn-sm rounded-pill">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>trenitalia.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Planification ───────────────────────────────────────────────── -->
+        <div class="card rs-bento-card mb-4 p-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge rounded-pill rs-badge-pink">Planification</span>
+              <h3 class="rs-bp-heading">Planifier son itinéraire</h3>
+            </div>
+            <p class="text-muted mb-4">"Bon, tout ça c'est bien sympa, mais je vais où ?" Il existe une multitude de ressources pour trouver des idées selon le nombre de jours, la région et le type d'aventure. Les idées ne manqueront certainement pas !</p>
+            <div class="d-flex flex-column gap-2">
+              <a href="https://www.seat61.com/" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Seat61</div>
+                <p class="rs-rc-desc">Le site le plus complet pour voyager en train dans n'importe quel pays du monde. Design old school, contenu en or.</p>
+              </a>
+              <a href="https://www.chronotrains.com/fr" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Chronotrains</div>
+                <p class="rs-rc-desc">Voir jusqu'où aller depuis n'importe quelle ville selon la durée du trajet.</p>
+              </a>
+              <a href="https://www.hourrail.com" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Hourrail</div>
+                <p class="rs-rc-desc">Plus de 600 itinéraires en train — le média du voyage éco-responsable. Application disponible.</p>
+              </a>
+              <a href="https://mollow.co" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Mollow</div>
+                <p class="rs-rc-desc">Plus de 700 itinéraires bas-carbone (train, vélo, rando) pour voyager en Europe sans avion.</p>
+              </a>
+              <div class="rs-resource-card">
+                <div class="rs-rc-title">Communautés Facebook</div>
+                <p class="rs-rc-desc">Rien de tel que des conseils directs en fil de discussion ! Ex : <em>Interrail &amp; Eurail Travelers</em>.</p>
+              </div>
+              <div class="rs-resource-card">
+                <div class="rs-rc-title">Livres d'itinéraires</div>
+                <p class="rs-rc-desc">Coup de cœur : les fiches recto-verso avec randonnées et trajets vélo directement accessibles en train.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Trains de nuit — dark card ─────────────────────────────────── -->
+        <div class="card rs-bento-featured rounded-4 p-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge rounded-pill rs-badge-kicker">Nuit sur les rails</span>
+              <h3 class="rs-bp-heading text-white">Les trains de nuit</h3>
+            </div>
+            <p style="color:rgba(255,255,255,0.7)">
+              Pour optimiser le trajet, la meilleure option c'est de dormir sur les rails ! Le prix d'un train à couchette est certes plus élevé, mais en déduisant la nuit d'hôtel épargnée, ça reste franchement correct. Et avec un pass Interrail, seulement ~20 € de réservation supplémentaires.
+            </p>
+            <div class="alert rs-alert-yellow d-flex gap-2 align-items-start mb-3">
+              <i class="bi bi-stars flex-shrink-0 mt-1"></i>
+              <div><strong>Astuce train de nuit + Interrail :</strong> si tu as voyagé toute la journée et prends un train de nuit le soir même, pas besoin d'activer un jour de voyage supplémentaire. Un très très bon deal.</div>
+            </div>
+            <p style="color:rgba(255,255,255,0.7)">
+              Pour toutes les actualités sur les trains de nuit et la carte des connexions :
+              <a href="https://back-on-track.eu/fr/" target="_blank" rel="noopener" style="color:var(--rs-sky)"><strong>back-on-track.eu</strong></a>
+            </p>
+            <p class="fw-semibold text-white mb-2">Quelques liaisons SNCF depuis Paris :</p>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+              <span class="badge rounded-pill rs-night-badge"><i class="bi bi-moon me-1"></i>Paris → Toulouse</span>
+              <span class="badge rounded-pill rs-night-badge"><i class="bi bi-moon me-1"></i>Paris → Montpellier</span>
+              <span class="badge rounded-pill rs-night-badge"><i class="bi bi-moon me-1"></i>Paris → Hendaye</span>
+              <span class="badge rounded-pill rs-night-badge"><i class="bi bi-moon me-1"></i>Paris → Nice</span>
+              <span class="badge rounded-pill rs-night-badge"><i class="bi bi-moon me-1"></i>Paris → Latour-de-Carol</span>
+            </div>
+            <a href="https://back-on-track.eu/fr/" target="_blank" rel="noopener" class="btn btn-sm rs-btn-sky rounded-pill">
+              <i class="bi bi-box-arrow-up-right me-1"></i>back-on-track.eu
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══ JE MONTE À BORD ════════════════════════════════════════════════════════ -->
+    <section id="je-monte" class="py-5 rs-dark-section">
+      <div class="container-xl">
+        <div class="text-center mb-4">
+          <span class="badge rounded-pill rs-badge-kicker mb-2">
+            <i class="bi bi-pencil-square me-1"></i>Contribuer
+          </span>
+          <h2 class="rs-heading text-white">Je monte à bord</h2>
+          <p class="text-white-50 mx-auto" style="max-width:540px">
+            Ici, c'est l'espace pour partager tes récits de voyage en train. Un canevas tout fait a été
+            créé pour te faciliter le partage — tu n'as qu'à remplir le formulaire !
+          </p>
+        </div>
+        <div class="card border-0 rounded-4 overflow-hidden shadow-lg">
+          <iframe
+            src="https://form.jotform.com/261065258654057"
+            title="Formulaire de partage Rail Stories"
+            allowfullscreen
+            frameborder="0"
+            style="width:100%;height:760px;display:block"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CONTACT ════════════════════════════════════════════════════════════════ -->
+    <section id="contact" class="py-5 rs-section-light border-top">
+      <div class="container-xl">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-7">
+            <span class="badge rounded-pill rs-badge-kicker rs-badge-kicker-light mb-2">
+              <i class="bi bi-envelope me-1"></i>Contact
+            </span>
+            <h2 class="rs-heading">Une question, une idée, un bon plan ?</h2>
+            <p class="text-muted mb-4">
+              Rail Stories est un projet collaboratif avant tout. N'hésite pas à me contacter pour
+              toute suggestion, contribution, ou simplement pour un message d'une amoureuse du rail à une autre.
+            </p>
+            <a href="mailto:contact@railstories.eu" class="btn btn-warning rounded-pill fw-bold px-4">
+              <i class="bi bi-envelope me-1"></i>Envoyer un message
+            </a>
+          </div>
+          <div class="col-lg-4 offset-lg-1">
+            <div class="card border-0 rounded-4 text-white rs-contact-card p-2">
+              <div class="card-body d-flex flex-column gap-3">
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-globe2 fs-5 text-warning flex-shrink-0"></i>
+                  <span class="small fw-semibold">railstories.eu</span>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-envelope fs-5 text-warning flex-shrink-0"></i>
+                  <span class="small fw-semibold">contact@railstories.eu</span>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-train-front fs-5 text-warning flex-shrink-0"></i>
+                  <span class="small fw-semibold">Un projet de Mathilde Graas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FOOTER ═════════════════════════════════════════════════════════════════ -->
+    <footer class="rs-footer py-4">
+      <div class="container-xl">
+        <div class="mb-3">
+          <img src="logo-bon.png" alt="Rail Stories" height="48" class="rs-footer-logo mb-1" />
+        </div>
+
+        <button class="btn btn-sm rs-legal-btn rounded-pill mb-3" id="legal-toggle"
+          data-bs-toggle="collapse" data-bs-target="#legalPanels" aria-expanded="false">
+          <i class="bi bi-file-text me-1"></i>Pages légales
+          <i class="bi bi-chevron-down ms-1 rs-chevron"></i>
+        </button>
+
+        <div class="collapse" id="legalPanels">
+          <div class="row g-3 mb-4">
+            <div class="col-lg-4">
+              <div class="rs-legal-card rounded-3 p-3">
+                <h6 class="text-white mb-3">Mentions légales</h6>
+                <p class="rs-legal-text">Le site Railstories.eu est un site de partage d'expériences, de récits et de témoignages autour du voyage en train.</p>
+                <p class="rs-legal-text"><strong class="text-white-50">Éditeur :</strong> Trainfluenceuse<br/><strong class="text-white-50">Responsable :</strong> Mathilde Graas<br/><strong class="text-white-50">Contact :</strong> contact@railstories.eu</p>
+                <p class="rs-legal-text rs-legal-label">Propriété intellectuelle</p>
+                <p class="rs-legal-text">Sauf mention contraire, les contenus publiés sont protégés par le droit d'auteur. Les contenus des contributeurs restent leur propriété.</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="rs-legal-card rounded-3 p-3">
+                <h6 class="text-white mb-3">Politique de confidentialité</h6>
+                <p class="rs-legal-text fst-italic">Dernière mise à jour : 03/05/2026</p>
+                <p class="rs-legal-text rs-legal-label">Responsable du traitement</p>
+                <p class="rs-legal-text">Mlle Mathilde Graas — contact@railstories.eu</p>
+                <p class="rs-legal-text rs-legal-label">Données collectées</p>
+                <ul class="rs-legal-text ps-3">
+                  <li>Contenu de votre témoignage</li>
+                  <li>Nom, pseudonyme ou signature</li>
+                  <li>Adresse e-mail (si demandée)</li>
+                  <li>Données techniques de navigation</li>
+                </ul>
+                <p class="rs-legal-text rs-legal-label">Vos droits</p>
+                <p class="rs-legal-text">Accès, rectification, suppression : <a href="mailto:contact@railstories.eu" class="text-info">contact@railstories.eu</a></p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="rs-legal-card rounded-3 p-3">
+                <h6 class="text-white mb-3">CGU & Cookies</h6>
+                <p class="rs-legal-text rs-legal-label">Conditions générales</p>
+                <p class="rs-legal-text">En publiant un contenu, vous garantissez en être l'auteur·e. Rail Stories se réserve le droit de modérer tout contenu.</p>
+                <p class="rs-legal-text rs-legal-label">Retrait</p>
+                <p class="rs-legal-text">Pour modifier ou retirer votre contribution : <a href="mailto:contact@railstories.eu" class="text-info">contact@railstories.eu</a></p>
+                <p class="rs-legal-text rs-legal-label">Cookies</p>
+                <p class="rs-legal-text">Le site utilise uniquement des cookies strictement nécessaires à son fonctionnement.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-top rs-footer-divider pt-3">
+          <p class="rs-footer-copy mb-0">&copy; 2026 Rail Stories — Mathilde Graas. Fait avec <i class="bi bi-heart-fill text-warning small"></i> pour les amoureux·ses du rail.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
