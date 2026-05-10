@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'STTitan';
+        src: url('STTitanRegular.woff2') format('woff2'),
+             url('STTitanRegular.ttf') format('truetype');
+      }
+    </style>
+  </defs>
+
+  <!-- Circle border -->
+  <circle cx="150" cy="150" r="130" fill="none" stroke="#1c2d52" stroke-width="2.5"/>
+
+  <!-- RAIL text -->
+  <text x="150" y="138" font-family="STTitan, serif" font-size="72" font-weight="900"
+        fill="#1c2d52" text-anchor="middle" letter-spacing="4">RAIL</text>
+
+  <!-- Railroad track: two rails -->
+  <line x1="52" y1="155" x2="248" y2="155" stroke="#1c2d52" stroke-width="2.5"/>
+  <line x1="52" y1="165" x2="248" y2="165" stroke="#1c2d52" stroke-width="2.5"/>
+
+  <!-- Cross ties -->
+  <line x1="62"  y1="151" x2="62"  y2="169" stroke="#1c2d52" stroke-width="3"/>
+  <line x1="87"  y1="151" x2="87"  y2="169" stroke="#1c2d52" stroke-width="3"/>
+  <line x1="112" y1="151" x2="112" y2="169" stroke="#1c2d52" stroke-width="3"/>
+  <line x1="137" y1="151" x2="137" y2="169" stroke="#1c2d52" stroke-width="3"/>
+  <line x1="162" y1="151" x2="162" y2="169" stroke="#1c2d52" stroke-width="3"/>
+  <line x1="187" y1="151" x2="187" y2="169" stroke="#1c2d52" stroke-width="3"/>
+  <line x1="212" y1="151" x2="212" y2="169" stroke="#1c2d52" stroke-width="3"/>
+  <line x1="237" y1="151" x2="237" y2="169" stroke="#1c2d52" stroke-width="3"/>
+
+  <!-- STORIES text -->
+  <text x="150" y="231" font-family="STTitan, serif" font-size="62" font-weight="900"
+        fill="#1c2d52" text-anchor="middle" letter-spacing="2">STORIES</text>
+</svg>
