@@ -161,6 +161,13 @@ body { background: #fff; }
   color: #fff;
 }
 .rs-hero-h1-italic { font-style: normal; color: #fff; font-weight: normal; }
+.rs-hero-track {
+  display: block;
+  width: clamp(200px, 42vw, 520px);
+  height: auto;
+  margin: 0.2em 0;
+  opacity: 0.9;
+}
 
 .rs-hero-tagline {
   font-family: Inter, system-ui, -apple-system, sans-serif;
