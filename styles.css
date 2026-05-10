@@ -766,7 +766,14 @@ a.rs-resource-card:hover {
   #map { height: 400px; }
 }
 
+/* Prevent any element from causing horizontal scroll */
+html, body { overflow-x: hidden; }
+
+/* nowrap only where it fits */
+.rs-heading-nowrap { white-space: nowrap; }
+
 @media (max-width: 768px) {
+  .rs-heading-nowrap { white-space: normal; }
   /* On mobile the left→right gradient leaves the right side near-transparent,
      making white text invisible against a bright video. Switch to a uniform dark veil. */
   .rs-hero::before {
