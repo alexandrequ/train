@@ -143,14 +143,14 @@ body { background: #fff; }
 }
 
 .rs-hero-h1 {
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Cinzel", Georgia, serif;
   font-size: clamp(4.4rem, 10vw, 8.8rem);
   font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 0.88;
+  letter-spacing: 0.04em;
+  line-height: 0.92;
   color: #fff;
 }
-.rs-hero-h1-italic { font-style: italic; color: #fff; font-weight: 700; }
+.rs-hero-h1-italic { font-style: normal; color: #fff; font-weight: 700; }
 
 .rs-hero-tagline {
   font-family: Inter, system-ui, -apple-system, sans-serif;
