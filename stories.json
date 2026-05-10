@@ -1,4 +1,18 @@
 {
+  "208": {
+    "name": "Danemark",
+    "cities": [
+      {
+        "name": "Copenhague",
+        "icon": "<i class=\"bi bi-bicycle\" style=\"color:#1c2d52\"></i>",
+        "hours": "~10h",
+        "price": "à partir de 100 €",
+        "tips": [
+          "Récit à venir — partage le tien dans « Je monte à bord » !"
+        ]
+      }
+    ]
+  },
   "250": {
     "name": "France",
     "cities": [
@@ -54,29 +68,74 @@
       }
     ]
   },
-
-  "380": {
-    "name": "Italie",
+  "276": {
+    "name": "Allemagne",
     "cities": [
       {
-        "name": "Turin",
-        "icon": "<i class=\"bi bi-snow\" style=\"color:#5aa8cc\"></i>",
-        "hours": "~5h",
-        "price": "à partir de 70 €",
+        "name": "Berlin",
+        "icon": "<i class=\"bi bi-palette-fill\" style=\"color:#c8393b\"></i>",
+        "hours": "~4h depuis Bruxelles",
+        "price": "via Varsovie ~140 €",
         "tips": [
-          "Mont dei Cappuccini au lever du soleil (+ musée de l'alpinisme si ouvert)",
-          "Architecture Liberty de l'époque + Galerie Subalpina",
-          "La Pista 500 — ancienne piste d'essai Fiat reconvertie en musée à ciel ouvert, vue imprenable",
-          "Musée des Antiquités Égyptiennes — un incontournable",
-          "Mole Antonelliana + Musée du Cinéma (réserver longtemps à l'avance !)",
-          "Le Bicerin : Café Mulassano / Café Torino / Café Al Bicerin / Café Elena",
-          "Tranvia Sassi-Superga (tram à crémaillère) → Basilique di Superga + monter sur le toit",
-          "Focaccia bien fournie chez Mollica"
+          "East Side Gallery — street art sur les vestiges du mur de Berlin, à quelques pas de la gare d'Ostbahnhof"
         ]
       }
     ]
   },
-
+  "616": {
+    "name": "Pologne",
+    "author": "Mathilde Gs",
+    "route": "Bruxelles → Cologne → Berlin → Varsovie",
+    "duration": "12h35",
+    "price": "~140 €",
+    "booking": "Trainline",
+    "narrative": "<p>Je démarre tôt de Bruxelles (6h20), pour éviter les retards de la Deutsche Bahn (la compagnie ferroviaire allemande, connue pour être très peu ponctuelle). Après un rapide changement de train à Cologne, j'arrive à Berlin juste à temps pour le lunch, que je prends à la gare.</p><p>La gare d'Ostbahnhof ne se trouve qu'à quelques mètres de la « East Side Gallery » (vestiges du mur de Berlin), et je profite donc de mes 45 minutes d'attente pour aller m'y balader. Ensuite, je ne suis plus qu'à un train (5 heures) de ma destination finale. Petit bonus des trains polonais : une distribution d'eau gratuite — plate ou pétillante, au choix !</p><p>À Varsovie, j'arrive à la gare qui se trouve juste à côté du Palais de la culture et de la science (un bâtiment de style communiste, aussi appelé le cadeau controversé de Staline), direction mon hôtel capsule pour y passer le weekend !</p>",
+    "cities": [
+      {
+        "name": "Varsovie",
+        "icon": "<i class=\"bi bi-buildings\" style=\"color:#1c2d52\"></i>",
+        "hours": "~12h35 depuis Bruxelles",
+        "price": "~140 €",
+        "tips": [
+          "🏛 Musée de l'insurrection — incontournable, prévoir ~2h",
+          "🏰 La vieille ville (Stare Miasto) — reconstituée après la Seconde Guerre mondiale, avec ses châteaux",
+          "🎵 Église Sainte-Croix — le cœur de Chopin est scellé dans un pilier",
+          "🏘 Praga, le vieux quartier ouvrier — de Zabkowska jusqu'à la rivière",
+          "✡ Monument aux héros du ghetto, angle des rues Anielewizca et Zamenhofa",
+          "🥣 Bar Zabkowski (Praga) — « bar à lait » communiste : zurek, bortsch et pierogi à prix mini",
+          "🏭 Fabryka Norblina — foodcourt dans une ancienne usine réhabilitée",
+          "🍩 Cukiernia Pawlowicz — les meilleurs pączki (beignets fourrés) de la ville",
+          "☕ E. Wedel — chocolat chaud maison, une institution varsovienne",
+          "🌇 30e étage du Palais de la culture et de la science — vue imprenable sur la ville"
+        ]
+      }
+    ]
+  },
+  "643": {
+    "name": "Russie",
+    "author": "Mathilde Gs",
+    "route": "Riga → Sebej → Moscou",
+    "duration": "16h00",
+    "price": "~37,55 €",
+    "booking": "ldz.lv",
+    "warning": "La liaison Riga–Moscou est suspendue depuis le début de la guerre en Ukraine en 2022. Ce récit est publié dans l'espoir d'une paix durable.",
+    "narrative": "<p><strong>À bord du Latvijas Expresis.</strong> Ce trajet était mon premier voyage en train solo, en 2017.</p><p>Départ de Riga dans l'après-midi. Je partage mon wagon avec des Russes transfrontaliers qui travaillent dans la capitale lettone. Ma première destination est la petite ville de Sebej, à un peu plus de 300 km, juste de l'autre côté de la frontière — j'y vais pour un projet de volontariat en permaculture dans un éco-lieu. Durant le trajet, je sympathise avec deux personnes : Elena, qui parle bien anglais et vit à Velikié Louki (juste après Sebej), et un homme d'une quarantaine d'années qui ne parle que russe. Elena fait l'interprète pour qu'on puisse échanger tous les trois.</p><p>Ils sont étonnés de ma présence dans ce train et s'inquiètent de me savoir seule — d'autant plus que mon heure d'arrivée à Sebej est après minuit et que je n'ai pas de nouvelles de la personne censée venir me chercher. Pendant les quelques heures passées ensemble, on échange sur nos cultures, nos vies et nos rêves. C'est le cœur lourd que je descends du train, en pleine nuit, au milieu de nulle part, avec leurs contacts notés sur un bout de papier. Presque 10 ans plus tard, j'échange encore des messages de temps à autre avec Elena, qui a été mon ange gardien.</p><p>Long story short — le projet de volontariat à Sebej n'existe pas, et je me retrouve dans une situation compliquée. Je reste environ 48h avant de booker en urgence un train de nuit pour Moscou. Malgré la réservation de dernière minute, ce train ne coûte que 37,55 € — sans l'option couchette, bien sûr. Il est tard quand j'embarque, je me trouve un bout de banquette et essaie de fermer les yeux.</p><p>À Moscou, je suis accueillie par une représentante de l'association qui m'avait envoyée à Sebej. Elle me fait visiter la ville et m'emmène dans ses endroits préférés. Je trouve la ville assez inhospitalière — tout est grand et froid, les Moscovites rencontrés aussi. La Place Rouge est tout de même très impressionnante, et je me sens chanceuse d'avoir pu la voir.</p>",
+    "cities": [
+      {
+        "name": "Moscou",
+        "icon": "<i class=\"bi bi-snow2\" style=\"color:#c8393b\"></i>",
+        "hours": "~16h depuis Riga",
+        "price": "~37,55 €",
+        "tips": [
+          "🔴 Place Rouge — cathédrale Saint-Basile-le-Bienheureux (splendide), le Kremlin et le mausolée de Lénine",
+          "🏛 Centre commercial Goum — arcades historiques face au Kremlin",
+          "🛒 Épicerie Eliseyevskiy — grands lustres et moulures, une épicerie palatiale",
+          "🌇 Vue panoramique depuis le toit du Central Children's World (Square Lubyanka)",
+          "🦀 Restaurant « Crousty Krab » — thème Bob l'Éponge, existait à l'époque du récit (2017)"
+        ]
+      }
+    ]
+  },
   "724": {
     "name": "Espagne",
     "warning": "Les trains TGV sont sécurisés depuis les attentats de Madrid en 2004. Prévoir suffisamment de temps pour les contrôles de sécurité supplémentaires.",
@@ -148,22 +207,6 @@
       }
     ]
   },
-
-  "208": {
-    "name": "Danemark",
-    "cities": [
-      {
-        "name": "Copenhague",
-        "icon": "<i class=\"bi bi-bicycle\" style=\"color:#1c2d52\"></i>",
-        "hours": "~10h",
-        "price": "à partir de 100 €",
-        "tips": [
-          "Récit à venir — partage le tien dans « Je monte à bord » !"
-        ]
-      }
-    ]
-  },
-
   "752": {
     "name": "Suède",
     "cities": [
@@ -174,77 +217,6 @@
         "price": "à partir de 100 €",
         "tips": [
           "Récit à venir — partage le tien dans « Je monte à bord » !"
-        ]
-      }
-    ]
-  },
-
-  "643": {
-    "name": "Russie",
-    "author": "Mathilde Gs",
-    "route": "Riga → Sebej → Moscou",
-    "duration": "16h00",
-    "price": "~37,55 €",
-    "booking": "ldz.lv",
-    "warning": "La liaison Riga–Moscou est suspendue depuis le début de la guerre en Ukraine en 2022. Ce récit est publié dans l'espoir d'une paix durable.",
-    "narrative": "<p><strong>À bord du Latvijas Expresis.</strong> Ce trajet était mon premier voyage en train solo, en 2017.</p><p>Départ de Riga dans l'après-midi. Je partage mon wagon avec des Russes transfrontaliers qui travaillent dans la capitale lettone. Ma première destination est la petite ville de Sebej, à un peu plus de 300 km, juste de l'autre côté de la frontière — j'y vais pour un projet de volontariat en permaculture dans un éco-lieu. Durant le trajet, je sympathise avec deux personnes : Elena, qui parle bien anglais et vit à Velikié Louki (juste après Sebej), et un homme d'une quarantaine d'années qui ne parle que russe. Elena fait l'interprète pour qu'on puisse échanger tous les trois.</p><p>Ils sont étonnés de ma présence dans ce train et s'inquiètent de me savoir seule — d'autant plus que mon heure d'arrivée à Sebej est après minuit et que je n'ai pas de nouvelles de la personne censée venir me chercher. Pendant les quelques heures passées ensemble, on échange sur nos cultures, nos vies et nos rêves. C'est le cœur lourd que je descends du train, en pleine nuit, au milieu de nulle part, avec leurs contacts notés sur un bout de papier. Presque 10 ans plus tard, j'échange encore des messages de temps à autre avec Elena, qui a été mon ange gardien.</p><p>Long story short — le projet de volontariat à Sebej n'existe pas, et je me retrouve dans une situation compliquée. Je reste environ 48h avant de booker en urgence un train de nuit pour Moscou. Malgré la réservation de dernière minute, ce train ne coûte que 37,55 € — sans l'option couchette, bien sûr. Il est tard quand j'embarque, je me trouve un bout de banquette et essaie de fermer les yeux.</p><p>À Moscou, je suis accueillie par une représentante de l'association qui m'avait envoyée à Sebej. Elle me fait visiter la ville et m'emmène dans ses endroits préférés. Je trouve la ville assez inhospitalière — tout est grand et froid, les Moscovites rencontrés aussi. La Place Rouge est tout de même très impressionnante, et je me sens chanceuse d'avoir pu la voir.</p>",
-    "cities": [
-      {
-        "name": "Moscou",
-        "icon": "<i class=\"bi bi-snow2\" style=\"color:#c8393b\"></i>",
-        "hours": "~16h depuis Riga",
-        "price": "~37,55 €",
-        "tips": [
-          "🔴 Place Rouge — cathédrale Saint-Basile-le-Bienheureux (splendide), le Kremlin et le mausolée de Lénine",
-          "🏛 Centre commercial Goum — arcades historiques face au Kremlin",
-          "🛒 Épicerie Eliseyevskiy — grands lustres et moulures, une épicerie palatiale",
-          "🌇 Vue panoramique depuis le toit du Central Children's World (Square Lubyanka)",
-          "🦀 Restaurant « Crousty Krab » — thème Bob l'Éponge, existait à l'époque du récit (2017)"
-        ]
-      }
-    ]
-  },
-
-  "276": {
-    "name": "Allemagne",
-    "cities": [
-      {
-        "name": "Berlin",
-        "icon": "<i class=\"bi bi-palette-fill\" style=\"color:#c8393b\"></i>",
-        "hours": "~4h depuis Bruxelles",
-        "price": "via Varsovie ~140 €",
-        "tips": [
-          "East Side Gallery — street art sur les vestiges du mur de Berlin, à quelques pas de la gare d'Ostbahnhof"
-        ]
-      }
-    ]
-  },
-
-  "616": {
-    "name": "Pologne",
-    "author": "Mathilde Gs",
-    "route": "Bruxelles → Cologne → Berlin → Varsovie",
-    "duration": "12h35",
-    "price": "~140 €",
-    "booking": "Trainline",
-    "narrative": "<p>Je démarre tôt de Bruxelles (6h20), pour éviter les retards de la Deutsche Bahn (la compagnie ferroviaire allemande, connue pour être très peu ponctuelle). Après un rapide changement de train à Cologne, j'arrive à Berlin juste à temps pour le lunch, que je prends à la gare.</p><p>La gare d'Ostbahnhof ne se trouve qu'à quelques mètres de la « East Side Gallery » (vestiges du mur de Berlin), et je profite donc de mes 45 minutes d'attente pour aller m'y balader. Ensuite, je ne suis plus qu'à un train (5 heures) de ma destination finale. Petit bonus des trains polonais : une distribution d'eau gratuite — plate ou pétillante, au choix !</p><p>À Varsovie, j'arrive à la gare qui se trouve juste à côté du Palais de la culture et de la science (un bâtiment de style communiste, aussi appelé le cadeau controversé de Staline), direction mon hôtel capsule pour y passer le weekend !</p>",
-    "cities": [
-      {
-        "name": "Varsovie",
-        "icon": "<i class=\"bi bi-buildings\" style=\"color:#1c2d52\"></i>",
-        "hours": "~12h35 depuis Bruxelles",
-        "price": "~140 €",
-        "tips": [
-          "🏛 Musée de l'insurrection — incontournable, prévoir ~2h",
-          "🏰 La vieille ville (Stare Miasto) — reconstituée après la Seconde Guerre mondiale, avec ses châteaux",
-          "🎵 Église Sainte-Croix — le cœur de Chopin est scellé dans un pilier",
-          "🏘 Praga, le vieux quartier ouvrier — de Zabkowska jusqu'à la rivière",
-          "✡ Monument aux héros du ghetto, angle des rues Anielewizca et Zamenhofa",
-          "🥣 Bar Zabkowski (Praga) — « bar à lait » communiste : zurek, bortsch et pierogi à prix mini",
-          "🏭 Fabryka Norblina — foodcourt dans une ancienne usine réhabilitée",
-          "🍩 Cukiernia Pawlowicz — les meilleurs pączki (beignets fourrés) de la ville",
-          "☕ E. Wedel — chocolat chaud maison, une institution varsovienne",
-          "🌇 30e étage du Palais de la culture et de la science — vue imprenable sur la ville"
         ]
       }
     ]
