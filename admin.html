@@ -752,7 +752,9 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
     if (!getRes.ok) throw new Error(`GitHub GET: ${getRes.status} ${await getRes.text()}`);
     const getJson = await getRes.json();
     const sha = getJson.sha;
-    const existing = JSON.parse(atob(getJson.content.replace(/\n/g, '')));
+    const b64 = getJson.content.replace(/\n/g, '');
+    const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+    const existing = JSON.parse(new TextDecoder('utf-8').decode(bytes));
 
     // 2. Merge new entry (cities are added to existing if country exists)
     if (existing[countryId]) {
@@ -771,7 +773,11 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
     }
 
     // 3. Commit
-    const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(existing, null, 2))));
+    const jsonStr = JSON.stringify(existing, null, 2);
+    const encBytes = new TextEncoder().encode(jsonStr);
+    let binaryStr = '';
+    encBytes.forEach(b => binaryStr += String.fromCharCode(b));
+    const newContent = btoa(binaryStr);
     const authorName = document.getElementById('ed-author').value.trim() || 'Admin';
     const putRes = await fetch(apiBase, {
       method: 'PUT',
