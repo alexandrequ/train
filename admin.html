@@ -423,21 +423,53 @@ function renderRawDetail(sub) {
 let cityCount = 0;
 
 function populateEditorFromSub(sub) {
-  const cfg = loadCfg();
   const answers = sub?.answers || {};
-  const get = (key) => {
-    if (!key) return '';
-    const a = Object.values(answers).find(a => a.name === key);
-    return a?.answer || '';
+  const get = (name) => {
+    const a = Object.values(answers).find(a => a.name === name);
+    const v = a?.answer;
+    return v === undefined || v === null ? '' : v;
   };
 
+  // Route: departure → stopovers → destination
+  const departure   = String(get('q3_textbox1'));
+  const destination = String(get('q4_textbox2'));
+  let stopovers = [];
+  try {
+    const raw = get('q5_widget_ConfigurableList3');
+    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    if (Array.isArray(parsed)) stopovers = parsed.map(s => s['Nom de la ville']).filter(Boolean);
+  } catch {}
+  const route = [departure, ...stopovers, destination].filter(Boolean).join(' → ');
+
+  // Duration from dureeTotale JSON {"hourSelect":"16","minuteSelect":"00"}
+  let duration = '';
+  try {
+    const d = get('dureeTotale');
+    const parsed = typeof d === 'object' ? d : JSON.parse(d);
+    if (parsed?.hourSelect) duration = `${parsed.hourSelect}h${parsed.minuteSelect || '00'}`;
+    else if (parsed?.timeInput) duration = parsed.timeInput.replace(':', 'h');
+  } catch { duration = String(get('dureeTotale')); }
+
+  // Price: 37.55 → ~37,55 €
+  const priceRaw = get('q8_number6');
+  const price = priceRaw ? `~${String(priceRaw).replace('.', ',')} €` : '';
+
+  // Booking: strip https://www.
+  const booking = String(get('q9_textbox7')).replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+
+  // Tips: one per blank-line-separated paragraph
+  const tipsRaw = String(get('q19_textarea17'));
+  const tips = tipsRaw ? tipsRaw.split(/\n\s*\n/).map(t => t.trim()).filter(Boolean) : [];
+
   showEditor({
-    countryName: get(cfg.mapCountry),
-    author:      get(cfg.mapAuthor),
-    route:       get(cfg.mapRoute),
-    narrative:   get(cfg.mapNarrative),
-    cityName:    get(cfg.mapCity),
-    tips:        get(cfg.mapTips),
+    author:    String(get('q23_textbox21')),
+    route,
+    duration,
+    price,
+    booking,
+    narrative: String(get('q16_textarea14')),
+    cityName:  destination,
+    tips,
   });
 }
 
