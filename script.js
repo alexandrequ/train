@@ -1,3 +1,15 @@
+// ─── I18N & BASE PATH ─────────────────────────────────────────────────────────
+const BASE = (typeof window.RS_BASE !== 'undefined') ? window.RS_BASE : '';
+const T = Object.assign({
+  departure:  'Départ',
+  arrival:    'Arrivée',
+  highlights: 'Coups de cœur',
+  storyLinkLabel: 'Le récit de Mathilde →',
+  back:       'Retour',
+  by:         'Par',
+  mapError:   'Impossible de charger la carte. Vérifie ta connexion.',
+}, typeof window.RS_I18N !== 'undefined' ? window.RS_I18N : {});
+
 // ─── JOTFORM MODAL: hide navbar while open ────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   const jotformEl = document.getElementById('jotformModal');
@@ -53,7 +65,7 @@ let STORIES = {};
 let _storiesLoaded = false;
 let _mapPending    = false;
 
-fetch('stories.json')
+fetch(BASE + 'stories.json')
   .then(r => r.json())
   .then(data => {
     STORIES = data;
@@ -176,7 +188,7 @@ function initMap() {
     })
     .catch(() => {
       document.getElementById('map').insertAdjacentHTML('beforeend',
-        '<p style="padding:1rem;color:#c00">Impossible de charger la carte. Vérifie ta connexion.</p>'
+        `<p style="padding:1rem;color:#c00">${T.mapError}</p>`
       );
     });
 
@@ -222,7 +234,7 @@ function renderStory(data) {
       <div class="sp-ticket-main">
         <div class="sp-ticket-route-row">
           <div class="sp-ticket-station">
-            <div class="sp-ticket-label">Départ</div>
+            <div class="sp-ticket-label">${T.departure}</div>
             <div class="sp-ticket-city">${from}</div>
           </div>
           <div class="sp-ticket-connector">
@@ -231,7 +243,7 @@ function renderStory(data) {
             <div class="sp-ticket-dash"></div>
           </div>
           <div class="sp-ticket-station" style="text-align:right">
-            <div class="sp-ticket-label">Arrivée</div>
+            <div class="sp-ticket-label">${T.arrival}</div>
             <div class="sp-ticket-city">${to}</div>
           </div>
         </div>
@@ -258,8 +270,8 @@ function renderStory(data) {
         <span>${city.name}</span>
         ${city.hours ? `<span class="sp-city-meta">(${city.hours} · ${city.price})</span>` : ''}
       </div>
-      ${city.storyLink ? `<a href="${city.storyLink}" class="sp-story-link">Le récit de Mathilde →</a>` : ''}
-      <div class="sp-pepites-label">🤍 Coups de cœur</div>
+      ${city.storyLink ? `<a href="${city.storyLink}" class="sp-story-link">${T.storyLinkLabel}</a>` : ''}
+      <div class="sp-pepites-label">🤍 ${T.highlights}</div>
       <ul class="sp-city-tips">
         ${city.tips.map(t => `<li>${t}</li>`).join('')}
       </ul>
@@ -281,7 +293,7 @@ function renderNarrative(data) {
 
   return `
     <button class="sp-back-btn sp-back-btn--nar" data-action="show-story">
-      <i class="bi bi-arrow-left me-1"></i>Retour
+      <i class="bi bi-arrow-left me-1"></i>${T.back}
     </button>
 
     <header class="sp-nar-header">
@@ -295,7 +307,7 @@ function renderNarrative(data) {
       ${via ? `<div class="sp-nar-via">via ${via}</div>` : ''}
       <div class="sp-nar-byline">
         <i class="bi bi-person-circle"></i>
-        <span>Par <strong>${data.author}</strong></span>
+        <span>${T.by} <strong>${data.author}</strong></span>
         ${data.duration ? `<span class="sp-nar-dot">·</span><i class="bi bi-clock"></i><span>${data.duration}</span>` : ''}
         ${data.price    ? `<span class="sp-nar-dot">·</span><i class="bi bi-tag"></i><span>${data.price}</span>` : ''}
       </div>

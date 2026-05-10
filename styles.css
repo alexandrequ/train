@@ -5,7 +5,7 @@
        url("STTitanRegular.ttf")   format("truetype");
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 /* ─── TOKENS ─────────────────────────────────────────────────────────────── */
@@ -98,6 +98,18 @@ body { background: #fff; }
 .navbar-toggler { border-color: rgba(8,14,29,0.25) !important; }
 /* expand pill to rect on mobile when nav is open */
 .rs-navbar:has(.navbar-collapse.show) { border-radius: 1.5rem !important; }
+.rs-lang-btn {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(18,22,46,0.55) !important;
+  border: 1px solid rgba(18,22,46,0.18);
+  border-radius: 20px;
+  padding: 0.2rem 0.7rem;
+  text-decoration: none;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.rs-lang-btn:hover { color: var(--rs-royal) !important; border-color: var(--rs-royal); }
 
 /* ─── HERO ───────────────────────────────────────────────────────────────── */
 .rs-hero {
