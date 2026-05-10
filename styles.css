@@ -160,7 +160,7 @@ body { background: #fff; }
   line-height: 0.92;
   color: #fff;
 }
-.rs-hero-h1-italic { font-style: normal; color: #fff; font-weight: normal; }
+.rs-hero-h1-italic { font-style: italic; color: #fff; font-weight: normal; }
 
 .rs-hero-tagline {
   font-family: Inter, system-ui, -apple-system, sans-serif;
