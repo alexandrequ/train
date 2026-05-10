@@ -33,8 +33,8 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto gap-1">
             <li class="nav-item"><a class="nav-link rs-nav-link" href="#accueil">Accueil</a></li>
-            <li class="nav-item"><a class="nav-link rs-nav-link" href="#carte">Carte des voyages</a></li>
-            <li class="nav-item"><a class="nav-link rs-nav-link" href="#bons-plans">Bons plans</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#carte">La carte des voyages</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#bons-plans">Le wagon des bons plans</a></li>
             <li class="nav-item"><a class="nav-link rs-nav-link" href="#je-monte">Je monte à bord</a></li>
             <li class="nav-item"><a class="nav-link rs-nav-link" href="#contact">Contact</a></li>
           </ul>
@@ -44,32 +44,169 @@
 
     <!-- ═══ HERO ══════════════════════════════════════════════════════════════════ -->
     <section id="accueil" class="rs-hero">
-      <div class="rs-hero-grid"></div>
-      <div class="rs-hero-glow"></div>
-      <div class="container py-5 position-relative" style="z-index:1">
+      <video class="rs-hero-video" autoplay muted loop playsinline preload="auto">
+        <source src="IMG_2314.MOV" type="video/mp4">
+      </video>
+      <div class="container rs-hero-inner">
         <div class="rs-hero-content">
-          <span class="badge rounded-pill rs-badge-kicker mb-3">DES RÉCITS QUI PRENNENT LE TRAIN</span>
-          <h1 class="rs-hero-h1 mb-0">Rail</h1>
-          <h1 class="rs-hero-h1 rs-hero-h1-italic mb-4">Stories</h1>
+          <div class="rs-hero-accent mb-4"></div>
+          <h1 class="rs-hero-h1 mb-3">
+            <span class="d-block">Rail</span>
+            <span class="d-block rs-hero-h1-italic">Stories</span>
+          </h1>
+          <p class="rs-hero-tagline mb-5">des récits qui prennent le train</p>
           <p class="rs-hero-desc mb-5">
-            Un espace collaboratif pour partager récits et expériences autour du voyage en train —
-            s'inspirer, échanger les meilleurs souvenirs et bons plans,
-            tous réunis sur une carte interactive.
+            Bienvenue sur Rail Stories ! Cet espace se veut être un projet collaboratif, de partage de récits et d'expériences autour du voyage en train, où on s'inspire mutuellement, on s'échange nos meilleurs souvenirs et nos bons plans, tous réunis sur une carte interactive.
           </p>
-          <div class="d-flex gap-2 flex-wrap">
-            <a href="#carte" class="btn rs-btn-rose rounded-pill fw-bold px-4">
-              Explorer la carte
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="#carte" class="btn btn-warning rounded-pill fw-bold px-4">
+              <i class="bi bi-map me-1"></i>Explorer la carte
             </a>
-            <a href="#je-monte" class="btn btn-outline-light rounded-pill fw-bold px-4">
-              Partager mon voyage
+            <a href="#je-monte" class="btn rs-btn-outline-hero rounded-pill fw-bold px-4">
+              <i class="bi bi-pencil-square me-1"></i>Partager mon voyage
             </a>
           </div>
         </div>
       </div>
-      <div class="rs-hero-wordmark" aria-hidden="true">RAIL</div>
-      <a class="rs-scroll-hint" href="#carte" aria-label="Défiler">
-        <i class="bi bi-chevron-double-down"></i>
-      </a>
+
+      <div class="rs-hero-scene" aria-hidden="true">
+        <svg viewBox="0 0 1600 850" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="rs-scene-svg">
+          <defs><style>
+            .rl  { fill:none; stroke-linecap:round; stroke-linejoin:round; }
+            .lbl { fill:rgba(255,255,255,0.58); font-family:'Inter',Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:.02em; }
+          </style></defs>
+
+          <!-- Yellow: SNCF France -->
+          <polyline class="rl" stroke="#f5d34c" stroke-width="2.5" points="300,370 390,440 465,520 480,592 547,577"/>
+          <polyline class="rl" stroke="#f5d34c" stroke-width="2.5" points="390,440 562,440 682,456"/>
+          <polyline class="rl" stroke="#f5d34c" stroke-width="2"   points="390,440 295,552 362,582 255,592"/>
+          <polyline class="rl" stroke="#f5d34c" stroke-width="1.5" stroke-dasharray="6,5" points="255,592 377,647 195,667"/>
+
+          <!-- Purple: Thalys / Eurostar -->
+          <polyline class="rl" stroke="#b55ff5" stroke-width="2.5" points="300,370 457,387 472,342"/>
+          <polyline class="rl" stroke="#b55ff5" stroke-width="2"   points="457,387 532,382"/>
+          <polyline class="rl" stroke="#b55ff5" stroke-width="1.5" stroke-dasharray="8,5" points="457,387 532,382 592,400 742,338 772,400"/>
+
+          <!-- Blue: German ICE -->
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2.5" points="632,308 742,338 982,352"/>
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2.5" points="532,382 592,400 682,456 842,456 922,477"/>
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2"   points="592,400 742,338"/>
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2"   points="742,338 772,400 842,456"/>
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2"   points="632,308 712,257"/>
+
+          <!-- Teal: Trenitalia Italy -->
+          <polyline class="rl" stroke="#1abc9c" stroke-width="2.5" points="547,577 607,530"/>
+          <polyline class="rl" stroke="#1abc9c" stroke-width="2.5" points="607,530 672,575 707,637 722,682"/>
+          <polyline class="rl" stroke="#1abc9c" stroke-width="2"   points="607,530 702,530"/>
+          <polyline class="rl" stroke="#1abc9c" stroke-width="2"   points="607,530 587,474 682,456"/>
+
+          <!-- Orange: Eastern Europe -->
+          <polyline class="rl" stroke="#e67e22" stroke-width="2"   points="842,456 782,510 827,520 962,544"/>
+          <polyline class="rl" stroke="#e67e22" stroke-width="2"   points="982,352 1122,285 1082,224"/>
+          <polyline class="rl" stroke="#e67e22" stroke-width="2"   stroke-dasharray="8,4" points="1082,224 1197,304 1522,250"/>
+          <polyline class="rl" stroke="#e67e22" stroke-width="1.5" points="922,477 1147,560"/>
+
+          <!-- Red: Balkans -->
+          <polyline class="rl" stroke="#e74c3c" stroke-width="2"   points="922,477 962,544 1057,600 1242,650"/>
+          <polyline class="rl" stroke="#e74c3c" stroke-width="1.5" points="1057,600 1042,662 1067,730"/>
+
+          <!-- Green: Nordic -->
+          <polyline class="rl" stroke="#2ecc71" stroke-width="2"   points="222,250 300,370"/>
+          <polyline class="rl" stroke="#2ecc71" stroke-width="2"   points="712,257 902,157"/>
+          <polyline class="rl" stroke="#2ecc71" stroke-width="1.5" points="632,308 472,342"/>
+
+          <!-- Pink: Night trains -->
+          <polyline class="rl" stroke="#e91e8c" stroke-width="1.5" stroke-dasharray="8,5" points="390,440 457,387 532,382 592,400 742,338"/>
+          <polyline class="rl" stroke="#e91e8c" stroke-width="1.5" stroke-dasharray="6,4" points="842,456 587,474 517,510 390,440"/>
+
+          <!-- Lilac: Swiss connections -->
+          <polyline class="rl" stroke="#a29bfe" stroke-width="2"   points="467,520 517,510 587,474"/>
+          <polyline class="rl" stroke="#a29bfe" stroke-width="1.5" points="517,510 607,530"/>
+
+          <!-- City dots — major hubs -->
+          <circle cx="390" cy="440" r="5.5" fill="#fff"/>
+          <circle cx="457" cy="387" r="5"   fill="#fff"/>
+          <circle cx="742" cy="338" r="5"   fill="#fff"/>
+          <circle cx="842" cy="456" r="5"   fill="#fff"/>
+          <circle cx="682" cy="456" r="5"   fill="#fff"/>
+          <circle cx="607" cy="530" r="5"   fill="#fff"/>
+          <!-- medium -->
+          <circle cx="300" cy="370" r="4"   fill="#fff"/>
+          <circle cx="472" cy="342" r="3.5" fill="#fff"/>
+          <circle cx="532" cy="382" r="3.5" fill="#fff"/>
+          <circle cx="592" cy="400" r="3.5" fill="#fff"/>
+          <circle cx="632" cy="308" r="3.5" fill="#fff"/>
+          <circle cx="982" cy="352" r="4"   fill="#fff"/>
+          <circle cx="922" cy="477" r="4"   fill="#fff"/>
+          <circle cx="587" cy="474" r="3.5" fill="#fff"/>
+          <circle cx="517" cy="510" r="3"   fill="#fff"/>
+          <circle cx="467" cy="520" r="3"   fill="#fff"/>
+          <circle cx="480" cy="592" r="3"   fill="#fff"/>
+          <circle cx="547" cy="577" r="3"   fill="#fff"/>
+          <circle cx="702" cy="530" r="3"   fill="#fff"/>
+          <circle cx="672" cy="575" r="3"   fill="#fff"/>
+          <circle cx="707" cy="637" r="3.5" fill="#fff"/>
+          <circle cx="722" cy="682" r="3"   fill="#fff"/>
+          <circle cx="712" cy="257" r="3.5" fill="#fff"/>
+          <circle cx="222" cy="250" r="3"   fill="#fff"/>
+          <circle cx="902" cy="157" r="3"   fill="#fff"/>
+          <circle cx="772" cy="400" r="3.5" fill="#fff"/>
+          <circle cx="782" cy="510" r="3"   fill="#fff"/>
+          <circle cx="827" cy="520" r="3"   fill="#fff"/>
+          <circle cx="962" cy="544" r="3.5" fill="#fff"/>
+          <circle cx="1057" cy="600" r="3"  fill="#fff"/>
+          <circle cx="1147" cy="560" r="3.5" fill="#fff"/>
+          <circle cx="1242" cy="650" r="3"  fill="#fff"/>
+          <circle cx="1042" cy="662" r="3"  fill="#fff"/>
+          <circle cx="1067" cy="730" r="3"  fill="#fff"/>
+          <circle cx="1082" cy="224" r="3"  fill="#fff"/>
+          <circle cx="1122" cy="285" r="3"  fill="#fff"/>
+          <circle cx="1197" cy="304" r="3"  fill="#fff"/>
+          <circle cx="1522" cy="250" r="4"  fill="#fff"/>
+          <circle cx="295"  cy="552" r="3"  fill="#fff"/>
+          <circle cx="362"  cy="582" r="3"  fill="#fff"/>
+          <circle cx="255"  cy="592" r="3"  fill="#fff"/>
+          <circle cx="377"  cy="647" r="3.5" fill="#fff"/>
+          <circle cx="195"  cy="667" r="3.5" fill="#fff"/>
+
+          <!-- City labels -->
+          <g class="lbl">
+            <text x="390" y="430" text-anchor="middle">Paris</text>
+            <text x="457" y="377" text-anchor="middle">Bruxelles</text>
+            <text x="752" y="328" text-anchor="start">Berlin</text>
+            <text x="842" y="446" text-anchor="middle">Wien</text>
+            <text x="682" y="446" text-anchor="middle">München</text>
+            <text x="607" y="520" text-anchor="middle">Milano</text>
+            <text x="312" y="360" text-anchor="start">London</text>
+            <text x="482" y="332" text-anchor="middle">Amsterdam</text>
+            <text x="522" y="374" text-anchor="start">Köln</text>
+            <text x="602" y="390" text-anchor="start">Frankfurt</text>
+            <text x="632" y="298" text-anchor="middle">Hamburg</text>
+            <text x="990" y="342" text-anchor="middle">Warszawa</text>
+            <text x="922" y="467" text-anchor="middle">Budapest</text>
+            <text x="597" y="464" text-anchor="start">Zürich</text>
+            <text x="455" y="512" text-anchor="end">Lyon</text>
+            <text x="492" y="604" text-anchor="middle">Marseille</text>
+            <text x="559" y="569" text-anchor="start">Nice</text>
+            <text x="714" y="520" text-anchor="start">Venezia</text>
+            <text x="717" y="627" text-anchor="middle">Roma</text>
+            <text x="712" y="247" text-anchor="middle">København</text>
+            <text x="222" y="240" text-anchor="middle">Edinburgh</text>
+            <text x="902" y="147" text-anchor="middle">Stockholm</text>
+            <text x="772" y="390" text-anchor="middle">Praha</text>
+            <text x="962" y="534" text-anchor="middle">Beograd</text>
+            <text x="1057" y="590" text-anchor="middle">Sofia</text>
+            <text x="1147" y="550" text-anchor="middle">Bucharest</text>
+            <text x="1252" y="640" text-anchor="middle">Istanbul</text>
+            <text x="1082" y="214" text-anchor="middle">Rīga</text>
+            <text x="1522" y="240" text-anchor="middle">Moskva</text>
+            <text x="377"  y="637" text-anchor="middle">Barcelona</text>
+            <text x="195"  y="657" text-anchor="middle">Madrid</text>
+            <text x="283"  y="544" text-anchor="end">Bordeaux</text>
+            <text x="372"  y="574" text-anchor="end">Toulouse</text>
+          </g>
+        </svg>
+      </div>
     </section>
 
     <!-- ═══ BENTO INTRO ════════════════════════════════════════════════════════════ -->
@@ -82,7 +219,7 @@
               <div class="card-body p-4 d-flex flex-column">
                 <i class="bi bi-map-fill text-warning mb-3" style="font-size:1.75rem"></i>
                 <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Une carte interactive</h6>
-                <p class="text-muted small mb-0">Chaque pays coloré cache des récits de voyage. Clique pour les découvrir.</p>
+                <p class="text-muted small mb-0">Chaque pays coloré sur la carte cache des récits de voyage. Clique pour les découvrir.</p>
               </div>
             </div>
           </div>
@@ -92,7 +229,7 @@
               <div class="card-body p-4 d-flex flex-column">
                 <i class="bi bi-people-fill text-warning mb-3" style="font-size:1.75rem"></i>
                 <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Un projet collaboratif</h6>
-                <p class="text-muted small mb-0">Si écrire te parle, le formulaire de partage n'attend plus que toi.</p>
+                <p class="text-muted small mb-0">Ici, pas de limites de frontières, l'idée c'est de rendre nos récits de voyage en train vivants. Alors si écrire te parle, le formulaire de partage n'attend plus que toi.</p>
               </div>
             </div>
           </div>
@@ -101,8 +238,8 @@
             <div class="card rs-bento-card h-100 p-1">
               <div class="card-body p-4 d-flex flex-column">
                 <i class="bi bi-train-front-fill text-warning mb-3" style="font-size:1.75rem"></i>
-                <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Voyager depuis chez toi</h6>
-                <p class="text-muted small mb-0">Lire, s'inspirer, trouver les bons plans — c'est déjà très bien.</p>
+                <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Voyager depuis chez soi</h6>
+                <p class="text-muted small mb-0">Et si tu veux simplement lire, te faire transporter, et trouver quelques bons plans sans contribuer, c'est déjà très bien.</p>
               </div>
             </div>
           </div>
@@ -120,32 +257,23 @@
           </span>
           <h2 class="rs-heading">La carte des voyages</h2>
           <p class="text-muted" style="max-width:600px">
-            Cette carte, c'est le cœur du projet Rail Stories. Interactive et collaborative,
-            clique sur les pays colorés pour y voir les récits de voyages en train.
+            Cette carte, c'est le cœur du projet Rail Stories, elle se veut interactive et collaborative ; il te suffit de cliquer sur les pays qui t'intéressent pour y voir les récits de voyages en train. Et si tu veux ajouter tes expériences, rendez-vous dans l'onglet « Je monte à bord ».
           </p>
         </div>
 
         <div class="row g-3 align-items-start">
-          <div class="col-lg-8">
+          <div class="col-12">
             <div class="card border-0 overflow-hidden rounded-4 rs-map-card">
               <div id="map" aria-label="Carte interactive des voyages en train"></div>
               <div class="card-footer border-0 rs-map-footer small">
-                <i class="bi bi-cursor me-1"></i>Les pays en bleu ont des récits — clique pour les découvrir.
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="rs-story-panel rounded-4" id="story-panel" aria-live="polite">
-              <div class="text-center py-4 px-3">
-                <i class="bi bi-globe2 display-4 rs-icon-dim d-block mb-3"></i>
-                <p class="text-muted small mb-0">Sélectionne un pays coloré sur la carte pour découvrir les récits de la communauté.</p>
+                <i class="bi bi-cursor me-1"></i>Les pays colorés ont des récits — clique pour les découvrir.
               </div>
             </div>
           </div>
         </div>
 
         <div class="d-flex align-items-center gap-3 flex-wrap mt-4">
-          <p class="text-muted small mb-0">Tu veux ajouter ton expérience ? Rendez-vous dans <em>Je monte à bord</em>.</p>
+          <p class="text-muted small mb-0">Tu veux ajouter ton expérience ? Rendez-vous dans l'onglet Je monte à bord.</p>
           <a href="#je-monte" class="btn btn-outline-primary btn-sm rounded-pill">
             <i class="bi bi-pencil me-1"></i>Partager mon récit
           </a>
@@ -164,12 +292,10 @@
           </span>
           <h2 class="rs-heading">Le wagon des bons plans</h2>
           <p class="text-muted">
-            Voyager en train, ça a son petit prix — et parfois cet aspect financier est un frein
-            (on a tous·tes déjà pris un bus vert pomme, soyons honnêtes). Le wagon des bons plans
-            est là pour te faire économiser un max de blé. 🌾
+            Bienvenue dans le wagon des bons plans ! Voyager en train, on le sait, ça a son petit prix et parfois, cet aspect financier est un frein (on a tous.tes déjà pris un bus vert pomme car c'était moins cher, soyons honnêtes). Heureusement, le wagon des bons plans est là pour te faire économiser.
           </p>
           <p class="text-muted fst-italic small mb-0">
-            <i class="bi bi-info-circle me-1"></i>Cette page est collaborative ! Si tu as des bons plans à partager, n'hésite pas à
+            <i class="bi bi-info-circle me-1"></i>Cette page est également collaborative ! Si tu as des bons plans à partager, n'hésite pas à
             <a href="#contact">m'envoyer un message</a>.
           </p>
         </div>
@@ -379,18 +505,36 @@
             Ici, c'est l'espace pour partager tes récits de voyage en train. Un canevas tout fait a été
             créé pour te faciliter le partage — tu n'as qu'à remplir le formulaire !
           </p>
-        </div>
-        <div class="card border-0 rounded-4 overflow-hidden shadow-lg">
-          <iframe
-            src="https://form.jotform.com/261065258654057"
-            title="Formulaire de partage Rail Stories"
-            allowfullscreen
-            frameborder="0"
-            style="width:100%;height:760px;display:block"
-          ></iframe>
+          <button class="btn btn-warning rounded-pill fw-bold px-5 py-3 mt-3"
+            data-bs-toggle="modal" data-bs-target="#jotformModal">
+            <i class="bi bi-pencil-square me-2"></i>Ouvrir le formulaire
+          </button>
         </div>
       </div>
     </section>
+
+    <!-- ═══ MODAL JOTFORM ════════════════════════════════════════════════════════ -->
+    <div class="modal fade" id="jotformModal" tabindex="-1" aria-labelledby="jotformModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 overflow-hidden">
+          <div class="modal-header border-0 pb-0 px-4 pt-3">
+            <h5 class="modal-title fw-bold" id="jotformModalLabel" style="font-family:'Playfair Display',Georgia,serif">
+              <i class="bi bi-pencil-square me-2 text-warning"></i>Je monte à bord
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
+          <div class="modal-body p-0" style="overflow:hidden;height:80vh;position:relative;">
+            <iframe
+              src="https://form.jotform.com/261065258654057"
+              title="Formulaire de partage Rail Stories"
+              allowfullscreen
+              frameborder="0"
+              style="width:100%;height:calc(80vh + 230px);display:block;position:absolute;top:-160px;left:0"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- ═══ CONTACT ════════════════════════════════════════════════════════════════ -->
     <section id="contact" class="py-5 rs-section-light border-top">
@@ -400,11 +544,11 @@
             <span class="badge rounded-pill rs-badge-kicker rs-badge-kicker-light mb-2">
               <i class="bi bi-envelope me-1"></i>Contact
             </span>
-            <h2 class="rs-heading">Une question, une idée, un bon plan ?</h2>
-            <p class="text-muted mb-4">
+            <h2 class="rs-heading" style="white-space:nowrap">Une question, une idée, un bon plan ?</h2>
+            <!-- <p class="text-muted mb-4">
               Rail Stories est un projet collaboratif avant tout. N'hésite pas à me contacter pour
               toute suggestion, contribution, ou simplement pour un message d'une amoureuse du rail à une autre.
-            </p>
+            </p> -->
             <a href="mailto:contact@railstories.eu" class="btn btn-warning rounded-pill fw-bold px-4">
               <i class="bi bi-envelope me-1"></i>Envoyer un message
             </a>
@@ -420,10 +564,10 @@
                   <i class="bi bi-envelope fs-5 text-warning flex-shrink-0"></i>
                   <span class="small fw-semibold">contact@railstories.eu</span>
                 </div>
-                <div class="d-flex align-items-center gap-3">
+                <!-- <div class="d-flex align-items-center gap-3">
                   <i class="bi bi-train-front fs-5 text-warning flex-shrink-0"></i>
-                  <span class="small fw-semibold">Un projet de Mathilde Graas</span>
-                </div>
+                  <span class="small fw-semibold">Un projet colaboratif</span>
+                </div> -->
               </div>
             </div>
           </div>
@@ -487,10 +631,23 @@
         </div>
 
         <div class="border-top rs-footer-divider pt-3">
-          <p class="rs-footer-copy mb-0">&copy; 2026 Rail Stories — Mathilde Graas. Fait avec <i class="bi bi-heart-fill text-warning small"></i> pour les amoureux·ses du rail.</p>
+          <p class="rs-footer-copy mb-0">&copy; 2026 Rail Stories. Fait avec <i class="bi bi-heart-fill text-warning small"></i> pour les amoureux·ses du rail.</p>
         </div>
       </div>
     </footer>
+
+    <!-- ═══ MODAL CARTE — récit de voyage ══════════════════════════════════════ -->
+    <div class="modal fade" id="storyModal" tabindex="-1" aria-labelledby="storyModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 rounded-4 overflow-hidden">
+          <div class="modal-header border-0 pb-1 px-4 pt-3" style="background:#f7f7fd">
+            <h5 class="modal-title fw-bold" id="storyModalTitle" style="font-family:'Playfair Display',Georgia,serif;color:var(--rs-royal)"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
+          <div class="modal-body px-4 py-3" id="storyModalBody"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
