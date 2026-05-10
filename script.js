@@ -291,11 +291,14 @@ function initMap() {
     scrollWheelZoom: false,
     zoomControl: true,
     attributionControl: false,
+    maxBounds: [[-90, -180], [90, 180]],
+    maxBoundsViscosity: 1.0,
   }).setView([52, 12], 4);
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
     maxZoom: 18,
+    noWrap: true,
   }).addTo(map);
 
   L.control.attribution({ position: 'bottomright' })
