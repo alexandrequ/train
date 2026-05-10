@@ -102,7 +102,7 @@ body { background: #fff; }
 /* ─── HERO ───────────────────────────────────────────────────────────────── */
 .rs-hero {
   position: relative;
-  background: #080e1d;
+  background: var(--rs-navy);
   overflow: hidden;
   min-height: 100svh;
   display: flex;
@@ -123,10 +123,10 @@ body { background: #fff; }
   inset: 0;
   background: linear-gradient(
     to right,
-    rgba(8,14,29,0.97) 0%,
-    rgba(8,14,29,0.90) 36%,
-    rgba(8,14,29,0.52) 62%,
-    rgba(8,14,29,0.08) 100%
+    rgba(28,45,82,0.97) 0%,
+    rgba(28,45,82,0.90) 36%,
+    rgba(28,45,82,0.52) 62%,
+    rgba(28,45,82,0.08) 100%
   );
   z-index: 1;
 }
@@ -547,9 +547,57 @@ body { background: #fff; }
   border: none;
   padding: 0;
   cursor: pointer;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 .sp-back-btn:hover { color: var(--rs-sky); }
+
+/* ─── Narrative modal layout ─────────────────────────────────────────────── */
+.sp-nar-header {
+  background: #f4f7fa;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.75rem;
+}
+.sp-nar-route-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+.sp-nar-city {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--rs-royal);
+}
+.sp-nar-arrow { color: var(--rs-sky); font-size: 1rem; }
+.sp-nar-via {
+  font-size: 0.77rem;
+  color: rgba(23,28,50,0.45);
+  margin-bottom: 0.75rem;
+  padding-left: 0.1rem;
+}
+.sp-nar-byline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  color: rgba(23,28,50,0.65);
+  border-top: 1px solid rgba(16,49,143,0.08);
+  padding-top: 0.6rem;
+  margin-top: 0.1rem;
+}
+.sp-nar-byline .bi { color: var(--rs-sky); font-size: 0.85em; }
+.sp-nar-dot { color: rgba(23,28,50,0.25); padding: 0 0.1rem; }
+.sp-narrative-article {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: rgba(23,28,50,0.82);
+}
+.sp-narrative-article p { margin-bottom: 1.3rem; }
+.sp-narrative-article p:last-child { margin-bottom: 0; }
+
 .sp-narrative-full {
   font-size: 0.87rem;
   color: rgba(23,28,50,0.72);
@@ -752,30 +800,30 @@ a.rs-resource-card:hover {
 
 /* ─── FOOTER ─────────────────────────────────────────────────────────────── */
 .rs-footer {
-  background: #ffffff;
-  border-top: 1px solid rgba(16,49,143,0.12);
-  color: rgba(23,28,50,0.62);
+  background: var(--rs-navy);
+  border-top: none;
+  color: rgba(255,255,255,0.75);
 }
-.rs-footer-logo { mix-blend-mode: normal; filter: none; }
+.rs-footer-logo { mix-blend-mode: normal; filter: brightness(0) invert(1); }
 .rs-legal-btn {
-  background: #f7f7fd;
-  border: 1px solid rgba(16,49,143,0.12);
-  color: rgba(23,28,50,0.72);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.9);
   font-size: 0.8rem;
   font-weight: 600;
 }
-.rs-legal-btn:hover { background: #edf4ff; color: var(--rs-royal); }
+.rs-legal-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
 .rs-chevron { transition: transform 0.2s; }
 .rs-legal-btn[aria-expanded="true"] .rs-chevron { transform: rotate(180deg); }
-.rs-legal-card { background: #f7f7fd; border: 1px solid rgba(16,49,143,0.12); }
-.rs-legal-text { font-size: 0.79rem; color: rgba(23,28,50,0.62); line-height: 1.58; margin-bottom: 0.5rem; }
+.rs-legal-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); }
+.rs-legal-text { font-size: 0.79rem; color: rgba(255,255,255,0.7); line-height: 1.58; margin-bottom: 0.5rem; }
 .rs-legal-label { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--rs-sky); margin-top: 0.8rem; margin-bottom: 0.28rem; }
-.rs-footer-divider { border-color: rgba(16,49,143,0.1) !important; }
-.rs-footer-copy { font-size: 0.76rem; color: rgba(23,28,50,0.5); }
+.rs-footer-divider { border-color: rgba(255,255,255,0.15) !important; }
+.rs-footer-copy { font-size: 0.76rem; color: rgba(255,255,255,0.7); }
 
 .rs-footer .text-white,
 .rs-footer .text-white-50 {
-  color: var(--rs-night) !important;
+  color: #fff !important;
 }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
@@ -794,7 +842,7 @@ html, body { overflow-x: hidden; }
   /* On mobile the left→right gradient leaves the right side near-transparent,
      making white text invisible against a bright video. Switch to a uniform dark veil. */
   .rs-hero::before {
-    background: rgba(8,14,29,0.72);
+    background: rgba(28,45,82,0.78);
   }
   .rs-hero-inner {
     padding-top: calc(5rem + 1rem);

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rail Stories — Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <style>
+    body { background: #f0f2f8; font-size: 0.9rem; }
+    .rs-topbar { background: #1c2d52; color: #fff; padding: 0.75rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+    .rs-topbar h1 { font-size: 1.1rem; font-weight: 700; margin: 0; letter-spacing: 0.04em; }
+    .rs-topbar .badge-env { font-size: 0.7rem; background: rgba(255,255,255,0.15); border-radius: 4px; padding: 2px 7px; }
+    .panel { background: #fff; border-radius: 10px; border: 1px solid #dee2ef; height: calc(100vh - 120px); overflow-y: auto; }
+    .panel-header { padding: 0.85rem 1rem; border-bottom: 1px solid #dee2ef; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: #5a6282; display: flex; align-items: center; gap: 0.5rem; }
+    .sub-item { padding: 0.75rem 1rem; border-bottom: 1px solid #f0f2f8; cursor: pointer; transition: background 0.15s; }
+    .sub-item:hover { background: #f4f7ff; }
+    .sub-item.active { background: #eef2ff; border-left: 3px solid #10318f; }
+    .sub-item-date { font-size: 0.72rem; color: #999; }
+    .sub-item-name { font-weight: 600; color: #1c2d52; }
+    .sub-item-snippet { font-size: 0.78rem; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .field-row { display: grid; grid-template-columns: 130px 1fr; align-items: start; gap: 0.35rem 0.75rem; margin-bottom: 0.6rem; }
+    .field-label { font-size: 0.75rem; font-weight: 600; color: #7080a0; padding-top: 6px; text-align: right; }
+    .field-val { font-size: 0.82rem; color: #222; background: #f8f9fc; border: 1px solid #dde; border-radius: 5px; padding: 4px 8px; word-break: break-word; }
+    .city-block { background: #f8f9fc; border: 1px solid #dee2ef; border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; position: relative; }
+    .city-block .remove-city { position: absolute; top: 6px; right: 8px; cursor: pointer; color: #c0c0c0; }
+    .city-block .remove-city:hover { color: #e74c3c; }
+    .icon-preview { display: inline-block; width: 28px; height: 28px; line-height: 28px; text-align: center; border-radius: 6px; background: #eef2ff; font-size: 1rem; }
+    .status-bar { position: sticky; bottom: 0; background: #fff; border-top: 1px solid #dee2ef; padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .empty-state { color: #bbb; text-align: center; padding: 3rem 1rem; font-size: 0.85rem; }
+    .empty-state i { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+    .connected-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .connected-dot.ok { background: #2ecc71; }
+    .connected-dot.err { background: #e74c3c; }
+    .connected-dot.idle { background: #ccc; }
+    textarea.auto-grow { resize: vertical; min-height: 80px; }
+    .tip-list { display: flex; flex-direction: column; gap: 0.3rem; }
+    .tip-item { display: flex; gap: 0.4rem; }
+    .tip-item input { flex: 1; }
+    .section-sep { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #a0a8c0; margin: 1rem 0 0.5rem; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ TOP BAR ═══════════════════════════════════════════════════════════════ -->
+<div class="rs-topbar">
+  <span style="font-size:1.4rem">🚂</span>
+  <h1>Rail Stories <span class="badge-env">Admin</span></h1>
+  <div class="ms-auto d-flex align-items-center gap-3">
+    <span id="gh-status" title="GitHub"><span class="connected-dot idle" id="gh-dot"></span> GitHub</span>
+    <span id="jf-status" title="JotForm"><span class="connected-dot idle" id="jf-dot"></span> JotForm</span>
+    <button class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#settingsModal">
+      <i class="bi bi-gear"></i> Config
+    </button>
+  </div>
+</div>
+
+<!-- ═══ MAIN LAYOUT ═══════════════════════════════════════════════════════════ -->
+<div class="container-fluid py-3">
+  <div class="row g-3">
+
+    <!-- LEFT: JotForm submissions -->
+    <div class="col-lg-3">
+      <div class="panel">
+        <div class="panel-header">
+          <i class="bi bi-inbox"></i> Soumissions JotForm
+          <button class="btn btn-xs btn-primary ms-auto py-0 px-2" id="btn-load-jf" style="font-size:0.75rem">
+            <i class="bi bi-arrow-clockwise"></i> Charger
+          </button>
+        </div>
+        <div id="sub-list">
+          <div class="empty-state"><i class="bi bi-cloud-download"></i>Configure JotForm<br>puis clique « Charger »</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MIDDLE: Raw submission detail -->
+    <div class="col-lg-3">
+      <div class="panel">
+        <div class="panel-header"><i class="bi bi-card-text"></i> Données brutes</div>
+        <div id="raw-detail">
+          <div class="empty-state"><i class="bi bi-cursor"></i>Sélectionne une<br>soumission</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Edit form -->
+    <div class="col-lg-6">
+      <div class="panel">
+        <div class="panel-header">
+          <i class="bi bi-pencil-square"></i> Éditeur de récit
+          <button class="btn btn-xs btn-outline-secondary ms-auto py-0 px-2" id="btn-new" style="font-size:0.75rem">
+            + Nouveau
+          </button>
+        </div>
+        <div class="p-3" id="editor-area">
+          <div class="empty-state"><i class="bi bi-map"></i>Sélectionne une soumission<br>ou clique « Nouveau »</div>
+        </div>
+        <div class="status-bar d-none" id="editor-statusbar">
+          <span id="save-msg" class="text-muted" style="font-size:0.78rem"></span>
+          <button class="btn btn-sm btn-outline-secondary ms-auto" id="btn-preview">
+            <i class="bi bi-eye"></i> Aperçu JSON
+          </button>
+          <button class="btn btn-sm btn-success" id="btn-publish">
+            <i class="bi bi-cloud-arrow-up"></i> Publier sur GitHub
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ SETTINGS MODAL ════════════════════════════════════════════════════════ -->
+<div class="modal fade" id="settingsModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Configuration</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12"><div class="section-sep">GitHub</div></div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Owner (utilisateur/org)</label>
+            <input type="text" class="form-control form-control-sm" id="cfg-gh-owner" placeholder="ex: mathilde-gs">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Nom du repo</label>
+            <input type="text" class="form-control form-control-sm" id="cfg-gh-repo" placeholder="ex: RailStory">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Branche</label>
+            <input type="text" class="form-control form-control-sm" id="cfg-gh-branch" placeholder="main" value="main">
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold">Personal Access Token (PAT)</label>
+            <input type="password" class="form-control form-control-sm" id="cfg-gh-pat" placeholder="ghp_...">
+            <div class="form-text">Permissions nécessaires : <code>contents:write</code>. <a href="https://github.com/settings/tokens/new" target="_blank">Créer un token →</a></div>
+          </div>
+          <div class="col-12"><div class="section-sep">JotForm</div></div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">API Key JotForm</label>
+            <input type="password" class="form-control form-control-sm" id="cfg-jf-key" placeholder="Clé API JotForm">
+            <div class="form-text"><a href="https://www.jotform.com/myaccount/api" target="_blank">Obtenir la clé API →</a></div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Form ID</label>
+            <input type="text" class="form-control form-control-sm" id="cfg-jf-formid" value="261065258654057">
+          </div>
+          <div class="col-12"><div class="section-sep">Mapping des champs JotForm</div>
+            <div class="form-text mb-2">Indique le <strong>nom</strong> du champ JotForm (visible dans les données brutes) pour chaque info.</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Auteur</label>
+            <input type="text" class="form-control form-control-sm" id="map-author" placeholder="ex: q3_nomPrénom">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Pays</label>
+            <input type="text" class="form-control form-control-sm" id="map-country" placeholder="ex: q4_paysDestination">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Ville</label>
+            <input type="text" class="form-control form-control-sm" id="map-city" placeholder="ex: q5_villePrincipale">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Récit (narratif)</label>
+            <input type="text" class="form-control form-control-sm" id="map-narrative" placeholder="ex: q6_tonRécit">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Bons plans / Tips</label>
+            <input type="text" class="form-control form-control-sm" id="map-tips" placeholder="ex: q7_bonsPlansTips">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Trajet (route)</label>
+            <input type="text" class="form-control form-control-sm" id="map-route" placeholder="ex: q8_trajetComplet">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button class="btn btn-primary" id="btn-save-config">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PREVIEW MODAL ════════════════════════════════════════════════════════ -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Aperçu JSON</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <pre id="json-preview" style="font-size:0.78rem;background:#f8f9fc;border-radius:8px;padding:1rem;overflow:auto;max-height:70vh"></pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" id="btn-copy-json"><i class="bi bi-clipboard"></i> Copier</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ─── CONFIG (localStorage) ─────────────────────────────────────────────────
+const CFG_KEY = 'rs_admin_cfg_v1';
+
+const COUNTRY_NAMES_FR = {
+  '40':'Autriche','56':'Belgique','100':'Bulgarie','191':'Croatie',
+  '203':'Tchéquie','208':'Danemark','246':'Finlande','250':'France',
+  '276':'Allemagne','300':'Grèce','348':'Hongrie','372':'Irlande',
+  '380':'Italie','440':'Lituanie','442':'Luxembourg','499':'Monténégro',
+  '528':'Pays-Bas','578':'Norvège','616':'Pologne','620':'Portugal',
+  '642':'Roumanie','643':'Russie','688':'Serbie','703':'Slovaquie',
+  '705':'Slovénie','724':'Espagne','752':'Suède','756':'Suisse',
+  '804':'Ukraine','826':'Royaume-Uni','807':'Macédoine du Nord',
+  '4':'Afghanistan','36':'Australie','76':'Brésil','156':'Chine',
+  '356':'Inde','392':'Japon','484':'Mexique','840':'États-Unis',
+};
+
+const COUNTRY_ID_LOOKUP = Object.fromEntries(
+  Object.entries(COUNTRY_NAMES_FR).map(([id, name]) => [name.toLowerCase(), id])
+);
+
+const ICONS = [
+  { icon: 'bi-train-front-fill', label: 'Train' },
+  { icon: 'bi-water',            label: 'Mer/Lac' },
+  { icon: 'bi-sun-fill',         label: 'Soleil' },
+  { icon: 'bi-snow',             label: 'Hiver' },
+  { icon: 'bi-bicycle',          label: 'Vélo' },
+  { icon: 'bi-buildings',        label: 'Ville' },
+  { icon: 'bi-bank',             label: 'Histoire' },
+  { icon: 'bi-palette-fill',     label: 'Art' },
+  { icon: 'bi-cup-hot-fill',     label: 'Café' },
+  { icon: 'bi-gem',              label: 'Joyau' },
+  { icon: 'bi-brightness-high-fill', label: 'Chaleur' },
+  { icon: 'bi-tree-fill',        label: 'Nature' },
+  { icon: 'bi-music-note-beamed', label: 'Musique' },
+  { icon: 'bi-camera-fill',      label: 'Photo' },
+  { icon: 'bi-snow2',            label: 'Neige' },
+];
+
+const COLORS = [
+  { hex: '#5aa8cc', label: 'Bleu ciel' },
+  { hex: '#c8960c', label: 'Or' },
+  { hex: '#b83060', label: 'Rose' },
+  { hex: '#1c2d52', label: 'Marine' },
+  { hex: '#10318f', label: 'Royal' },
+  { hex: '#c8393b', label: 'Rouge' },
+  { hex: '#2ecc71', label: 'Vert' },
+  { hex: '#e67e22', label: 'Orange' },
+];
+
+function loadCfg() {
+  try { return JSON.parse(localStorage.getItem(CFG_KEY)) || {}; } catch { return {}; }
+}
+function saveCfg(cfg) { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
+
+function fillSettingsForm() {
+  const cfg = loadCfg();
+  document.getElementById('cfg-gh-owner').value  = cfg.ghOwner  || '';
+  document.getElementById('cfg-gh-repo').value   = cfg.ghRepo   || '';
+  document.getElementById('cfg-gh-branch').value = cfg.ghBranch || 'main';
+  document.getElementById('cfg-gh-pat').value    = cfg.ghPat    || '';
+  document.getElementById('cfg-jf-key').value    = cfg.jfKey    || '';
+  document.getElementById('cfg-jf-formid').value = cfg.jfFormId || '261065258654057';
+  document.getElementById('map-author').value    = cfg.mapAuthor    || '';
+  document.getElementById('map-country').value   = cfg.mapCountry   || '';
+  document.getElementById('map-city').value      = cfg.mapCity      || '';
+  document.getElementById('map-narrative').value = cfg.mapNarrative || '';
+  document.getElementById('map-tips').value      = cfg.mapTips      || '';
+  document.getElementById('map-route').value     = cfg.mapRoute     || '';
+}
+
+document.getElementById('btn-save-config').addEventListener('click', () => {
+  const cfg = {
+    ghOwner:      document.getElementById('cfg-gh-owner').value.trim(),
+    ghRepo:       document.getElementById('cfg-gh-repo').value.trim(),
+    ghBranch:     document.getElementById('cfg-gh-branch').value.trim() || 'main',
+    ghPat:        document.getElementById('cfg-gh-pat').value.trim(),
+    jfKey:        document.getElementById('cfg-jf-key').value.trim(),
+    jfFormId:     document.getElementById('cfg-jf-formid').value.trim(),
+    mapAuthor:    document.getElementById('map-author').value.trim(),
+    mapCountry:   document.getElementById('map-country').value.trim(),
+    mapCity:      document.getElementById('map-city').value.trim(),
+    mapNarrative: document.getElementById('map-narrative').value.trim(),
+    mapTips:      document.getElementById('map-tips').value.trim(),
+    mapRoute:     document.getElementById('map-route').value.trim(),
+  };
+  saveCfg(cfg);
+  bootstrap.Modal.getInstance(document.getElementById('settingsModal')).hide();
+  updateStatusDots();
+  setMsg('Config enregistrée ✓', 'success');
+});
+
+document.getElementById('settingsModal').addEventListener('show.bs.modal', fillSettingsForm);
+
+function updateStatusDots() {
+  const cfg = loadCfg();
+  const ghDot = document.getElementById('gh-dot');
+  const jfDot = document.getElementById('jf-dot');
+  ghDot.className = 'connected-dot ' + (cfg.ghOwner && cfg.ghRepo && cfg.ghPat ? 'ok' : 'idle');
+  jfDot.className = 'connected-dot ' + (cfg.jfKey ? 'ok' : 'idle');
+}
+updateStatusDots();
+
+// ─── JOTFORM FETCH ────────────────────────────────────────────────────────
+let currentSubs = [];
+let currentSubIdx = null;
+let currentStoriesSha = null;
+let currentStories = {};
+
+document.getElementById('btn-load-jf').addEventListener('click', loadJotForm);
+
+async function loadJotForm() {
+  const cfg = loadCfg();
+  if (!cfg.jfKey) {
+    alert('Configure ta clé API JotForm dans la Config d\'abord.');
+    return;
+  }
+  const btn = document.getElementById('btn-load-jf');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+  try {
+    const url = `https://api.jotform.com/form/${cfg.jfFormId}/submissions?apiKey=${cfg.jfKey}&limit=50&orderby=created_at,DESC`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.responseCode !== 200) throw new Error(data.message || 'Erreur JotForm');
+
+    currentSubs = (data.content || []).filter(s => s.status !== 'DELETED');
+    document.getElementById('jf-dot').className = 'connected-dot ok';
+    renderSubList();
+    setMsg(`${currentSubs.length} soumission(s) chargée(s)`, 'success');
+  } catch (e) {
+    document.getElementById('jf-dot').className = 'connected-dot err';
+    setMsg('Erreur JotForm : ' + e.message, 'danger');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Charger';
+  }
+}
+
+function renderSubList() {
+  const el = document.getElementById('sub-list');
+  if (!currentSubs.length) {
+    el.innerHTML = '<div class="empty-state"><i class="bi bi-inbox"></i>Aucune soumission</div>';
+    return;
+  }
+  el.innerHTML = currentSubs.map((s, i) => {
+    const date = new Date(s.created_at).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
+    const answers = Object.values(s.answers || {});
+    const first = answers.find(a => a.answer && typeof a.answer === 'string')?.answer || '(sans texte)';
+    const snippet = first.substring(0, 60);
+    return `
+      <div class="sub-item" data-idx="${i}">
+        <div class="sub-item-date">${date} · #${s.id}</div>
+        <div class="sub-item-name">${s.ip || 'Soumission'}</div>
+        <div class="sub-item-snippet">${snippet}</div>
+      </div>`;
+  }).join('');
+
+  el.querySelectorAll('.sub-item').forEach(el => {
+    el.addEventListener('click', () => selectSub(parseInt(el.dataset.idx)));
+  });
+}
+
+function selectSub(idx) {
+  currentSubIdx = idx;
+  document.querySelectorAll('.sub-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  renderRawDetail(currentSubs[idx]);
+  populateEditorFromSub(currentSubs[idx]);
+}
+
+function renderRawDetail(sub) {
+  const el = document.getElementById('raw-detail');
+  if (!sub) { el.innerHTML = ''; return; }
+  const date = new Date(sub.created_at).toLocaleString('fr-FR');
+  let html = `<div class="p-3">
+    <div class="mb-2" style="font-size:0.75rem;color:#888">ID: ${sub.id} · ${date}</div>`;
+
+  const answers = Object.values(sub.answers || {});
+  for (const a of answers) {
+    if (!a.answer) continue;
+    const val = typeof a.answer === 'object' ? JSON.stringify(a.answer) : String(a.answer);
+    html += `<div class="field-row">
+      <div class="field-label">${a.name || a.type}</div>
+      <div class="field-val">${val.replace(/\n/g, '<br>')}</div>
+    </div>`;
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ─── EDITOR ───────────────────────────────────────────────────────────────
+
+let cityCount = 0;
+
+function populateEditorFromSub(sub) {
+  const cfg = loadCfg();
+  const answers = sub?.answers || {};
+  const get = (key) => {
+    if (!key) return '';
+    const a = Object.values(answers).find(a => a.name === key);
+    return a?.answer || '';
+  };
+
+  showEditor({
+    countryName: get(cfg.mapCountry),
+    author:      get(cfg.mapAuthor),
+    route:       get(cfg.mapRoute),
+    narrative:   get(cfg.mapNarrative),
+    cityName:    get(cfg.mapCity),
+    tips:        get(cfg.mapTips),
+  });
+}
+
+function showEditor(prefill = {}) {
+  cityCount = 0;
+  const area = document.getElementById('editor-area');
+  area.innerHTML = buildEditorHTML(prefill);
+  document.getElementById('editor-statusbar').classList.remove('d-none');
+  bindEditorEvents();
+  updateIconPreview(0);
+}
+
+function buildEditorHTML(p = {}) {
+  const countryOptions = Object.entries(COUNTRY_NAMES_FR)
+    .sort((a,b) => a[1].localeCompare(b[1], 'fr'))
+    .map(([id, name]) => `<option value="${id}" ${p.countryId === id ? 'selected' : ''}>${name} (${id})</option>`)
+    .join('');
+
+  return `
+  <div class="section-sep">Pays & identifiant</div>
+  <div class="row g-2 mb-2">
+    <div class="col-md-8">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.78rem">Pays</label>
+      <select class="form-select form-select-sm" id="ed-country">
+        <option value="">— Sélectionner —</option>
+        ${countryOptions}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.78rem">Nom affiché</label>
+      <input type="text" class="form-control form-control-sm" id="ed-country-name" value="${p.countryName || ''}">
+    </div>
+  </div>
+  <div class="row g-2 mb-2">
+    <div class="col-md-6">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.78rem">Auteur</label>
+      <input type="text" class="form-control form-control-sm" id="ed-author" value="${p.author || ''}">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.78rem">Route (ex: Paris → Lyon → Marseille)</label>
+      <input type="text" class="form-control form-control-sm" id="ed-route" value="${p.route || ''}">
+    </div>
+  </div>
+  <div class="row g-2 mb-2">
+    <div class="col-md-4">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.78rem">Durée (ex: 12h35)</label>
+      <input type="text" class="form-control form-control-sm" id="ed-duration" value="${p.duration || ''}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.78rem">Prix (ex: ~140 €)</label>
+      <input type="text" class="form-control form-control-sm" id="ed-price" value="${p.price || ''}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.78rem">Réserver via</label>
+      <input type="text" class="form-control form-control-sm" id="ed-booking" value="${p.booking || ''}">
+    </div>
+  </div>
+  <div class="mb-2">
+    <label class="form-label fw-semibold mb-1" style="font-size:0.78rem">Avertissement (optionnel)</label>
+    <input type="text" class="form-control form-control-sm" id="ed-warning" value="${p.warning || ''}" placeholder="ex: Trains suspendus depuis 2022…">
+  </div>
+
+  <div class="section-sep">Récit narratif</div>
+  <div class="mb-2">
+    <label class="form-label fw-semibold mb-1" style="font-size:0.78rem">
+      Texte du récit <span style="font-weight:400;color:#aaa">(une ligne vide = nouveau paragraphe)</span>
+    </label>
+    <textarea class="form-control form-control-sm auto-grow" id="ed-narrative" rows="6">${p.narrative || ''}</textarea>
+  </div>
+
+  <div class="section-sep d-flex align-items-center gap-2">
+    Villes
+    <button class="btn btn-xs btn-outline-primary ms-auto py-0 px-2" id="btn-add-city" style="font-size:0.72rem">+ Ajouter</button>
+  </div>
+  <div id="cities-container">
+    ${buildCityBlock(0, { name: p.cityName || '', tips: p.tips || '' })}
+  </div>`;
+}
+
+function buildCityBlock(idx, p = {}) {
+  cityCount = Math.max(cityCount, idx + 1);
+  const iconOptions = ICONS.map((ic, i) =>
+    `<option value="${ic.icon}" ${(p.icon || 'bi-buildings') === ic.icon ? 'selected' : ''}>${ic.label} (${ic.icon})</option>`
+  ).join('');
+  const colorOptions = COLORS.map(c =>
+    `<option value="${c.hex}" style="background:${c.hex};color:#fff" ${(p.color || '#1c2d52') === c.hex ? 'selected' : ''}>${c.label}</option>`
+  ).join('');
+
+  const tips = Array.isArray(p.tips)
+    ? p.tips
+    : (p.tips || '').split('\n').filter(t => t.trim());
+
+  const tipsHtml = tips.length
+    ? tips.map(t => tipItemHTML(t)).join('')
+    : tipItemHTML('');
+
+  return `
+  <div class="city-block" data-city="${idx}">
+    <button class="remove-city" onclick="removeCity(${idx})"><i class="bi bi-x-lg"></i></button>
+    <div class="row g-2 mb-2">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.75rem">Ville</label>
+        <input type="text" class="form-control form-control-sm city-name" value="${p.name || ''}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.75rem">Durée depuis BXL</label>
+        <input type="text" class="form-control form-control-sm city-hours" value="${p.hours || ''}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.75rem">Prix</label>
+        <input type="text" class="form-control form-control-sm city-price" value="${p.cityPrice || ''}">
+      </div>
+    </div>
+    <div class="row g-2 mb-2">
+      <div class="col-md-5">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.75rem">Icône</label>
+        <select class="form-select form-select-sm city-icon-sel">${iconOptions}</select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.75rem">Couleur</label>
+        <select class="form-select form-select-sm city-color-sel">${colorOptions}</select>
+      </div>
+      <div class="col-md-3 d-flex align-items-end">
+        <span class="icon-preview city-icon-preview"><i class="bi ${p.icon || 'bi-buildings'}" style="color:${p.color || '#1c2d52'}"></i></span>
+      </div>
+    </div>
+    <label class="form-label fw-semibold mb-1" style="font-size:0.75rem">Bons plans (un par ligne)</label>
+    <div class="tip-list">${tipsHtml}</div>
+    <button class="btn btn-xs btn-outline-secondary mt-1 py-0 px-2 btn-add-tip" style="font-size:0.72rem">+ Conseil</button>
+  </div>`;
+}
+
+function tipItemHTML(val = '') {
+  return `<div class="tip-item">
+    <input type="text" class="form-control form-control-sm tip-input" value="${val.replace(/"/g,'&quot;')}" placeholder="Conseil…">
+    <button class="btn btn-sm btn-link text-danger p-0 remove-tip" style="font-size:0.8rem"><i class="bi bi-dash-circle"></i></button>
+  </div>`;
+}
+
+function bindEditorEvents() {
+  document.getElementById('ed-country').addEventListener('change', function() {
+    const name = COUNTRY_NAMES_FR[this.value] || '';
+    document.getElementById('ed-country-name').value = name;
+  });
+
+  document.getElementById('btn-add-city').addEventListener('click', () => {
+    const container = document.getElementById('cities-container');
+    const idx = cityCount;
+    container.insertAdjacentHTML('beforeend', buildCityBlock(idx));
+    bindCityEvents(container.querySelector(`[data-city="${idx}"]`));
+  });
+
+  document.querySelectorAll('.city-block').forEach(bindCityEvents);
+}
+
+function bindCityEvents(block) {
+  block.querySelector('.city-icon-sel')?.addEventListener('change', () => updateIconPreview(block));
+  block.querySelector('.city-color-sel')?.addEventListener('change', () => updateIconPreview(block));
+  block.querySelector('.btn-add-tip')?.addEventListener('click', () => {
+    block.querySelector('.tip-list').insertAdjacentHTML('beforeend', tipItemHTML(''));
+  });
+  block.querySelectorAll('.remove-tip').forEach(btn => {
+    btn.addEventListener('click', () => btn.closest('.tip-item').remove());
+  });
+}
+
+function updateIconPreview(blockOrIdx) {
+  const block = typeof blockOrIdx === 'number'
+    ? document.querySelector(`[data-city="${blockOrIdx}"]`)
+    : blockOrIdx;
+  if (!block) return;
+  const icon  = block.querySelector('.city-icon-sel')?.value || 'bi-buildings';
+  const color = block.querySelector('.city-color-sel')?.value || '#1c2d52';
+  const preview = block.querySelector('.city-icon-preview');
+  if (preview) preview.innerHTML = `<i class="bi ${icon}" style="color:${color}"></i>`;
+}
+
+window.removeCity = function(idx) {
+  document.querySelector(`[data-city="${idx}"]`)?.remove();
+};
+
+document.getElementById('btn-new').addEventListener('click', () => showEditor());
+
+// ─── BUILD STORY ENTRY FROM FORM ───────────────────────────────────────────
+
+function narrativeToHtml(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return '';
+  if (trimmed.startsWith('<p>')) return trimmed;
+  return trimmed.split(/\n\s*\n/).map(p => `<p>${p.trim().replace(/\n/g,' ')}</p>`).join('');
+}
+
+function buildStoryEntry() {
+  const countryId   = document.getElementById('ed-country').value;
+  const countryName = document.getElementById('ed-country-name').value.trim();
+  const author      = document.getElementById('ed-author').value.trim();
+  const route       = document.getElementById('ed-route').value.trim();
+  const duration    = document.getElementById('ed-duration').value.trim();
+  const price       = document.getElementById('ed-price').value.trim();
+  const booking     = document.getElementById('ed-booking').value.trim();
+  const warning     = document.getElementById('ed-warning').value.trim();
+  const narrative   = narrativeToHtml(document.getElementById('ed-narrative').value);
+
+  if (!countryId) throw new Error('Sélectionne un pays');
+
+  const cities = [];
+  document.querySelectorAll('.city-block').forEach(block => {
+    const name     = block.querySelector('.city-name')?.value.trim();
+    if (!name) return;
+    const icon     = block.querySelector('.city-icon-sel')?.value || 'bi-buildings';
+    const color    = block.querySelector('.city-color-sel')?.value || '#1c2d52';
+    const hours    = block.querySelector('.city-hours')?.value.trim();
+    const cityPrice= block.querySelector('.city-price')?.value.trim();
+    const tips     = [...block.querySelectorAll('.tip-input')]
+      .map(i => i.value.trim()).filter(Boolean);
+    cities.push({
+      name,
+      icon: `<i class="bi ${icon}" style="color:${color}"></i>`,
+      ...(hours     && { hours }),
+      ...(cityPrice && { price: cityPrice }),
+      tips,
+    });
+  });
+
+  const entry = { name: countryName };
+  if (warning)  entry.warning   = warning;
+  if (author)   entry.author    = author;
+  if (route)    entry.route     = route;
+  if (duration) entry.duration  = duration;
+  if (price)    entry.price     = price;
+  if (booking)  entry.booking   = booking;
+  if (narrative)entry.narrative = narrative;
+  entry.cities = cities;
+
+  return { countryId, entry };
+}
+
+// ─── PREVIEW ──────────────────────────────────────────────────────────────
+
+document.getElementById('btn-preview').addEventListener('click', () => {
+  try {
+    const { countryId, entry } = buildStoryEntry();
+    document.getElementById('json-preview').textContent =
+      JSON.stringify({ [countryId]: entry }, null, 2);
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('previewModal')).show();
+  } catch (e) {
+    setMsg(e.message, 'danger');
+  }
+});
+
+document.getElementById('btn-copy-json').addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('json-preview').textContent)
+    .then(() => setMsg('Copié dans le presse-papier ✓', 'success'));
+});
+
+// ─── GITHUB PUBLISH ────────────────────────────────────────────────────────
+
+document.getElementById('btn-publish').addEventListener('click', async () => {
+  const cfg = loadCfg();
+  if (!cfg.ghOwner || !cfg.ghRepo || !cfg.ghPat) {
+    alert('Configure GitHub dans la Config d\'abord.');
+    return;
+  }
+
+  try {
+    const { countryId, entry } = buildStoryEntry();
+
+    const btn = document.getElementById('btn-publish');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Publication…';
+
+    // 1. Load current stories.json from GitHub
+    const apiBase = `https://api.github.com/repos/${cfg.ghOwner}/${cfg.ghRepo}/contents/stories.json`;
+    const headers = {
+      Authorization: `token ${cfg.ghPat}`,
+      'Content-Type': 'application/json',
+    };
+
+    const getRes = await fetch(`${apiBase}?ref=${cfg.ghBranch}`, { headers });
+    if (!getRes.ok) throw new Error(`GitHub GET: ${getRes.status} ${await getRes.text()}`);
+    const getJson = await getRes.json();
+    const sha = getJson.sha;
+    const existing = JSON.parse(atob(getJson.content.replace(/\n/g, '')));
+
+    // 2. Merge new entry (cities are added to existing if country exists)
+    if (existing[countryId]) {
+      const existing_entry = existing[countryId];
+      // Merge top-level fields (don't overwrite if empty)
+      Object.entries(entry).forEach(([k, v]) => {
+        if (k !== 'cities' && v) existing_entry[k] = v;
+      });
+      // Append new cities that don't already exist
+      const existingCityNames = new Set((existing_entry.cities || []).map(c => c.name.toLowerCase()));
+      entry.cities.forEach(c => {
+        if (!existingCityNames.has(c.name.toLowerCase())) existing_entry.cities.push(c);
+      });
+    } else {
+      existing[countryId] = entry;
+    }
+
+    // 3. Commit
+    const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(existing, null, 2))));
+    const authorName = document.getElementById('ed-author').value.trim() || 'Admin';
+    const putRes = await fetch(apiBase, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        message: `Add story: ${entry.name}${entry.cities[0] ? ' — ' + entry.cities[0].name : ''}`,
+        content: newContent,
+        sha,
+        branch: cfg.ghBranch,
+      }),
+    });
+    if (!putRes.ok) throw new Error(`GitHub PUT: ${putRes.status} ${await putRes.text()}`);
+
+    document.getElementById('gh-dot').className = 'connected-dot ok';
+    setMsg(`✓ Publié sur GitHub ! Netlify redéploie automatiquement.`, 'success');
+  } catch (e) {
+    document.getElementById('gh-dot').className = 'connected-dot err';
+    setMsg('Erreur : ' + e.message, 'danger');
+  } finally {
+    const btn = document.getElementById('btn-publish');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-cloud-arrow-up"></i> Publier sur GitHub';
+  }
+});
+
+// ─── UTILS ────────────────────────────────────────────────────────────────
+
+function setMsg(msg, type = 'secondary') {
+  const el = document.getElementById('save-msg');
+  el.className = `text-${type}`;
+  el.textContent = msg;
+  if (type === 'success') setTimeout(() => { if (el.textContent === msg) el.textContent = ''; }, 4000);
+}
+
+// Bind existing remove-tip buttons
+document.addEventListener('click', e => {
+  if (e.target.closest('.remove-tip')) {
+    e.target.closest('.tip-item').remove();
+  }
+  if (e.target.closest('.city-icon-sel, .city-color-sel')) {
+    updateIconPreview(e.target.closest('.city-block'));
+  }
+});
+</script>
+</body>
+</html>
