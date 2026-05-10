@@ -281,8 +281,8 @@ function saveCfg(cfg) { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
 
 function fillSettingsForm() {
   const cfg = loadCfg();
-  document.getElementById('cfg-gh-owner').value  = cfg.ghOwner  || '';
-  document.getElementById('cfg-gh-repo').value   = cfg.ghRepo   || '';
+  document.getElementById('cfg-gh-owner').value  = cfg.ghOwner  || 'alexandrequ';
+  document.getElementById('cfg-gh-repo').value   = cfg.ghRepo   || 'train';
   document.getElementById('cfg-gh-branch').value = cfg.ghBranch || 'main';
   document.getElementById('cfg-gh-pat').value    = cfg.ghPat    || '';
   document.getElementById('cfg-jf-key').value    = cfg.jfKey    || '';
