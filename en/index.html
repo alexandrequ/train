@@ -99,7 +99,7 @@
     <nav class="navbar navbar-expand-lg rs-navbar" id="site-header">
       <div class="container-xl">
         <a class="navbar-brand" href="#home">
-          <img src="../logo-rond.svg" alt="Rail Stories" height="44" class="d-block">
+          <img src="../logo-blue.png" alt="Rail Stories" height="44" class="d-block">
         </a>
         <button class="navbar-toggler border-0" type="button"
           data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -275,7 +275,7 @@
               <div class="card-body p-4 d-flex flex-column">
                 <i class="bi bi-map-fill text-warning mb-3" style="font-size:1.75rem"></i>
                 <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">An interactive map</h6>
-                <p class="text-muted small mb-0">Each marker on the map opens travel stories and related tips.</p>
+                <p class="text-muted small mb-0">Every coloured country on the map holds travel stories. Click to discover them.</p>
               </div>
             </div>
           </div>
@@ -313,7 +313,7 @@
           </span>
           <h2 class="rs-heading">The Travel Map</h2>
           <p class="text-muted" style="max-width:600px">
-            This map is the heart of Rail Stories — interactive and collaborative. Click any place marker to discover train travel stories and tips from there. Want to add your own experience? Head over to the "Share Your Story" section.
+            This map is the heart of Rail Stories — interactive and collaborative. Click on any country to discover train travel stories from there. Want to add your own experience? Head over to the "Share Your Story" section.
           </p>
         </div>
 
@@ -322,7 +322,7 @@
             <div class="card border-0 overflow-hidden rounded-4 rs-map-card">
               <div id="map" aria-label="Interactive train travel map"></div>
               <div class="card-footer border-0 rs-map-footer small">
-                <i class="bi bi-cursor me-1"></i>Markers show places with stories or tips — click to discover them.
+                <i class="bi bi-cursor me-1"></i>Coloured countries have stories — click to discover them.
               </div>
             </div>
           </div>
@@ -625,7 +625,7 @@
     <footer class="rs-footer py-4">
       <div class="container-xl">
         <div class="mb-3">
-          <img src="../logo-rond.svg" alt="Rail Stories" height="64" class="rs-footer-logo mb-1" />
+          <img src="../logo-blue.png" alt="Rail Stories" height="64" class="rs-footer-logo mb-1" />
         </div>
 
         <button class="btn btn-sm rs-legal-btn rounded-pill mb-3" id="legal-toggle"
@@ -698,6 +698,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
     <script>
       // Base path for assets relative to this /en/ page
       window.RS_BASE = '../';
@@ -710,7 +711,6 @@
         back:          'Back',
         by:            'By',
         mapError:      'Unable to load the map. Check your connection.',
-        openPlace:     'View stories and tips',
       };
     </script>
     <script src="../script.js"></script>
