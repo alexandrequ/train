@@ -312,10 +312,29 @@ function initMap() {
   const FILL_ACTIVE   = '#8a6500';   /* deeper yellow */
   const FILL_INACTIVE = '#e0e0e0';   /* light grey    */
 
+  // Normalize polygon coordinates so no ring crosses the antimeridian.
+  // Consecutive vertices with longitude gap > 180° get shifted to stay consistent,
+  // preventing Leaflet from drawing stripes across Russia / Alaska.
+  function fixAntimeridian(geojson) {
+    const processRing = coords => {
+      for (let i = 1; i < coords.length; i++) {
+        while (coords[i][0] - coords[i - 1][0] >  180) coords[i][0] -= 360;
+        while (coords[i - 1][0] - coords[i][0] >  180) coords[i][0] += 360;
+      }
+    };
+    geojson.features.forEach(f => {
+      if (!f.geometry) return;
+      const t = f.geometry.type;
+      if (t === 'Polygon')      f.geometry.coordinates.forEach(processRing);
+      if (t === 'MultiPolygon') f.geometry.coordinates.forEach(p => p.forEach(processRing));
+    });
+    return geojson;
+  }
+
   fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
     .then(r => r.json())
     .then(world => {
-      const geojson = topojson.feature(world, world.objects.countries);
+      const geojson = fixAntimeridian(topojson.feature(world, world.objects.countries));
 
       L.geoJSON(geojson, {
         style(feature) {
