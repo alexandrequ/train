@@ -29,7 +29,11 @@
     .rs-topbar { background: #1c2d52; color: #fff; padding: 0.75rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
     .rs-topbar h1 { font-size: 1.1rem; font-weight: 700; margin: 0; letter-spacing: 0.04em; }
     .rs-topbar .badge-env { font-size: 0.7rem; background: rgba(255,255,255,0.15); border-radius: 4px; padding: 2px 7px; }
-    .panel { background: #fff; border-radius: 10px; border: 1px solid #dee2ef; height: calc(100vh - 120px); overflow-y: auto; }
+    .rs-nav-tabs { background: #fff; border-bottom: 1px solid #dee2ef; padding: 0 1.5rem; }
+    .rs-nav-tabs .nav-link { color: #5a6282; font-size: 0.85rem; font-weight: 600; padding: 0.65rem 1rem; border: none; border-bottom: 3px solid transparent; border-radius: 0; }
+    .rs-nav-tabs .nav-link:hover { color: #10318f; background: none; }
+    .rs-nav-tabs .nav-link.active { color: #10318f; border-bottom-color: #10318f; background: none; }
+    .panel { background: #fff; border-radius: 10px; border: 1px solid #dee2ef; height: calc(100vh - 160px); overflow-y: auto; }
     .panel-header { padding: 0.85rem 1rem; border-bottom: 1px solid #dee2ef; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: #5a6282; display: flex; align-items: center; gap: 0.5rem; }
     .sub-item { padding: 0.75rem 1rem; border-bottom: 1px solid #f0f2f8; cursor: pointer; transition: background 0.15s; }
     .sub-item:hover { background: #f4f7ff; }
@@ -56,6 +60,16 @@
     .tip-item { display: flex; gap: 0.4rem; }
     .tip-item input { flex: 1; }
     .section-sep { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #a0a8c0; margin: 1rem 0 0.5rem; }
+
+    /* Trips view */
+    .trip-entry { border: 1px solid #dee2ef; border-radius: 8px; margin-bottom: 0.6rem; overflow: hidden; }
+    .trip-header { background: #f8f9fc; padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.6rem; }
+    .trip-country-name { font-weight: 700; color: #1c2d52; font-size: 0.92rem; }
+    .trip-meta { font-size: 0.75rem; color: #8090b0; }
+    .trip-author { font-size: 0.75rem; color: #5a6282; background: #eef2ff; border-radius: 20px; padding: 1px 8px; }
+    .trip-cities-row { padding: 0.45rem 1rem 0.55rem; display: flex; flex-wrap: wrap; gap: 0.4rem; border-top: 1px solid #f0f2f8; }
+    .trip-city-badge { background: #eef2ff; color: #10318f; border-radius: 20px; padding: 2px 10px; font-size: 0.78rem; }
+    .trip-warning { font-size: 0.75rem; color: #c8960c; padding: 0.3rem 1rem; border-top: 1px solid #f0f2f8; background: #fffbf0; }
   </style>
 </head>
 <body>
@@ -73,61 +87,105 @@
   </div>
 </div>
 
-<!-- ═══ MAIN LAYOUT ═══════════════════════════════════════════════════════════ -->
-<div class="container-fluid py-3">
-  <div class="row g-3">
-
-    <!-- LEFT: JotForm submissions -->
-    <div class="col-lg-3">
-      <div class="panel">
-        <div class="panel-header">
-          <i class="bi bi-inbox"></i> Soumissions JotForm
-          <button class="btn btn-xs btn-primary ms-auto py-0 px-2" id="btn-load-jf" style="font-size:0.75rem">
-            <i class="bi bi-arrow-clockwise"></i> Charger
-          </button>
-        </div>
-        <div id="sub-list">
-          <div class="empty-state"><i class="bi bi-cloud-download"></i>Configure JotForm<br>puis clique « Charger »</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MIDDLE: Raw submission detail -->
-    <div class="col-lg-3">
-      <div class="panel">
-        <div class="panel-header"><i class="bi bi-card-text"></i> Données brutes</div>
-        <div id="raw-detail">
-          <div class="empty-state"><i class="bi bi-cursor"></i>Sélectionne une<br>soumission</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT: Edit form -->
-    <div class="col-lg-6">
-      <div class="panel">
-        <div class="panel-header">
-          <i class="bi bi-pencil-square"></i> Éditeur de récit
-          <button class="btn btn-xs btn-outline-secondary ms-auto py-0 px-2" id="btn-new" style="font-size:0.75rem">
-            + Nouveau
-          </button>
-        </div>
-        <div class="p-3" id="editor-area">
-          <div class="empty-state"><i class="bi bi-map"></i>Sélectionne une soumission<br>ou clique « Nouveau »</div>
-        </div>
-        <div class="status-bar d-none" id="editor-statusbar">
-          <span id="save-msg" class="text-muted" style="font-size:0.78rem"></span>
-          <button class="btn btn-sm btn-outline-secondary ms-auto" id="btn-preview">
-            <i class="bi bi-eye"></i> Aperçu JSON
-          </button>
-          <button class="btn btn-sm btn-success" id="btn-publish">
-            <i class="bi bi-cloud-arrow-up"></i> Publier sur GitHub
-          </button>
-        </div>
-      </div>
-    </div>
-
-  </div>
+<!-- ═══ NAV TABS ══════════════════════════════════════════════════════════════ -->
+<div class="rs-nav-tabs">
+  <ul class="nav" id="main-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="tab-soumissions-btn" data-bs-toggle="tab" data-bs-target="#tab-soumissions" type="button" role="tab">
+        <i class="bi bi-inbox me-1"></i>Soumissions JotForm
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-voyages-btn" data-bs-toggle="tab" data-bs-target="#tab-voyages" type="button" role="tab">
+        <i class="bi bi-map me-1"></i>Voyages publiés
+      </button>
+    </li>
+  </ul>
 </div>
+
+<!-- ═══ TAB CONTENT ══════════════════════════════════════════════════════════ -->
+<div class="tab-content">
+
+  <!-- TAB 1: Soumissions JotForm -->
+  <div class="tab-pane fade show active" id="tab-soumissions" role="tabpanel">
+    <div class="container-fluid py-3">
+      <div class="row g-3">
+
+        <!-- LEFT: JotForm submissions -->
+        <div class="col-lg-3">
+          <div class="panel">
+            <div class="panel-header">
+              <i class="bi bi-inbox"></i> Soumissions JotForm
+              <button class="btn btn-xs btn-primary ms-auto py-0 px-2" id="btn-load-jf" style="font-size:0.75rem">
+                <i class="bi bi-arrow-clockwise"></i> Charger
+              </button>
+            </div>
+            <div id="sub-list">
+              <div class="empty-state"><i class="bi bi-cloud-download"></i>Configure JotForm<br>puis clique « Charger »</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MIDDLE: Raw submission detail -->
+        <div class="col-lg-3">
+          <div class="panel">
+            <div class="panel-header"><i class="bi bi-card-text"></i> Données brutes</div>
+            <div id="raw-detail">
+              <div class="empty-state"><i class="bi bi-cursor"></i>Sélectionne une<br>soumission</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Edit form -->
+        <div class="col-lg-6">
+          <div class="panel">
+            <div class="panel-header">
+              <i class="bi bi-pencil-square"></i> Éditeur de récit
+              <button class="btn btn-xs btn-outline-secondary ms-auto py-0 px-2" id="btn-new" style="font-size:0.75rem">
+                + Nouveau
+              </button>
+            </div>
+            <div class="p-3" id="editor-area">
+              <div class="empty-state"><i class="bi bi-map"></i>Sélectionne une soumission<br>ou clique « Nouveau »</div>
+            </div>
+            <div class="status-bar d-none" id="editor-statusbar">
+              <span id="save-msg" class="text-muted" style="font-size:0.78rem"></span>
+              <button class="btn btn-sm btn-outline-secondary ms-auto" id="btn-preview">
+                <i class="bi bi-eye"></i> Aperçu JSON
+              </button>
+              <button class="btn btn-sm btn-success" id="btn-publish">
+                <i class="bi bi-cloud-arrow-up"></i> Publier sur GitHub
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: Voyages publiés -->
+  <div class="tab-pane fade" id="tab-voyages" role="tabpanel">
+    <div class="container-fluid py-3">
+      <div class="row g-3">
+        <div class="col-12">
+          <div class="panel">
+            <div class="panel-header">
+              <i class="bi bi-globe-europe-africa"></i> Voyages publiés
+              <button class="btn btn-xs btn-primary ms-auto py-0 px-2" id="btn-load-trips" style="font-size:0.75rem">
+                <i class="bi bi-arrow-clockwise"></i> Charger depuis GitHub
+              </button>
+            </div>
+            <div class="p-3" id="trips-list">
+              <div class="empty-state"><i class="bi bi-cloud-download"></i>Clique « Charger depuis GitHub »<br>pour voir tous les voyages publiés</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-content -->
 
 <!-- ═══ SETTINGS MODAL ════════════════════════════════════════════════════════ -->
 <div class="modal fade" id="settingsModal" tabindex="-1">
@@ -244,6 +302,16 @@ const COUNTRY_NAMES_FR = {
 const COUNTRY_ID_LOOKUP = Object.fromEntries(
   Object.entries(COUNTRY_NAMES_FR).map(([id, name]) => [name.toLowerCase(), id])
 );
+
+function ghDecode(b64content) {
+  const bytes = Uint8Array.from(atob(b64content.replace(/\n/g, '')), c => c.charCodeAt(0));
+  return JSON.parse(new TextDecoder('utf-8').decode(bytes));
+}
+
+function ghEncode(obj) {
+  const bytes = new TextEncoder().encode(JSON.stringify(obj, null, 2));
+  return btoa(String.fromCharCode.apply(null, bytes));
+}
 
 const ICONS = [
   { icon: 'bi-train-front-fill', label: 'Train' },
@@ -420,61 +488,49 @@ function renderRawDetail(sub) {
 
 // ─── EDITOR ───────────────────────────────────────────────────────────────
 
-let cityCount = 0;
-
 function populateEditorFromSub(sub) {
-  const answers = sub?.answers || {};
-  const get = (name) => {
-    const a = Object.values(answers).find(a => a.name === name);
-    const v = a?.answer;
-    return v === undefined || v === null ? '' : v;
-  };
+  const byName = Object.fromEntries(
+    Object.values(sub?.answers || {}).map(a => [a.name, a.answer ?? ''])
+  );
+  const get = (name) => String(byName[name] ?? '');
 
-  // Route: departure → stopovers → destination
-  const departure   = String(get('q3_textbox1'));
-  const destination = String(get('q4_textbox2'));
+  const departure   = get('q3_textbox1');
+  const destination = get('q4_textbox2');
   let stopovers = [];
   try {
-    const raw = get('q5_widget_ConfigurableList3');
+    const raw = byName['q5_widget_ConfigurableList3'];
     const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
     if (Array.isArray(parsed)) stopovers = parsed.map(s => s['Nom de la ville']).filter(Boolean);
   } catch {}
   const route = [departure, ...stopovers, destination].filter(Boolean).join(' → ');
 
-  // Duration from dureeTotale JSON {"hourSelect":"16","minuteSelect":"00"}
   let duration = '';
   try {
-    const d = get('dureeTotale');
-    const parsed = typeof d === 'object' ? d : JSON.parse(d);
-    if (parsed?.hourSelect) duration = `${parsed.hourSelect}h${parsed.minuteSelect || '00'}`;
-    else if (parsed?.timeInput) duration = parsed.timeInput.replace(':', 'h');
-  } catch { duration = String(get('dureeTotale')); }
+    const raw = byName['dureeTotale'];
+    const d = typeof raw === 'object' ? raw : JSON.parse(raw);
+    duration = d?.hourSelect ? `${d.hourSelect}h${d.minuteSelect || '00'}`
+             : d?.timeInput  ? d.timeInput.replace(':', 'h')
+             : '';
+  } catch {}
 
-  // Price: 37.55 → ~37,55 €
   const priceRaw = get('q8_number6');
-  const price = priceRaw ? `~${String(priceRaw).replace('.', ',')} €` : '';
-
-  // Booking: strip https://www.
-  const booking = String(get('q9_textbox7')).replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-
-  // Tips: one per blank-line-separated paragraph
-  const tipsRaw = String(get('q19_textarea17'));
-  const tips = tipsRaw ? tipsRaw.split(/\n\s*\n/).map(t => t.trim()).filter(Boolean) : [];
+  const price    = priceRaw ? `~${priceRaw.replace('.', ',')} €` : '';
+  const booking  = get('q9_textbox7').replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  const tips     = get('q19_textarea17').split(/\n\s*\n/).map(t => t.trim()).filter(Boolean);
 
   showEditor({
-    author:    String(get('q23_textbox21')),
+    author:    get('q23_textbox21'),
     route,
     duration,
     price,
     booking,
-    narrative: String(get('q16_textarea14')),
+    narrative: get('q16_textarea14'),
     cityName:  destination,
     tips,
   });
 }
 
 function showEditor(prefill = {}) {
-  cityCount = 0;
   const area = document.getElementById('editor-area');
   area.innerHTML = buildEditorHTML(prefill);
   document.getElementById('editor-statusbar').classList.remove('d-none');
@@ -487,6 +543,10 @@ function buildEditorHTML(p = {}) {
     .sort((a,b) => a[1].localeCompare(b[1], 'fr'))
     .map(([id, name]) => `<option value="${id}" ${p.countryId === id ? 'selected' : ''}>${name} (${id})</option>`)
     .join('');
+
+  const citiesHtml = Array.isArray(p.cities) && p.cities.length
+    ? p.cities.map((city, i) => buildCityBlock(i, city)).join('')
+    : buildCityBlock(0, { name: p.cityName || '', tips: p.tips || [] });
 
   return `
   <div class="section-sep">Pays & identifiant</div>
@@ -545,13 +605,12 @@ function buildEditorHTML(p = {}) {
     <button class="btn btn-xs btn-outline-primary ms-auto py-0 px-2" id="btn-add-city" style="font-size:0.72rem">+ Ajouter</button>
   </div>
   <div id="cities-container">
-    ${buildCityBlock(0, { name: p.cityName || '', tips: p.tips || '' })}
+    ${citiesHtml}
   </div>`;
 }
 
 function buildCityBlock(idx, p = {}) {
-  cityCount = Math.max(cityCount, idx + 1);
-  const iconOptions = ICONS.map((ic, i) =>
+  const iconOptions = ICONS.map(ic =>
     `<option value="${ic.icon}" ${(p.icon || 'bi-buildings') === ic.icon ? 'selected' : ''}>${ic.label} (${ic.icon})</option>`
   ).join('');
   const colorOptions = COLORS.map(c =>
@@ -617,7 +676,7 @@ function bindEditorEvents() {
 
   document.getElementById('btn-add-city').addEventListener('click', () => {
     const container = document.getElementById('cities-container');
-    const idx = cityCount;
+    const idx = container.querySelectorAll('.city-block').length;
     container.insertAdjacentHTML('beforeend', buildCityBlock(idx));
     bindCityEvents(container.querySelector(`[data-city="${idx}"]`));
   });
@@ -660,6 +719,20 @@ function narrativeToHtml(text) {
   if (!trimmed) return '';
   if (trimmed.startsWith('<p>')) return trimmed;
   return trimmed.split(/\n\s*\n/).map(p => `<p>${p.trim().replace(/\n/g,' ')}</p>`).join('');
+}
+
+function htmlToNarrative(html) {
+  if (!html) return '';
+  return html.replace(/<\/p>\s*<p>/g, '\n\n').replace(/<\/?p[^>]*>/g, '').trim();
+}
+
+function parseIconStr(iconStr) {
+  const classMatch = iconStr?.match(/bi-([\w-]+)/);
+  const colorMatch = iconStr?.match(/color:(#[0-9a-fA-F]{3,6})/);
+  return {
+    icon:  classMatch ? 'bi-' + classMatch[1] : 'bi-buildings',
+    color: colorMatch ? colorMatch[1] : '#1c2d52',
+  };
 }
 
 function buildStoryEntry() {
@@ -727,6 +800,25 @@ document.getElementById('btn-copy-json').addEventListener('click', () => {
 
 // ─── GITHUB PUBLISH ────────────────────────────────────────────────────────
 
+async function ghGetStories() {
+  const cfg = loadCfg();
+  const apiBase = `https://api.github.com/repos/${cfg.ghOwner}/${cfg.ghRepo}/contents/stories.json`;
+  const headers = { Authorization: `token ${cfg.ghPat}`, 'Content-Type': 'application/json' };
+  const res = await fetch(`${apiBase}?ref=${cfg.ghBranch}`, { headers });
+  if (!res.ok) throw new Error(`GitHub GET: ${res.status} ${await res.text()}`);
+  const json = await res.json();
+  return { sha: json.sha, stories: ghDecode(json.content), headers, apiBase, cfg };
+}
+
+async function ghPutStories(stories, sha, message, headers, apiBase, cfg) {
+  const res = await fetch(apiBase, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ message, content: ghEncode(stories), sha, branch: cfg.ghBranch }),
+  });
+  if (!res.ok) throw new Error(`GitHub PUT: ${res.status} ${await res.text()}`);
+}
+
 document.getElementById('btn-publish').addEventListener('click', async () => {
   const cfg = loadCfg();
   if (!cfg.ghOwner || !cfg.ghRepo || !cfg.ghPat) {
@@ -734,79 +826,165 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
     return;
   }
 
+  const btn = document.getElementById('btn-publish');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Publication…';
+
   try {
     const { countryId, entry } = buildStoryEntry();
+    const { sha, stories, headers, apiBase, cfg: c } = await ghGetStories();
 
-    const btn = document.getElementById('btn-publish');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Publication…';
-
-    // 1. Load current stories.json from GitHub
-    const apiBase = `https://api.github.com/repos/${cfg.ghOwner}/${cfg.ghRepo}/contents/stories.json`;
-    const headers = {
-      Authorization: `token ${cfg.ghPat}`,
-      'Content-Type': 'application/json',
-    };
-
-    const getRes = await fetch(`${apiBase}?ref=${cfg.ghBranch}`, { headers });
-    if (!getRes.ok) throw new Error(`GitHub GET: ${getRes.status} ${await getRes.text()}`);
-    const getJson = await getRes.json();
-    const sha = getJson.sha;
-    const b64 = getJson.content.replace(/\n/g, '');
-    const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
-    const existing = JSON.parse(new TextDecoder('utf-8').decode(bytes));
-
-    // 2. Merge new entry (cities are added to existing if country exists)
-    if (existing[countryId]) {
-      const existing_entry = existing[countryId];
-      // Merge top-level fields (don't overwrite if empty)
+    if (stories[countryId]) {
+      const existing_entry = stories[countryId];
       Object.entries(entry).forEach(([k, v]) => {
         if (k !== 'cities' && v) existing_entry[k] = v;
       });
-      // Append new cities that don't already exist
       const existingCityNames = new Set((existing_entry.cities || []).map(c => c.name.toLowerCase()));
       entry.cities.forEach(c => {
         if (!existingCityNames.has(c.name.toLowerCase())) existing_entry.cities.push(c);
       });
     } else {
-      existing[countryId] = entry;
+      stories[countryId] = entry;
     }
 
-    // 3. Commit
-    const jsonStr = JSON.stringify(existing, null, 2);
-    const encBytes = new TextEncoder().encode(jsonStr);
-    let binaryStr = '';
-    encBytes.forEach(b => binaryStr += String.fromCharCode(b));
-    const newContent = btoa(binaryStr);
-    const authorName = document.getElementById('ed-author').value.trim() || 'Admin';
-    const putRes = await fetch(apiBase, {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({
-        message: `Add story: ${entry.name}${entry.cities[0] ? ' — ' + entry.cities[0].name : ''}`,
-        content: newContent,
-        sha,
-        branch: cfg.ghBranch,
-      }),
-    });
-    if (!putRes.ok) throw new Error(`GitHub PUT: ${putRes.status} ${await putRes.text()}`);
-
+    await ghPutStories(stories, sha, `Add story: ${entry.name}${entry.cities[0] ? ' — ' + entry.cities[0].name : ''}`, headers, apiBase, c);
     document.getElementById('gh-dot').className = 'connected-dot ok';
-    setMsg(`✓ Publié sur GitHub ! Netlify redéploie automatiquement.`, 'success');
+    setMsg('✓ Publié sur GitHub ! Netlify redéploie automatiquement.', 'success');
   } catch (e) {
     document.getElementById('gh-dot').className = 'connected-dot err';
     setMsg('Erreur : ' + e.message, 'danger');
   } finally {
-    const btn = document.getElementById('btn-publish');
     btn.disabled = false;
     btn.innerHTML = '<i class="bi bi-cloud-arrow-up"></i> Publier sur GitHub';
   }
 });
 
+// ─── TRIPS MANAGEMENT VIEW ────────────────────────────────────────────────
+
+let cachedTrips = null;
+
+document.getElementById('btn-load-trips').addEventListener('click', loadTripsFromGitHub);
+
+async function loadTripsFromGitHub() {
+  const cfg = loadCfg();
+  if (!cfg.ghOwner || !cfg.ghRepo || !cfg.ghPat) {
+    alert('Configure GitHub dans la Config d\'abord.');
+    return;
+  }
+  const btn = document.getElementById('btn-load-trips');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+  try {
+    const { stories } = await ghGetStories();
+    cachedTrips = stories;
+    renderTripsView(stories);
+    document.getElementById('gh-dot').className = 'connected-dot ok';
+  } catch (e) {
+    document.getElementById('gh-dot').className = 'connected-dot err';
+    document.getElementById('trips-list').innerHTML =
+      `<div class="empty-state"><i class="bi bi-exclamation-triangle"></i>Erreur : ${e.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Charger depuis GitHub';
+  }
+}
+
+function renderTripsView(stories) {
+  const el = document.getElementById('trips-list');
+  const entries = Object.entries(stories);
+  if (!entries.length) {
+    el.innerHTML = '<div class="empty-state"><i class="bi bi-map"></i>Aucun voyage publié</div>';
+    return;
+  }
+
+  el.innerHTML = entries
+    .sort((a, b) => (a[1].name || '').localeCompare(b[1].name || '', 'fr'))
+    .map(([id, data]) => {
+      const cities = (data.cities || []);
+      const cityBadges = cities.map(c => `<span class="trip-city-badge">${c.name}</span>`).join('');
+      const authorBadge = data.author ? `<span class="trip-author"><i class="bi bi-person-fill me-1"></i>${data.author}</span>` : '';
+      const warningRow = data.warning
+        ? `<div class="trip-warning"><i class="bi bi-exclamation-triangle-fill me-1"></i>${data.warning}</div>`
+        : '';
+      return `
+      <div class="trip-entry">
+        <div class="trip-header">
+          <span class="trip-country-name">${data.name || id}</span>
+          <span class="trip-meta">${cities.length} ville${cities.length !== 1 ? 's' : ''}</span>
+          ${authorBadge}
+          ${data.route ? `<span class="trip-meta ms-1">${data.route}</span>` : ''}
+          <span class="ms-auto d-flex gap-2">
+            <button class="btn btn-xs btn-outline-primary py-0 px-2" style="font-size:0.75rem" onclick="editTrip('${id}')">
+              <i class="bi bi-pencil me-1"></i>Modifier
+            </button>
+            <button class="btn btn-xs btn-outline-danger py-0 px-2" style="font-size:0.75rem" onclick="deleteTrip('${id}')">
+              <i class="bi bi-trash me-1"></i>Supprimer
+            </button>
+          </span>
+        </div>
+        ${warningRow}
+        <div class="trip-cities-row">${cityBadges}</div>
+      </div>`;
+    }).join('');
+}
+
+window.editTrip = function(countryId) {
+  const data = cachedTrips?.[countryId];
+  if (!data) return;
+
+  const cities = (data.cities || []).map(city => {
+    const { icon, color } = parseIconStr(city.icon || '');
+    return { name: city.name, hours: city.hours || '', cityPrice: city.price || '', icon, color, tips: city.tips || [] };
+  });
+
+  // Switch to editor tab
+  bootstrap.Tab.getOrCreateInstance(document.getElementById('tab-soumissions-btn')).show();
+
+  showEditor({
+    countryId,
+    countryName: data.name,
+    author:    data.author   || '',
+    route:     data.route    || '',
+    duration:  data.duration || '',
+    price:     data.price    || '',
+    booking:   data.booking  || '',
+    warning:   data.warning  || '',
+    narrative: htmlToNarrative(data.narrative || ''),
+    cities,
+  });
+};
+
+window.deleteTrip = async function(countryId) {
+  const data = cachedTrips?.[countryId];
+  const name = data?.name || countryId;
+  if (!confirm(`Supprimer « ${name} » et toutes ses villes ? Cette action est irréversible.`)) return;
+
+  const cfg = loadCfg();
+  if (!cfg.ghOwner || !cfg.ghRepo || !cfg.ghPat) {
+    alert('Configure GitHub dans la Config d\'abord.');
+    return;
+  }
+
+  try {
+    const { sha, stories, headers, apiBase, cfg: c } = await ghGetStories();
+    if (!stories[countryId]) throw new Error('Entrée introuvable dans stories.json');
+    delete stories[countryId];
+    await ghPutStories(stories, sha, `Remove story: ${name}`, headers, apiBase, c);
+    delete cachedTrips[countryId];
+    renderTripsView(cachedTrips);
+    document.getElementById('gh-dot').className = 'connected-dot ok';
+  } catch (e) {
+    document.getElementById('gh-dot').className = 'connected-dot err';
+    alert('Erreur lors de la suppression : ' + e.message);
+  }
+};
+
 // ─── UTILS ────────────────────────────────────────────────────────────────
 
 function setMsg(msg, type = 'secondary') {
   const el = document.getElementById('save-msg');
+  if (!el) return;
   el.className = `text-${type}`;
   el.textContent = msg;
   if (type === 'success') setTimeout(() => { if (el.textContent === msg) el.textContent = ''; }, 4000);
