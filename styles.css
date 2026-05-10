@@ -1,3 +1,13 @@
+/* ─── FONTS ──────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "STTitan";
+  src: url("STTitanRegular.woff2") format("woff2"),
+       url("STTitanRegular.ttf")   format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ─── TOKENS ─────────────────────────────────────────────────────────────── */
 :root {
   --rs-sky:    #5aa8cc;   /* logo sky blue  */
@@ -143,14 +153,14 @@ body { background: #fff; }
 }
 
 .rs-hero-h1 {
-  font-family: "Cinzel", Georgia, serif;
+  font-family: "STTitan", "Cinzel", Georgia, serif;
   font-size: clamp(4.4rem, 10vw, 8.8rem);
-  font-weight: 900;
-  letter-spacing: 0.04em;
+  font-weight: normal;
+  letter-spacing: 0.3em;
   line-height: 0.92;
   color: #fff;
 }
-.rs-hero-h1-italic { font-style: normal; color: #fff; font-weight: 700; }
+.rs-hero-h1-italic { font-style: normal; color: #fff; font-weight: normal; }
 
 .rs-hero-tagline {
   font-family: Inter, system-ui, -apple-system, sans-serif;

@@ -476,7 +476,7 @@ function renderStory(data) {
         ${city.hours ? `<span class="sp-city-meta">(${city.hours} · ${city.price})</span>` : ''}
       </div>
       ${city.storyLink ? `<a href="${city.storyLink}" class="sp-story-link">Le récit de Mathilde →</a>` : ''}
-      <div class="sp-pepites-label">Les pépites</div>
+      <div class="sp-pepites-label">🤍 Coups de cœur</div>
       <ul class="sp-city-tips">
         ${city.tips.map(t => `<li>${t}</li>`).join('')}
       </ul>
@@ -493,7 +493,7 @@ function renderStory(data) {
 function renderNarrative(data) {
   return `
     <button class="sp-back-btn" data-action="show-story">
-      <i class="bi bi-arrow-left me-1"></i>Retour aux pépites
+      <i class="bi bi-arrow-left me-1"></i>Retour aux coups de cœur
     </button>
     <div class="sp-narrative-full">
       ${data.narrative}
