@@ -156,7 +156,7 @@ body { background: #fff; }
   font-family: "STTitan", "Cinzel", Georgia, serif;
   font-size: clamp(4.4rem, 10vw, 8.8rem);
   font-weight: normal;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.02em;
   line-height: 0.92;
   color: #fff;
 }
