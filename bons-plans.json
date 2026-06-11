@@ -1,0 +1,53 @@
+{
+  "250": [
+    {"label": "Carte Avantage SNCF", "desc": "Réductions sur les billets, en version Jeune, Adulte et Senior.", "url": "https://www.sncf-connect.com/app/catalogue"},
+    {"label": "Trains Avantangio à 1€ (Occitanie)", "desc": "1er week-end de chaque mois (hors juil.–août). Certaines lignes en semaine.", "url": "https://www.ter.sncf.com/occitanie/tarifs-cartes/billets-un-euro"},
+    {"label": "Trains de nuit SNCF depuis Paris", "desc": "Paris → Toulouse · Montpellier · Bayonne · Nice.", "url": "https://www.sncf-connect.com"},
+    {"label": "Eurostar Snap", "desc": "Paris ↔ Londres / Amsterdam à petit prix. Tu choisis un créneau, ton horaire est confirmé 48h à l'avance — vérifie les infos sur leur site.", "url": "https://snap.eurostar.com/"},
+    {"label": "OUIGOSWAP", "desc": "Revente et achat de billets Ouigo à prix réduit. Idéal pour les trajets de dernière minute.", "url": "https://www.ouigo.com/services-train-ouigo/ouigoswap"}
+  ],
+  "56": [
+    {"label": "Train+", "desc": "Tarifs réduits aux heures creuses et le week-end, selon l'âge.", "url": "https://www.belgiantrain.be/fr/tickets-and-railcards"},
+    {"label": "Pass Interrail Belgique", "desc": "Voyage flexible dans tout le pays avec le pass Interrail national.", "url": "https://www.interrail.eu/fr/interrail-passes/one-country-pass/belgium"},
+    {"label": "Bruxelles → Vienne (Nightjet OBB)", "desc": "Train de nuit vers Vienne.", "url": "https://www.b-europe.com/FR/Trains/Nightjet"},
+    {"label": "Bruxelles → Prague (European Sleeper)", "desc": "Train de nuit European Sleeper.", "url": "https://www.europeansleeper.eu"}
+  ],
+  "756": [
+    {"label": "Demi-tarif CFF", "desc": "50 % de réduction sur la majorité des trains suisses.", "url": "https://www.sbb.ch/fr/abonnements-et-billets/abonnements/demi-tarif.html"},
+    {"label": "Swiss Travel Pass", "desc": "Transports illimités + 500 musées gratuits + remontées mécaniques. 283€ / 3 jours.", "url": "https://www.myswitzerland.com/fr-fr/planification/offres/swiss-travel-pass/"},
+    {"label": "Pass Interrail Suisse", "desc": "193€ pour 3 jours sur 1 mois — plus souple que le Swiss Travel Pass.", "url": "https://www.interrail.eu/fr/interrail-passes/one-country-pass/switzerland"}
+  ],
+  "380": [
+    {"label": "Trenitalia Pass", "desc": "139€ pour 3 jours (adulte). Valable 7 jours après activation.", "url": "https://www.trenitalia.com/it/offerte_e_servizi/italia-in-tour.html"},
+    {"label": "Pass Interrail Italie", "desc": "Plus flexible — valable 30 jours. 165€ pour 3 jours.", "url": "https://www.interrail.eu/fr/interrail-passes/one-country-pass/italy"}
+  ],
+  "826": [
+    {"label": "BritRail Pass", "desc": "199€ / 3 jours sur 1 mois (+28 ans) — plus avantageux qu'Interrail GB.", "url": "https://www.britrail.com/britrail-passes/"},
+    {"label": "Eurostar Snap", "desc": "Londres ↔ Paris / Amsterdam à petit prix. Ton horaire est confirmé 48h à l'avance — vérifie les infos sur leur site.", "url": "https://snap.eurostar.com/"}
+  ],
+  "724": [
+    {"label": "Renfe Spain Pass", "desc": "Réductions pour voyager en train à travers l'Espagne.", "url": "https://www.renfe.com/es/en/travelling/discounts-by-train"}
+  ],
+  "203": [
+    {"label": "European Sleeper — Dernière minute", "desc": "Trains de nuit à prix réduits disponibles en dernière minute.", "url": "https://www.europeansleeper.eu/fr/last-minute"}
+  ],
+  "276": [
+    {"label": "BahnCard", "desc": "Dès 19,90€ / 3 mois — 25% de réduction Deutsche Bahn. Attention : auto-renouvellement à 1 an.", "url": "https://int.bahn.de/fr/offres/bahncard"},
+    {"label": "Deutschland-Ticket", "desc": "63€/mois pour tous les transports dans le pays (sauf ICE et IC/EC). Résilier dans les 10 jours pour éviter l'auto-renouvellement.", "url": "https://int.bahn.de/en/offers/deutschland-ticket"},
+    {"label": "Flixtrain", "desc": "Trajets à bas prix sur certaines lignes allemandes.", "url": "https://www.flixtrain.com/"}
+  ],
+  "840": [
+    {"label": "USA Rail Pass (Amtrak)", "desc": "500$ pour 10 trajets sur 30 jours.", "url": "https://www.amtrak.com/tickets/departure-rail-pass.html"}
+  ],
+  "528": [
+    {"label": "Eurostar Snap", "desc": "Amsterdam ↔ Paris / Londres à petit prix. Ton horaire est confirmé 48h à l'avance — vérifie les infos sur leur site.", "url": "https://snap.eurostar.com/"},
+    {"label": "GoVolta (dès déc. 2026)", "desc": "Nouvelle ligne low-cost Amsterdam — Paris — Berlin.", "url": "https://govolta.nl/nl/"}
+  ],
+  "40": [
+    {"label": "Nightjet (OBB)", "desc": "Réseau de trains de nuit depuis Vienne vers toute l'Europe.", "url": "https://www.nightjet.com/fr/"},
+    {"label": "Pass Interrail Autriche", "desc": "Voyage flexible dans tout le pays avec le pass Interrail national.", "url": "https://www.interrail.eu/fr/interrail-passes/one-country-pass/austria"}
+  ],
+  "70": [
+    {"label": "Pass Interrail Bosnie-Herzégovine", "desc": "Voyage flexible dans tout le pays avec le pass Interrail.", "url": "https://www.interrail.eu/fr/interrail-passes/one-country-pass/bosnia-herzegovina"}
+  ]
+}

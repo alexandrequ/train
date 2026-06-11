@@ -1,0 +1,20 @@
+{
+  "name": "Kenya",
+  "author": "Rom",
+  "route": "Nairobi → Mombasa",
+  "duration": "5h35",
+  "price": "~30 €",
+  "booking": "A la gare direct",
+  "narrative": "<p>En train de la capitale du Kenya à l'océan Indien !</p><p>Nous avons démarré au petit matin depuis Nairobi pour embarquer direction Mombasa.  Le train était confortable et plutôt lent donc on a pu profiter des paysages.  On a même aperçu des éléphants le long des rails !</p>",
+  "highlights": [
+    "Coups de coeur à Diani (à 1 heure en voiture de Mombasa) :",
+    "- Sortie plongée avec Diving the Crab",
+    "- Manger un poisson sur la plage",
+    "- African pool à Tiwi (attention aux vols!)",
+    "- Ali Barbour's Cave"
+  ],
+  "photos": [
+    "stories/img/404/1781170384859.jpg",
+    "stories/img/404/1781170394040.jpg"
+  ]
+}

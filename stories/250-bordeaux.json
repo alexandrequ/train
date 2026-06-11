@@ -1,0 +1,19 @@
+{
+  "countryCode": "250",
+  "name": "France",
+  "author": "Mathilde G.",
+  "route": "Bruxelles → Lille → Bordeaux",
+  "duration": "06h00",
+  "price": "~38 €",
+  "booking": "ouigo.com",
+  "narrative": "<p>Prêts à tout pour des cannelés !</p><p>Bordeaux est une destination super accessible pour un long week-end, à condition de vivre en France ou en Belgique ! La ville est desservie par Ouigo, une compagnie de trains bon marché. Il existe aussi des TGV INOUI, mais je n'avais pas le budget !</p><p>Pour les Belges, il faudra d'abord se rendre à Lille depuis Bruxelles. Le trajet dure environ 40 minutes et coûte une douzaine d'euros (ce n'est donc pas un gros inconvénient). Depuis Lille, on rejoint Bordeaux en 5 h 10 avec Ouigo. Comme le contrôleur a aimé le rappeler : « Voyager avec Ouigo, c'est comme participer à Koh-Lanta. » Car, dans le train, il n'y a pas de wagon-restaurant pour acheter à boire et/ou à manger ; il faut donc faire ses provisions avant. Il n'y a pas non plus de Wi-Fi, à moins de payer un supplément.</p><p>Je vous mets tous mes coups de cœur de ce petit city-trip à Bordeaux dans la partie qui y est dédiée ! Pour info, j'ai fait ce voyage pendant la période des fêtes de fin d'année, mais je trouve personnellement que le marché de Noël de Bordeaux n'a rien de spécial. Par contre, prendre les pass touristiques de la ville s'est avéré être la meilleure décision pour découvrir la ville à moindre coût.</p>",
+  "highlights": [
+    "Déguster des huitres et du vin blanc au marché de la Place Pey Berland",
+    "La boulangerie Louis Lamour pour le petit-déjeuner",
+    "Des cannelés à la Toque Cuivrée",
+    "Les halles de Bacalan pour le lunch",
+    "Le Bar à Vin pour de super vins pas chers",
+    "Darwin eco-système, un tiers-lieu avec plein de chouettes initiatives",
+    "Prendre le Bordeaux City pass pour avoir accès aux musées (Porte Cailhau, Bassin des lumières, Tour Pey Berland, Cité du vin avec dégustation, CAPC, balade en bateau sur la Garonne, Musée du vin et du négoce)"
+  ]
+}

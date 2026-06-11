@@ -1,0 +1,22 @@
+{
+  "countryCode": "250",
+  "name": "France",
+  "author": "Mathilde G.",
+  "route": "Lille → Marseille",
+  "duration": "04h30",
+  "price": "~19 €",
+  "booking": "ouigo.com",
+  "narrative": "<p>Direction le Sud et le soleil !</p><p>Avec deux amies, on profite des réductions « prix gelés » de OUIGO pour acheter nos billets à 19 EUR par trajet ; la promo ne dure que 48h et concerne les voyages qui se passent dans les trois prochains mois, il faut donc être rapide !</p><p>En moins de cinq heures, on quitte le froid du Nord pour le soleil du Sud. On pose nos valises à deux pas du Vieux Port dans le quartier du Panier, et c'est parti pour profiter !</p>",
+  "highlights": [
+    "La Friche la Belle de Mai (tiers-lieu culturel)",
+    "Le marché du Vieux Port (les dimanches matins)",
+    "Goûter aux navettes, une spécialité provençale à la fleur d'oranger, comme au Four des navettes",
+    "La terrasse du Mucem",
+    "Aller à un stand-up au Garage Comedy",
+    "Se poser en terrasse à Cours Julien",
+    "Notre-Dame de la Garde pour le coucher de soleil",
+    "Randonner dans les Calanques — itinéraire conseillé : Marseilleveyere jusqu'à la calanque de Callelongue",
+    "Le petit port du Vallon des Auffes",
+    "Le Panier"
+  ]
+}

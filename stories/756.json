@@ -1,0 +1,12 @@
+{
+  "name": "Suisse",
+  "author": "Léa",
+  "route": "Bruxelles → Paris → Genève",
+  "duration": "6h30",
+  "price": "~265 €",
+  "booking": "https://www.sncf-connect.com",
+  "narrative": "<p>J’ai effectué un trajet en train de Bruxelles à Genève au mois de mai.</p><p>J’ai d’abord pris un Ouigo entre Bruxelles et Paris : le trajet est plus long que celui d’un TGV Eurostar (environ 3  heures), mais il est nettement moins cher. À Paris, il faut changer de gare (de Paris Nord à Paris Gare de Lyon), puis emprunter un train SNCF Lyria jusqu’à Genève.</p><p>Les sièges du Lyria sont très confortables et le wifi fonctionne bien, ce qui rend le voyage particulièrement agréable : les 3  heures passent très vite.</p><p>Le trajet offre également de très beaux paysages tout au long du parcours. En approchant de Genève, les vues deviennent magnifiques, avec des panoramas sur les montagnes.</p>",
+  "photos": [
+    "stories/img/756/1781170678238.jpg"
+  ]
+}

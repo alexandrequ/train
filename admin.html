@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function() {
+      const HASH = '5f51967664c781a6d0b91a5c40d7a5bd313960a070b3fde20783b32b8f7fb2fe';
+      async function check() {
+        if (sessionStorage.getItem('rs_admin_ok') === '1') return;
+        const pwd = prompt('Mot de passe :');
+        if (!pwd) { document.documentElement.innerHTML = ''; return; }
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pwd));
+        const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+        if (hash === HASH) {
+          sessionStorage.setItem('rs_admin_ok', '1');
+        } else {
+          document.documentElement.innerHTML = '<body style="font-family:sans-serif;text-align:center;padding:4rem"><h2>Accès refusé</h2></body>';
+        }
+      }
+      check();
+    })();
+  </script>
+  <title>Rail Stories — Admin</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --sidebar-w: 230px;
+      --sidebar-bg: #0f1a30;
+      --accent: #10318f;
+      --accent-hover: #0d2676;
+      --accent-light: #eef2ff;
+      --navy: #1c2d52;
+      --border: #e8eaf2;
+      --bg: #f2f4f9;
+      --text: #1c2d52;
+      --muted: #7a84a0;
+      --panel-shadow: 0 1px 2px rgba(15,26,48,0.06), 0 4px 16px rgba(15,26,48,0.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+    body { display: flex; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 0.875rem; background: var(--bg); color: var(--text); }
+
+    /* ── SIDEBAR ── */
+    .rs-sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .rs-sidebar-logo {
+      padding: 1.25rem 1.25rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .rs-sidebar-logo img { height: 28px; filter: brightness(0) invert(1); display: block; }
+    .rs-logo-badge {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 2px 6px;
+      white-space: nowrap;
+    }
+    .rs-sidebar-nav {
+      flex: 1;
+      padding: 0.85rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .rs-nav-item {
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: rgba(255,255,255,0.5);
+      padding: 0.55rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      line-height: 1.3;
+    }
+    .rs-nav-item i { font-size: 1rem; width: 1.1rem; flex-shrink: 0; }
+    .rs-nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.85); }
+    .rs-nav-item.active { background: rgba(16,49,143,0.65); color: #fff; font-weight: 600; }
+    .rs-nav-item .badge-count {
+      margin-left: auto;
+      font-size: 0.65rem;
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 1px 7px;
+      font-weight: 600;
+    }
+    .rs-sidebar-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 0.5rem 0.75rem; }
+    .rs-sidebar-footer {
+      padding: 1rem 1rem 1.1rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .rs-status-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .rs-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+    .rs-dot.ok  { background: #2ecc71; box-shadow: 0 0 5px #2ecc7180; }
+    .rs-dot.err { background: #e74c3c; }
+    .rs-config-btn {
+      margin-top: 0.15rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6);
+      border-radius: 8px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .rs-config-btn:hover { background: rgba(255,255,255,0.13); color: rgba(255,255,255,0.9); }
+
+    /* ── MAIN ── */
+    .rs-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .rs-section { flex: 1; display: none; flex-direction: column; overflow: hidden; }
+    .rs-section.active { display: flex; }
+
+    /* Section header */
+    .rs-section-bar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .rs-section-title { font-size: 0.95rem; font-weight: 700; color: var(--navy); }
+    .rs-section-subtitle { font-size: 0.78rem; color: var(--muted); }
+
+    /* Panels */
+    .rs-body { flex: 1; overflow: hidden; padding: 1.25rem; }
+    .rs-grid { display: flex; gap: 1rem; height: 100%; }
+    .panel {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: var(--panel-shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .panel-sm { width: 260px; flex-shrink: 0; }
+    .panel-md { width: 280px; flex-shrink: 0; }
+    .panel-lg { flex: 1; }
+    .panel-full { flex: 1; }
+    .panel-scroll { flex: 1; overflow-y: auto; }
+    .panel-hdr {
+      padding: 0.85rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .panel-hdr i { font-size: 0.9rem; }
+
+    /* Submission list */
+    .sub-item {
+      padding: 0.8rem 1.1rem;
+      border-bottom: 1px solid #f4f5f9;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .sub-item:hover { background: #f7f9ff; }
+    .sub-item.active { background: var(--accent-light); box-shadow: inset 3px 0 0 var(--accent); }
+    .sub-item-date { font-size: 0.7rem; color: #aaa; margin-bottom: 2px; }
+    .sub-item-name { font-weight: 600; color: var(--navy); font-size: 0.84rem; }
+    .sub-item-snippet { font-size: 0.76rem; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+
+    /* Raw detail */
+    .field-row { display: grid; grid-template-columns: 120px 1fr; align-items: start; gap: 0.3rem 0.6rem; margin-bottom: 0.5rem; }
+    .field-label { font-size: 0.7rem; font-weight: 600; color: var(--muted); padding-top: 5px; text-align: right; }
+    .field-val { font-size: 0.78rem; color: #222; background: #f7f8fc; border: 1px solid #e8eaf2; border-radius: 5px; padding: 3px 8px; word-break: break-word; }
+
+    /* Editor */
+    .ed-wrap { flex: 1; overflow-y: auto; padding: 1.1rem 1.25rem; }
+    .section-sep {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #b0b8d0;
+      margin: 1.1rem 0 0.55rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .status-bar {
+      flex-shrink: 0;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* City blocks */
+    .city-block {
+      background: #f8f9fd;
+      border: 1px solid #e6e9f4;
+      border-radius: 10px;
+      padding: 0.85rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    .city-block .remove-city { position: absolute; top: 8px; right: 10px; background: none; border: none; cursor: pointer; color: #ccc; padding: 0; line-height: 1; font-size: 0.9rem; }
+    .city-block .remove-city:hover { color: #e74c3c; }
+    .icon-preview { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 7px; background: var(--accent-light); font-size: 1rem; }
+    .tip-list { display: flex; flex-direction: column; gap: 0.3rem; }
+    .tip-item { display: flex; gap: 0.35rem; }
+    .tip-item input { flex: 1; }
+
+    /* Trips view */
+    .trip-entry { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 0.65rem; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(15,26,48,0.04); transition: box-shadow 0.15s; }
+    .trip-entry:hover { box-shadow: 0 2px 10px rgba(15,26,48,0.1); }
+    .trip-hdr { padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.6rem; }
+    .trip-name { font-weight: 700; color: var(--navy); font-size: 0.9rem; }
+    .trip-meta { font-size: 0.73rem; color: var(--muted); }
+    .trip-author { font-size: 0.72rem; color: var(--accent); background: var(--accent-light); border-radius: 20px; padding: 1px 8px; white-space: nowrap; }
+    .trip-cities { padding: 0.45rem 1rem 0.6rem; display: flex; flex-wrap: wrap; gap: 0.35rem; border-top: 1px solid #f0f2f8; }
+    .trip-city-chip { background: #f0f4ff; color: var(--navy); border-radius: 6px; padding: 3px 10px; font-size: 0.76rem; font-weight: 500; }
+    .trip-warning { font-size: 0.73rem; color: #9a6f00; padding: 0.35rem 1rem; background: #fffbef; border-top: 1px solid #f5e8b0; display: flex; align-items: flex-start; gap: 0.4rem; }
+
+    /* Empty state */
+    .empty-state { color: #bcc4d8; text-align: center; padding: 3rem 1rem; }
+    .empty-state i { font-size: 2rem; display: block; margin-bottom: 0.6rem; }
+    .empty-state p { font-size: 0.82rem; margin: 0; }
+
+    /* Misc */
+    .btn-xs { font-size: 0.72rem !important; padding: 0.2rem 0.6rem !important; border-radius: 6px !important; }
+    textarea.auto-grow { resize: vertical; min-height: 80px; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     SIDEBAR
+══════════════════════════════════════════════════════════════════ -->
+<aside class="rs-sidebar">
+  <div class="rs-sidebar-logo">
+    <img src="logo-blue.png" alt="Rail Stories">
+    <span class="rs-logo-badge">Admin</span>
+  </div>
+
+  <nav class="rs-sidebar-nav">
+    <button class="rs-nav-item active" data-section="soumissions">
+      <i class="bi bi-inbox"></i>
+      <span>Soumissions</span>
+      <span class="badge-count" id="jf-count" style="display:none">0</span>
+    </button>
+    <button class="rs-nav-item" data-section="voyages">
+      <i class="bi bi-globe-europe-africa"></i>
+      <span>Voyages publiés</span>
+    </button>
+    <button class="rs-nav-item" data-section="bonsplans">
+      <i class="bi bi-tag"></i>
+      <span>Bons plans carte</span>
+    </button>
+  </nav>
+
+  <div class="rs-sidebar-footer">
+    <div class="rs-status-row">
+      <span class="rs-dot" id="gh-dot"></span>
+      <span>GitHub</span>
+    </div>
+    <div class="rs-status-row">
+      <span class="rs-dot" id="jf-dot"></span>
+      <span>JotForm</span>
+    </div>
+    <button class="rs-config-btn" data-bs-toggle="modal" data-bs-target="#settingsModal">
+      <i class="bi bi-gear-fill"></i> Configuration
+    </button>
+  </div>
+</aside>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════════════════════════════ -->
+<main class="rs-main">
+
+  <!-- ── SECTION: Soumissions ── -->
+  <div class="rs-section active" id="section-soumissions">
+    <div class="rs-section-bar">
+      <div>
+        <div class="rs-section-title">Soumissions JotForm</div>
+        <div class="rs-section-subtitle">Revue et publication des récits reçus</div>
+      </div>
+      <div class="ms-auto d-flex gap-2">
+        <button class="btn btn-sm btn-outline-secondary" id="btn-new">
+          <i class="bi bi-plus-lg me-1"></i>Nouveau
+        </button>
+        <button class="btn btn-sm btn-primary" id="btn-load-jf">
+          <i class="bi bi-arrow-clockwise me-1"></i>Charger JotForm
+        </button>
+      </div>
+    </div>
+
+    <div class="rs-body">
+      <div class="rs-grid">
+
+        <!-- JotForm list -->
+        <div class="panel panel-sm">
+          <div class="panel-hdr"><i class="bi bi-inbox"></i> Soumissions</div>
+          <div class="panel-scroll" id="sub-list">
+            <div class="empty-state"><i class="bi bi-cloud-download"></i><p>Configure JotForm<br>puis clique « Charger »</p></div>
+          </div>
+        </div>
+
+        <!-- Raw detail -->
+        <div class="panel panel-md">
+          <div class="panel-hdr"><i class="bi bi-card-text"></i> Données brutes</div>
+          <div class="panel-scroll" id="raw-detail">
+            <div class="empty-state"><i class="bi bi-cursor"></i><p>Sélectionne une<br>soumission</p></div>
+          </div>
+        </div>
+
+        <!-- Editor -->
+        <div class="panel panel-lg" style="min-width:0">
+          <div class="panel-hdr"><i class="bi bi-pencil-square"></i> Éditeur de récit</div>
+          <div class="ed-wrap" id="editor-area">
+            <div class="empty-state"><i class="bi bi-map"></i><p>Sélectionne une soumission<br>ou clique « Nouveau »</p></div>
+          </div>
+          <div class="status-bar d-none" id="editor-statusbar">
+            <span id="save-msg" class="text-muted" style="font-size:0.78rem"></span>
+            <div class="ms-auto d-flex gap-2">
+              <button class="btn btn-sm btn-outline-secondary" id="btn-preview">
+                <i class="bi bi-eye me-1"></i>Aperçu JSON
+              </button>
+              <button class="btn btn-sm btn-success" id="btn-publish">
+                <i class="bi bi-cloud-arrow-up me-1"></i>Publier
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: Voyages ── -->
+  <div class="rs-section" id="section-voyages">
+    <div class="rs-section-bar">
+      <div>
+        <div class="rs-section-title">Voyages publiés</div>
+        <div class="rs-section-subtitle">Gérer les récits en ligne sur GitHub</div>
+      </div>
+      <div class="ms-auto">
+        <button class="btn btn-sm btn-primary" id="btn-load-trips">
+          <i class="bi bi-arrow-clockwise me-1"></i>Charger depuis GitHub
+        </button>
+      </div>
+    </div>
+
+    <div class="rs-body" style="overflow-y:auto">
+      <div id="trips-list">
+        <div class="empty-state"><i class="bi bi-cloud-download"></i><p>Clique « Charger depuis GitHub »<br>pour voir tous les voyages publiés</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: Bons plans ── -->
+  <div class="rs-section" id="section-bonsplans">
+    <div class="rs-section-bar">
+      <div>
+        <div class="rs-section-title">Bons plans — Carte interactive</div>
+        <div class="rs-section-subtitle">Gérer les bons plans par pays affichés sur la carte</div>
+      </div>
+      <div class="ms-auto d-flex gap-2">
+        <button class="btn btn-sm btn-outline-secondary" id="btn-bp-new">
+          <i class="bi bi-plus-lg me-1"></i>Nouveau pays
+        </button>
+        <button class="btn btn-sm btn-primary" id="btn-load-bp">
+          <i class="bi bi-arrow-clockwise me-1"></i>Charger depuis GitHub
+        </button>
+      </div>
+    </div>
+
+    <div class="rs-body">
+      <div class="rs-grid">
+
+        <!-- Country list -->
+        <div class="panel panel-sm">
+          <div class="panel-hdr"><i class="bi bi-list-ul"></i> Pays</div>
+          <div class="panel-scroll" id="bp-country-list">
+            <div class="empty-state"><i class="bi bi-cloud-download"></i><p>Charge depuis GitHub<br>pour voir les pays</p></div>
+          </div>
+        </div>
+
+        <!-- Bon plan editor -->
+        <div class="panel panel-lg" style="min-width:0">
+          <div class="panel-hdr"><i class="bi bi-pencil-square"></i> Éditeur</div>
+          <div class="ed-wrap" id="bp-editor-area">
+            <div class="empty-state"><i class="bi bi-cursor"></i><p>Sélectionne un pays<br>ou clique « Nouveau pays »</p></div>
+          </div>
+          <div class="status-bar d-none" id="bp-statusbar">
+            <span id="bp-msg" class="text-muted" style="font-size:0.78rem"></span>
+            <div class="ms-auto">
+              <button class="btn btn-sm btn-success" id="btn-bp-publish">
+                <i class="bi bi-cloud-arrow-up me-1"></i>Publier
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     SETTINGS MODAL
+══════════════════════════════════════════════════════════════════ -->
+<div class="modal fade" id="settingsModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius:14px;border:none;box-shadow:0 8px 40px rgba(15,26,48,0.2)">
+      <div class="modal-header" style="border-bottom:1px solid var(--border);padding:1.25rem 1.5rem">
+        <h5 class="modal-title fw-bold" style="font-size:1rem">Configuration</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row g-3">
+          <div class="col-12"><div class="section-sep">GitHub</div></div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Owner</label>
+            <input type="text" class="form-control form-control-sm" id="cfg-gh-owner" placeholder="ex: mathilde-gs">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Nom du repo</label>
+            <input type="text" class="form-control form-control-sm" id="cfg-gh-repo" placeholder="ex: RailStory">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Branche</label>
+            <input type="text" class="form-control form-control-sm" id="cfg-gh-branch" placeholder="main">
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Personal Access Token (PAT)</label>
+            <input type="password" class="form-control form-control-sm" id="cfg-gh-pat" placeholder="ghp_...">
+            <div class="form-text">Permissions : <code>contents:write</code>. <a href="https://github.com/settings/tokens/new" target="_blank">Créer un token →</a></div>
+          </div>
+          <div class="col-12"><div class="section-sep">JotForm</div></div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">API Key JotForm</label>
+            <input type="password" class="form-control form-control-sm" id="cfg-jf-key" placeholder="Clé API JotForm">
+            <div class="form-text"><a href="https://www.jotform.com/myaccount/api" target="_blank">Obtenir la clé API →</a></div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Form ID</label>
+            <input type="text" class="form-control form-control-sm" id="cfg-jf-formid" value="261065258654057">
+          </div>
+          <div class="col-12"><div class="section-sep">Mapping des champs JotForm</div></div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Auteur</label>
+            <input type="text" class="form-control form-control-sm" id="map-author">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Pays</label>
+            <input type="text" class="form-control form-control-sm" id="map-country">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Ville</label>
+            <input type="text" class="form-control form-control-sm" id="map-city">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Récit</label>
+            <input type="text" class="form-control form-control-sm" id="map-narrative">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Bons plans</label>
+            <input type="text" class="form-control form-control-sm" id="map-tips">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:0.78rem">Trajet</label>
+            <input type="text" class="form-control form-control-sm" id="map-route">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="border-top:1px solid var(--border)">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button class="btn btn-primary" id="btn-save-config">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PREVIEW MODAL
+══════════════════════════════════════════════════════════════════ -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius:14px;border:none;box-shadow:0 8px 40px rgba(15,26,48,0.2)">
+      <div class="modal-header" style="border-bottom:1px solid var(--border);padding:1.25rem 1.5rem">
+        <h5 class="modal-title fw-bold" style="font-size:1rem">Aperçu JSON</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-3">
+        <pre id="json-preview" style="font-size:0.76rem;background:#f7f8fc;border-radius:8px;padding:1rem;overflow:auto;max-height:65vh;border:1px solid var(--border)"></pre>
+      </div>
+      <div class="modal-footer" style="border-top:1px solid var(--border)">
+        <button class="btn btn-outline-secondary" id="btn-copy-json"><i class="bi bi-clipboard me-1"></i>Copier</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ─── NAVIGATION ────────────────────────────────────────────────────────────
+document.querySelectorAll('.rs-nav-item[data-section]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.rs-nav-item').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.rs-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + btn.dataset.section).classList.add('active');
+    if (btn.dataset.section === 'voyages' && !cachedTrips) loadTripsFromGitHub();
+    if (btn.dataset.section === 'bonsplans' && !cachedBonsPlans) document.getElementById('btn-load-bp').click();
+  });
+});
+
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const CFG_KEY = 'rs_admin_cfg_v1';
+
+const COUNTRY_NAMES_FR = {
+  // Europe
+  '8':'Albanie','20':'Andorre','40':'Autriche','31':'Azerbaïdjan',
+  '56':'Belgique','70':'Bosnie-Herzégovine','100':'Bulgarie','191':'Croatie',
+  '196':'Chypre','203':'Tchéquie','208':'Danemark','233':'Estonie',
+  '246':'Finlande','250':'France','268':'Géorgie','276':'Allemagne',
+  '300':'Grèce','348':'Hongrie','352':'Islande','372':'Irlande',
+  '380':'Italie','383':'Kosovo','428':'Lettonie','438':'Liechtenstein',
+  '440':'Lituanie','442':'Luxembourg','470':'Malte','498':'Moldavie',
+  '492':'Monaco','807':'Macédoine du Nord','499':'Monténégro','528':'Pays-Bas',
+  '578':'Norvège','616':'Pologne','620':'Portugal','642':'Roumanie',
+  '643':'Russie','674':'Saint-Marin','688':'Serbie','703':'Slovaquie',
+  '705':'Slovénie','724':'Espagne','752':'Suède','756':'Suisse',
+  '792':'Turquie','804':'Ukraine','826':'Royaume-Uni','51':'Arménie',
+  '112':'Biélorussie',
+  // Afrique
+  '12':'Algérie','24':'Angola','204':'Bénin','72':'Botswana',
+  '854':'Burkina Faso','108':'Burundi','132':'Cabo Verde','120':'Cameroun',
+  '140':'Rép. centrafricaine','148':'Tchad','174':'Comores',
+  '180':'Congo (RDC)','178':'Congo','384':'Côte d\'Ivoire','262':'Djibouti',
+  '818':'Égypte','232':'Érythrée','231':'Éthiopie','266':'Gabon',
+  '270':'Gambie','288':'Ghana','324':'Guinée','624':'Guinée-Bissau',
+  '226':'Guinée équatoriale','404':'Kenya','426':'Lesotho','430':'Libéria',
+  '434':'Libye','450':'Madagascar','454':'Malawi','466':'Mali',
+  '478':'Mauritanie','480':'Maurice','504':'Maroc','508':'Mozambique',
+  '516':'Namibie','562':'Niger','566':'Nigéria','646':'Rwanda',
+  '678':'São Tomé-et-Príncipe','686':'Sénégal','694':'Sierra Leone',
+  '706':'Somalie','710':'Afrique du Sud','728':'Soudan du Sud','729':'Soudan',
+  '748':'Eswatini','834':'Tanzanie','768':'Togo','788':'Tunisie',
+  '800':'Ouganda','894':'Zambie','716':'Zimbabwe',
+  // Amériques
+  '28':'Antigua-et-Barbuda','32':'Argentine','44':'Bahamas','52':'Barbade',
+  '84':'Belize','68':'Bolivie','76':'Brésil','124':'Canada',
+  '152':'Chili','170':'Colombie','188':'Costa Rica','192':'Cuba',
+  '214':'Rép. dominicaine','218':'Équateur','222':'El Salvador',
+  '308':'Grenade','320':'Guatemala','328':'Guyana','332':'Haïti',
+  '340':'Honduras','388':'Jamaïque','484':'Mexique','558':'Nicaragua',
+  '591':'Panama','600':'Paraguay','604':'Pérou','659':'Saint-Kitts-et-Névis',
+  '662':'Sainte-Lucie','670':'Saint-Vincent-et-les-Grenadines',
+  '740':'Suriname','780':'Trinité-et-Tobago','840':'États-Unis',
+  '858':'Uruguay','862':'Venezuela',
+  // Asie
+  '4':'Afghanistan','50':'Bangladesh','64':'Bhoutan','96':'Brunéi',
+  '116':'Cambodge','156':'Chine','356':'Inde','360':'Indonésie',
+  '364':'Iran','368':'Irak','376':'Israël','392':'Japon',
+  '400':'Jordanie','398':'Kazakhstan','408':'Corée du Nord','410':'Corée du Sud',
+  '414':'Koweït','417':'Kirghizistan','418':'Laos','422':'Liban',
+  '458':'Malaisie','462':'Maldives','496':'Mongolie','104':'Myanmar',
+  '524':'Népal','512':'Oman','586':'Pakistan','608':'Philippines',
+  '634':'Qatar','682':'Arabie saoudite','702':'Singapour','144':'Sri Lanka',
+  '760':'Syrie','762':'Tadjikistan','764':'Thaïlande','626':'Timor-Leste',
+  '795':'Turkménistan','784':'Émirats arabes unis','860':'Ouzbékistan',
+  '704':'Viêt Nam','887':'Yémen',
+  // Océanie
+  '36':'Australie','242':'Fidji','296':'Kiribati','584':'Îles Marshall',
+  '583':'Micronésie','520':'Nauru','554':'Nouvelle-Zélande','585':'Palaos',
+  '598':'Papouasie-Nouvelle-Guinée','882':'Samoa','90':'Îles Salomon',
+  '776':'Tonga','798':'Tuvalu','548':'Vanuatu',
+};
+
+function loadCfg() {
+  try { return JSON.parse(localStorage.getItem(CFG_KEY)) || {}; } catch { return {}; }
+}
+function saveCfg(cfg) { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
+
+function fillSettingsForm() {
+  const cfg = loadCfg();
+  document.getElementById('cfg-gh-owner').value  = cfg.ghOwner  || 'alexandrequ';
+  document.getElementById('cfg-gh-repo').value   = cfg.ghRepo   || 'train';
+  document.getElementById('cfg-gh-branch').value = cfg.ghBranch || 'main';
+  document.getElementById('cfg-gh-pat').value    = cfg.ghPat    || '';
+  document.getElementById('cfg-jf-key').value    = cfg.jfKey    || '';
+  document.getElementById('cfg-jf-formid').value = cfg.jfFormId || '261065258654057';
+  document.getElementById('map-author').value    = cfg.mapAuthor    || '';
+  document.getElementById('map-country').value   = cfg.mapCountry   || '';
+  document.getElementById('map-city').value      = cfg.mapCity      || '';
+  document.getElementById('map-narrative').value = cfg.mapNarrative || '';
+  document.getElementById('map-tips').value      = cfg.mapTips      || '';
+  document.getElementById('map-route').value     = cfg.mapRoute     || '';
+}
+
+document.getElementById('btn-save-config').addEventListener('click', () => {
+  const cfg = {
+    ghOwner:      document.getElementById('cfg-gh-owner').value.trim(),
+    ghRepo:       document.getElementById('cfg-gh-repo').value.trim(),
+    ghBranch:     document.getElementById('cfg-gh-branch').value.trim() || 'main',
+    ghPat:        document.getElementById('cfg-gh-pat').value.trim(),
+    jfKey:        document.getElementById('cfg-jf-key').value.trim(),
+    jfFormId:     document.getElementById('cfg-jf-formid').value.trim(),
+    mapAuthor:    document.getElementById('map-author').value.trim(),
+    mapCountry:   document.getElementById('map-country').value.trim(),
+    mapCity:      document.getElementById('map-city').value.trim(),
+    mapNarrative: document.getElementById('map-narrative').value.trim(),
+    mapTips:      document.getElementById('map-tips').value.trim(),
+    mapRoute:     document.getElementById('map-route').value.trim(),
+  };
+  saveCfg(cfg);
+  bootstrap.Modal.getInstance(document.getElementById('settingsModal')).hide();
+  updateStatusDots();
+  setMsg('Config enregistrée ✓', 'success');
+});
+
+document.getElementById('settingsModal').addEventListener('show.bs.modal', fillSettingsForm);
+
+function updateStatusDots() {
+  const cfg = loadCfg();
+  document.getElementById('gh-dot').className = 'rs-dot ' + (cfg.ghOwner && cfg.ghRepo && cfg.ghPat ? 'ok' : '');
+  document.getElementById('jf-dot').className = 'rs-dot ' + (cfg.jfKey ? 'ok' : '');
+}
+updateStatusDots();
+
+// ─── GITHUB HELPERS ────────────────────────────────────────────────────────
+function ghDecode(b64) {
+  const bytes = Uint8Array.from(atob(b64.replace(/\n/g, '')), c => c.charCodeAt(0));
+  return JSON.parse(new TextDecoder('utf-8').decode(bytes));
+}
+function ghEncode(obj) {
+  const bytes = new TextEncoder().encode(JSON.stringify(obj, null, 2));
+  return btoa(String.fromCharCode.apply(null, bytes));
+}
+
+function ghHeaders() {
+  const cfg = loadCfg();
+  return { headers: { Authorization: `token ${cfg.ghPat}`, 'Content-Type': 'application/json' }, cfg };
+}
+
+async function ghGetFile(path) {
+  const { headers, cfg } = ghHeaders();
+  const url = `https://api.github.com/repos/${cfg.ghOwner}/${cfg.ghRepo}/contents/${path}?ref=${cfg.ghBranch}`;
+  const res = await fetch(url, { headers });
+  if (res.status === 404) return { sha: null, data: null, headers, cfg };
+  if (!res.ok) throw new Error(`GitHub GET ${path}: ${res.status}`);
+  const json = await res.json();
+  return { sha: json.sha, data: ghDecode(json.content), headers, cfg };
+}
+
+async function ghPutFile(path, data, sha, message) {
+  const { headers, cfg } = ghHeaders();
+  const url = `https://api.github.com/repos/${cfg.ghOwner}/${cfg.ghRepo}/contents/${path}`;
+  const body = { message, content: ghEncode(data), branch: cfg.ghBranch };
+  if (sha) body.sha = sha;
+  const res = await fetch(url, { method: 'PUT', headers, body: JSON.stringify(body) });
+  if (!res.ok) throw new Error(`GitHub PUT ${path}: ${res.status}`);
+}
+
+async function ghPutImage(path, base64Content, message) {
+  const { headers, cfg } = ghHeaders();
+  const url = `https://api.github.com/repos/${cfg.ghOwner}/${cfg.ghRepo}/contents/${path}`;
+  const res = await fetch(url, { method: 'PUT', headers, body: JSON.stringify({ message, content: base64Content, branch: cfg.ghBranch }) });
+  if (!res.ok) throw new Error(`GitHub PUT ${path}: ${res.status}`);
+}
+
+function photoPreviewUrl(path) {
+  const cfg = loadCfg();
+  return `https://raw.githubusercontent.com/${cfg.ghOwner}/${cfg.ghRepo}/${cfg.ghBranch || 'main'}/${path}`;
+}
+
+function photoThumbHTML(path) {
+  return `<div class="photo-thumb" data-photo-path="${path}" style="position:relative;display:inline-block;flex-shrink:0">
+    <img src="${photoPreviewUrl(path)}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;display:block">
+    <button type="button" class="remove-photo" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;padding:0;font-size:0.65rem;line-height:1;border-radius:50%;background:#dc3545;color:#fff;border:none;cursor:pointer">×</button>
+  </div>`;
+}
+
+function bindPhotoRemoveEvents() {
+  document.querySelectorAll('.remove-photo').forEach(btn => {
+    btn.onclick = () => btn.closest('.photo-thumb').remove();
+  });
+}
+
+async function ghGetStories() {
+  const { sha: idxSha, data: codes } = await ghGetFile('stories/index.json');
+  if (!codes) return { stories: {}, indexSha: null, indexCodes: [] };
+  const entries = await Promise.all(
+    codes.map(code => ghGetFile(`stories/${code}.json`).then(({ data }) => [code, data]).catch(() => null))
+  );
+  const stories = Object.fromEntries(entries.filter(Boolean).filter(([,d]) => d));
+  return { stories, indexSha: idxSha, indexCodes: codes };
+}
+
+async function ghPutStory(countryId, entry, isNew, indexSha, indexCodes) {
+  const { sha: storySha } = await ghGetFile(`stories/${countryId}.json`);
+  await ghPutFile(`stories/${countryId}.json`, entry, storySha, `${isNew ? 'Add' : 'Update'} story: ${entry.name || countryId}`);
+  if (isNew) {
+    const newCodes = [...new Set([...indexCodes, countryId])].sort((a,b) => Number(a)-Number(b));
+    await ghPutFile('stories/index.json', newCodes, indexSha, `Update stories index`);
+  }
+}
+
+async function ghDeleteStory(countryId, name, indexSha, indexCodes) {
+  const { sha } = await ghGetFile(`stories/${countryId}.json`);
+  if (sha) {
+    const { headers, cfg } = ghHeaders();
+    await fetch(`https://api.github.com/repos/${cfg.ghOwner}/${cfg.ghRepo}/contents/stories/${countryId}.json`, {
+      method: 'DELETE', headers,
+      body: JSON.stringify({ message: `Remove story: ${name}`, sha, branch: cfg.ghBranch })
+    });
+  }
+  const newCodes = indexCodes.filter(c => c !== countryId);
+  await ghPutFile('stories/index.json', newCodes, indexSha, `Remove ${countryId} from stories index`);
+}
+
+// ─── JOTFORM ───────────────────────────────────────────────────────────────
+let currentSubs = [];
+
+document.getElementById('btn-load-jf').addEventListener('click', loadJotForm);
+
+async function loadJotForm() {
+  const cfg = loadCfg();
+  if (!cfg.jfKey) { alert('Configure ta clé API JotForm d\'abord.'); return; }
+  const btn = document.getElementById('btn-load-jf');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Chargement…';
+  try {
+    const url = `https://api.jotform.com/form/${cfg.jfFormId}/submissions?apiKey=${cfg.jfKey}&limit=50&orderby=created_at,DESC`;
+    const data = await fetch(url).then(r => r.json());
+    if (data.responseCode !== 200) throw new Error(data.message || 'Erreur JotForm');
+    currentSubs = (data.content || []).filter(s => s.status !== 'DELETED');
+    document.getElementById('jf-dot').className = 'rs-dot ok';
+    const badge = document.getElementById('jf-count');
+    badge.textContent = currentSubs.length;
+    badge.style.display = currentSubs.length ? '' : 'none';
+    renderSubList();
+    setMsg(`${currentSubs.length} soumission(s) chargée(s)`, 'success');
+  } catch (e) {
+    document.getElementById('jf-dot').className = 'rs-dot err';
+    setMsg('Erreur JotForm : ' + e.message, 'danger');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-arrow-clockwise me-1"></i>Charger JotForm';
+  }
+}
+
+function renderSubList() {
+  const el = document.getElementById('sub-list');
+  if (!currentSubs.length) {
+    el.innerHTML = '<div class="empty-state"><i class="bi bi-inbox"></i><p>Aucune soumission</p></div>';
+    return;
+  }
+  el.innerHTML = currentSubs.map((s, i) => {
+    const date = new Date(s.created_at).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
+    const answers = Object.values(s.answers || {});
+    const first = answers.find(a => a.answer && typeof a.answer === 'string')?.answer || '';
+    return `<div class="sub-item" data-idx="${i}">
+      <div class="sub-item-date">${date} · #${s.id}</div>
+      <div class="sub-item-name">${s.ip || 'Soumission'}</div>
+      <div class="sub-item-snippet">${first.substring(0, 60)}</div>
+    </div>`;
+  }).join('');
+  el.querySelectorAll('.sub-item').forEach(el => {
+    el.addEventListener('click', () => selectSub(parseInt(el.dataset.idx)));
+  });
+}
+
+function selectSub(idx) {
+  document.querySelectorAll('.sub-item').forEach((el, i) => el.classList.toggle('active', i === idx));
+  renderRawDetail(currentSubs[idx]);
+  populateEditorFromSub(currentSubs[idx]);
+}
+
+function renderRawDetail(sub) {
+  const el = document.getElementById('raw-detail');
+  if (!sub) { el.innerHTML = ''; return; }
+  const date = new Date(sub.created_at).toLocaleString('fr-FR');
+  let html = `<div class="p-3"><div class="mb-2" style="font-size:0.7rem;color:#aaa">ID: ${sub.id} · ${date}</div>`;
+  for (const a of Object.values(sub.answers || {})) {
+    if (!a.answer) continue;
+    const val = typeof a.answer === 'object' ? JSON.stringify(a.answer) : String(a.answer);
+    html += `<div class="field-row">
+      <div class="field-label">${a.name || a.type}</div>
+      <div class="field-val">${val.replace(/\n/g,'<br>')}</div>
+    </div>`;
+  }
+  el.innerHTML = html + '</div>';
+}
+
+// ─── EDITOR ────────────────────────────────────────────────────────────────
+const ICONS = [
+  { icon: 'bi-train-front-fill', label: 'Train' },
+  { icon: 'bi-water',            label: 'Mer/Lac' },
+  { icon: 'bi-sun-fill',         label: 'Soleil' },
+  { icon: 'bi-snow',             label: 'Hiver' },
+  { icon: 'bi-bicycle',          label: 'Vélo' },
+  { icon: 'bi-buildings',        label: 'Ville' },
+  { icon: 'bi-bank',             label: 'Histoire' },
+  { icon: 'bi-palette-fill',     label: 'Art' },
+  { icon: 'bi-cup-hot-fill',     label: 'Café' },
+  { icon: 'bi-gem',              label: 'Joyau' },
+  { icon: 'bi-brightness-high-fill', label: 'Chaleur' },
+  { icon: 'bi-tree-fill',        label: 'Nature' },
+  { icon: 'bi-music-note-beamed', label: 'Musique' },
+  { icon: 'bi-camera-fill',      label: 'Photo' },
+  { icon: 'bi-snow2',            label: 'Neige' },
+];
+const COLORS = [
+  { hex: '#5aa8cc', label: 'Bleu ciel' },
+  { hex: '#c8960c', label: 'Or' },
+  { hex: '#b83060', label: 'Rose' },
+  { hex: '#1c2d52', label: 'Marine' },
+  { hex: '#10318f', label: 'Royal' },
+  { hex: '#c8393b', label: 'Rouge' },
+  { hex: '#2ecc71', label: 'Vert' },
+  { hex: '#e67e22', label: 'Orange' },
+];
+
+function populateEditorFromSub(sub) {
+  const byName = Object.fromEntries(Object.values(sub?.answers || {}).map(a => [a.name, a.answer ?? '']));
+  const get = name => String(byName[name] ?? '');
+
+  const departure = get('q3_textbox1');
+  const destination = get('q4_textbox2');
+  let stopovers = [];
+  try {
+    const raw = byName['q5_widget_ConfigurableList3'];
+    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    if (Array.isArray(parsed)) stopovers = parsed.map(s => s['Nom de la ville']).filter(Boolean);
+  } catch {}
+  const route = [departure, ...stopovers, destination].filter(Boolean).join(' → ');
+
+  let duration = '';
+  try {
+    const raw = byName['dureeTotale'];
+    const d = typeof raw === 'object' ? raw : JSON.parse(raw);
+    duration = d?.hourSelect ? `${d.hourSelect}h${d.minuteSelect || '00'}` : d?.timeInput ? d.timeInput.replace(':', 'h') : '';
+  } catch {}
+
+  const priceRaw = get('q8_number6');
+  const price = priceRaw ? `~${priceRaw.replace('.', ',')} €` : '';
+  const booking = get('q9_textbox7').replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  const tips = get('q19_textarea17').split(/\n\s*\n/).map(t => t.trim()).filter(Boolean);
+
+  // Map city names to country codes for dep/arr
+  const CITY_MAP = {'bruxelles':'56','brussels':'56','paris':'250','lille':'250','bordeaux':'250','toulouse':'250',
+    'nice':'250','lyon':'250','marseille':'250','rome':'380','milan':'380','turin':'380','berlin':'276',
+    'cologne':'276','hambourg':'276','amsterdam':'528','copenhague':'208','varsovie':'616','vienne':'40',
+    'prague':'203','madrid':'724','barcelone':'724','grenade':'724','lisbonne':'620','zurich':'756',
+    'berne':'756','lausanne':'756','stockholm':'752','oslo':'578','helsinki':'246','riga':'428',
+    'moscou':'643','budapest':'348','bruxelles':'56'};
+  const depCode = CITY_MAP[departure.trim().toLowerCase()] || '';
+  const arrCode = CITY_MAP[destination.trim().toLowerCase()] || '';
+
+  showEditor({ author: get('q23_textbox21'), route, depCode, arrCode, stopovers: stopovers.map(s => CITY_MAP[s.toLowerCase()]||'').filter(Boolean), duration, price, booking, narrative: get('q16_textarea14'), tips });
+}
+
+function showEditor(p = {}) {
+  document.getElementById('editor-area').innerHTML = buildEditorHTML(p);
+  document.getElementById('editor-statusbar').classList.remove('d-none');
+  bindEditorEvents();
+  updateIconPreview(0);
+}
+
+function buildEditorHTML(p = {}) {
+  const countryOptions = Object.entries(COUNTRY_NAMES_FR)
+    .sort((a, b) => a[1].localeCompare(b[1], 'fr'))
+    .map(([id, name]) => `<option value="${id}" ${p.countryId === id ? 'selected' : ''}>${name} (${id})</option>`)
+    .join('');
+
+  const citiesHtml = Array.isArray(p.cities) && p.cities.length
+    ? p.cities.map((city, i) => buildCityBlock(i, city)).join('')
+    : buildCityBlock(0, { name: p.cityName || '', tips: p.tips || [] });
+
+  return `
+  <div class="section-sep">Pays & identifiant</div>
+  <div class="row g-2 mb-2">
+    <div class="col-md-8">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Pays</label>
+      <select class="form-select form-select-sm" id="ed-country">
+        <option value="">— Sélectionner —</option>${countryOptions}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Nom affiché</label>
+      <input type="text" class="form-control form-control-sm" id="ed-country-name" value="${p.countryName || ''}">
+    </div>
+  </div>
+  <div class="row g-2 mb-2">
+    <div class="col-md-6">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Auteur</label>
+      <input type="text" class="form-control form-control-sm" id="ed-author" value="${p.author || ''}">
+    </div>
+  </div>
+  <div class="section-sep">Itinéraire</div>
+  <div class="row g-2 mb-2">
+    <div class="col-md-6">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Pays de départ</label>
+      <select class="form-select form-select-sm" id="ed-dep-country">
+        <option value="">— Sélectionner —</option>
+        ${Object.entries(COUNTRY_NAMES_FR).sort((a,b)=>a[1].localeCompare(b[1],'fr')).map(([id,n])=>`<option value="${id}" ${p.depCode===id?'selected':''}>${n}</option>`).join('')}
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Pays d'arrivée</label>
+      <select class="form-select form-select-sm" id="ed-arr-country">
+        <option value="">— Sélectionner —</option>
+        ${Object.entries(COUNTRY_NAMES_FR).sort((a,b)=>a[1].localeCompare(b[1],'fr')).map(([id,n])=>`<option value="${id}" ${p.arrCode===id?'selected':''}>${n}</option>`).join('')}
+      </select>
+    </div>
+  </div>
+  <div class="mb-2">
+    <div class="d-flex align-items-center mb-1">
+      <label class="form-label fw-semibold mb-0" style="font-size:0.76rem">Escales</label>
+      <button class="btn btn-xs btn-outline-secondary ms-2 py-0 px-2" id="btn-add-stopover" style="font-size:0.7rem">+ Ajouter</button>
+    </div>
+    <div id="stopovers-container">${(p.stopovers||[]).length ? (p.stopovers||[]).map((s,i) => {
+      const sopts = Object.entries(COUNTRY_NAMES_FR).sort((a,b)=>a[1].localeCompare(b[1],'fr')).map(([id,n])=>`<option value="${id}" ${s===id?'selected':''}>${n}</option>`).join('');
+      return buildStopoverRow(s, sopts, i);
+    }).join('') : '<p class="text-muted mb-0" style="font-size:0.76rem" id="stopovers-empty">Aucune escale</p>'}</div>
+  </div>
+  <div class="mb-2">
+    <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Route générée</label>
+    <input type="text" class="form-control form-control-sm" id="ed-route" value="${p.route || ''}" placeholder="Auto-générée depuis les pays ci-dessus">
+  </div>
+  <div class="row g-2 mb-2">
+    <div class="col-md-4">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Durée</label>
+      <input type="text" class="form-control form-control-sm" id="ed-duration" value="${p.duration || ''}" placeholder="12h35">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Prix</label>
+      <input type="text" class="form-control form-control-sm" id="ed-price" value="${p.price || ''}" placeholder="~140 €">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Réserver via</label>
+      <input type="text" class="form-control form-control-sm" id="ed-booking" value="${p.booking || ''}">
+    </div>
+  </div>
+  <div class="mb-2">
+    <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Avertissement (optionnel)</label>
+    <input type="text" class="form-control form-control-sm" id="ed-warning" value="${p.warning || ''}" placeholder="ex: Trains suspendus depuis 2022…">
+  </div>
+  <div class="section-sep">Récit narratif</div>
+  <div class="mb-2">
+    <label class="form-label fw-semibold mb-1" style="font-size:0.76rem">Texte <span style="font-weight:400;color:#bbb">(ligne vide = nouveau §)</span></label>
+    <textarea class="form-control form-control-sm auto-grow" id="ed-narrative" rows="6">${p.narrative || ''}</textarea>
+  </div>
+  <div class="section-sep">
+    Photos
+    <button type="button" class="btn btn-xs btn-outline-primary ms-auto py-0 px-2" id="btn-add-photo">+ Ajouter</button>
+  </div>
+  <input type="file" id="photo-file-input" accept="image/*" style="display:none">
+  <div id="photos-container" class="d-flex flex-wrap gap-2 mb-2" style="min-height:1.5rem">
+    ${(p.photos||[]).map(path => photoThumbHTML(path)).join('') || '<p class="text-muted mb-0" style="font-size:0.76rem" id="photos-empty">Aucune photo</p>'}
+  </div>
+  <div class="section-sep">
+    Coups de cœur
+    <button class="btn btn-xs btn-outline-primary ms-auto py-0 px-2" id="btn-add-tip-hl">+ Ajouter</button>
+  </div>
+  <div class="tip-list" id="highlights-container">
+    ${(p.highlights||p.tips||[]).map(t => tipItemHTML(t)).join('') || tipItemHTML('')}
+  </div>`;
+}
+
+function buildCityBlock(idx, p = {}) {
+  const iconOpts = ICONS.map(ic =>
+    `<option value="${ic.icon}" ${(p.icon || 'bi-buildings') === ic.icon ? 'selected' : ''}>${ic.label}</option>`
+  ).join('');
+  const colorOpts = COLORS.map(c =>
+    `<option value="${c.hex}" ${(p.color || '#1c2d52') === c.hex ? 'selected' : ''}>${c.label}</option>`
+  ).join('');
+  const tips = Array.isArray(p.tips) ? p.tips : (p.tips || '').split('\n').filter(t => t.trim());
+  const tipsHtml = tips.length ? tips.map(tipItemHTML).join('') : tipItemHTML('');
+  return `
+  <div class="city-block" data-city="${idx}">
+    <button class="remove-city" onclick="removeCity(${idx})"><i class="bi bi-x-lg"></i></button>
+    <div class="row g-2 mb-2">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.73rem">Ville</label>
+        <input type="text" class="form-control form-control-sm city-name" value="${p.name || ''}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.73rem">Durée depuis BXL</label>
+        <input type="text" class="form-control form-control-sm city-hours" value="${p.hours || ''}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.73rem">Prix</label>
+        <input type="text" class="form-control form-control-sm city-price" value="${p.cityPrice || ''}">
+      </div>
+    </div>
+    <div class="row g-2 mb-2">
+      <div class="col-md-5">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.73rem">Icône</label>
+        <select class="form-select form-select-sm city-icon-sel">${iconOpts}</select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold mb-1" style="font-size:0.73rem">Couleur</label>
+        <select class="form-select form-select-sm city-color-sel">${colorOpts}</select>
+      </div>
+      <div class="col-md-3 d-flex align-items-end">
+        <span class="icon-preview city-icon-preview"><i class="bi ${p.icon || 'bi-buildings'}" style="color:${p.color || '#1c2d52'}"></i></span>
+      </div>
+    </div>
+    <label class="form-label fw-semibold mb-1" style="font-size:0.73rem">Bons plans</label>
+    <div class="tip-list">${tipsHtml}</div>
+    <button class="btn btn-xs btn-outline-secondary mt-1 py-0 px-2 btn-add-tip" style="font-size:0.71rem">+ Conseil</button>
+  </div>`;
+}
+
+function tipItemHTML(val = '') {
+  return `<div class="tip-item">
+    <input type="text" class="form-control form-control-sm tip-input" value="${val.replace(/"/g,'&quot;')}" placeholder="Conseil…">
+    <button class="btn btn-sm btn-link text-danger p-0 remove-tip" style="font-size:0.8rem"><i class="bi bi-dash-circle"></i></button>
+  </div>`;
+}
+
+function buildStopoverRow(value = '', opts = '', idx = 0) {
+  return `<div class="d-flex gap-2 mb-1 stopover-row">
+    <select class="form-select form-select-sm stopover-sel flex-1" style="min-width:0">
+      <option value="">— Escale —</option>${opts.replace(`value="${value}"`, `value="${value}" selected`)}
+    </select>
+    <button class="btn btn-sm btn-link text-danger p-0 remove-stopover" style="font-size:0.85rem"><i class="bi bi-dash-circle"></i></button>
+  </div>`;
+}
+
+function autoRoute() {
+  const dep = COUNTRY_NAMES_FR[document.getElementById('ed-dep-country')?.value] || '';
+  const arr = COUNTRY_NAMES_FR[document.getElementById('ed-arr-country')?.value] || '';
+  const stops = [...document.querySelectorAll('.stopover-sel')].map(s => COUNTRY_NAMES_FR[s.value] || '').filter(Boolean);
+  const parts = [dep, ...stops, arr].filter(Boolean);
+  const routeEl = document.getElementById('ed-route');
+  if (routeEl && parts.length >= 2) routeEl.value = parts.join(' → ');
+}
+
+function bindEditorEvents() {
+  document.getElementById('ed-country').addEventListener('change', function() {
+    document.getElementById('ed-country-name').value = COUNTRY_NAMES_FR[this.value] || '';
+  });
+  document.getElementById('ed-dep-country')?.addEventListener('change', autoRoute);
+  document.getElementById('ed-arr-country')?.addEventListener('change', autoRoute);
+  document.getElementById('btn-add-stopover')?.addEventListener('click', () => {
+    const container = document.getElementById('stopovers-container');
+    const empty = container.querySelector('#stopovers-empty');
+    if (empty) empty.remove();
+    const countryOpts = Object.entries(COUNTRY_NAMES_FR).sort((a,b)=>a[1].localeCompare(b[1],'fr')).map(([id,n])=>`<option value="${id}">${n}</option>`).join('');
+    container.insertAdjacentHTML('beforeend', buildStopoverRow('', countryOpts, container.querySelectorAll('.stopover-row').length));
+    container.querySelectorAll('.remove-stopover').forEach(btn => btn.onclick = () => { btn.closest('.stopover-row').remove(); autoRoute(); });
+    container.querySelectorAll('.stopover-sel').forEach(s => s.addEventListener('change', autoRoute));
+  });
+  document.querySelectorAll('.remove-stopover').forEach(btn => btn.onclick = () => { btn.closest('.stopover-row').remove(); autoRoute(); });
+  document.querySelectorAll('.stopover-sel').forEach(s => s.addEventListener('change', autoRoute));
+  document.getElementById('btn-add-tip-hl')?.addEventListener('click', () => {
+    document.getElementById('highlights-container').insertAdjacentHTML('beforeend', tipItemHTML(''));
+  });
+
+  const photoInput = document.getElementById('photo-file-input');
+  document.getElementById('btn-add-photo')?.addEventListener('click', () => photoInput?.click());
+  photoInput?.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 8 * 1024 * 1024) { setMsg('Photo trop grande (max 8 Mo)', 'warning'); return; }
+    const countryId = document.getElementById('ed-country').value;
+    if (!countryId) { setMsg('Sélectionne d\'abord un pays', 'warning'); return; }
+    const btn = document.getElementById('btn-add-photo');
+    btn.disabled = true; btn.textContent = '…';
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      try {
+        const base64 = ev.target.result.split(',')[1];
+        const ext = file.name.split('.').pop().toLowerCase().replace('jpeg', 'jpg');
+        const path = `stories/img/${countryId}/${Date.now()}.${ext}`;
+        await ghPutImage(path, base64, `Add photo for story ${countryId}`);
+        const container = document.getElementById('photos-container');
+        container.querySelector('#photos-empty')?.remove();
+        container.insertAdjacentHTML('beforeend', photoThumbHTML(path));
+        bindPhotoRemoveEvents();
+        setMsg('Photo ajoutée ✓', 'success');
+      } catch(err) { setMsg('Erreur upload : ' + err.message, 'danger'); }
+      finally { btn.disabled = false; btn.textContent = '+ Ajouter'; photoInput.value = ''; }
+    };
+    reader.readAsDataURL(file);
+  });
+  bindPhotoRemoveEvents();
+}
+
+function bindCityEvents(block) {
+  block.querySelector('.city-icon-sel')?.addEventListener('change', () => updateIconPreview(block));
+  block.querySelector('.city-color-sel')?.addEventListener('change', () => updateIconPreview(block));
+  block.querySelector('.btn-add-tip')?.addEventListener('click', () => {
+    block.querySelector('.tip-list').insertAdjacentHTML('beforeend', tipItemHTML(''));
+  });
+  block.querySelectorAll('.remove-tip').forEach(btn => btn.addEventListener('click', () => btn.closest('.tip-item').remove()));
+}
+
+function updateIconPreview(blockOrIdx) {
+  const block = typeof blockOrIdx === 'number' ? document.querySelector(`[data-city="${blockOrIdx}"]`) : blockOrIdx;
+  if (!block) return;
+  const icon  = block.querySelector('.city-icon-sel')?.value || 'bi-buildings';
+  const color = block.querySelector('.city-color-sel')?.value || '#1c2d52';
+  const p = block.querySelector('.city-icon-preview');
+  if (p) p.innerHTML = `<i class="bi ${icon}" style="color:${color}"></i>`;
+}
+
+window.removeCity = idx => document.querySelector(`[data-city="${idx}"]`)?.remove();
+document.getElementById('btn-new').addEventListener('click', () => showEditor());
+
+// ─── BUILD & PUBLISH ───────────────────────────────────────────────────────
+function narrativeToHtml(text) {
+  const t = text.trim();
+  if (!t) return '';
+  if (t.startsWith('<p>')) return t;
+  return t.split(/\n\s*\n/).map(p => `<p>${p.trim().replace(/\n/g,' ')}</p>`).join('');
+}
+
+function htmlToNarrative(html) {
+  if (!html) return '';
+  return html.replace(/<\/p>\s*<p>/g, '\n\n').replace(/<\/?p[^>]*>/g, '').trim();
+}
+
+function parseIconStr(iconStr) {
+  const cl = iconStr?.match(/bi-([\w-]+)/);
+  const co = iconStr?.match(/color:(#[0-9a-fA-F]{3,6})/);
+  return { icon: cl ? 'bi-' + cl[1] : 'bi-buildings', color: co ? co[1] : '#1c2d52' };
+}
+
+function buildStoryEntry() {
+  const countryId   = document.getElementById('ed-country').value;
+  if (!countryId) throw new Error('Sélectionne un pays');
+  const countryName = document.getElementById('ed-country-name').value.trim();
+  const author      = document.getElementById('ed-author').value.trim();
+  const route       = document.getElementById('ed-route').value.trim();
+  const duration    = document.getElementById('ed-duration').value.trim();
+  const price       = document.getElementById('ed-price').value.trim();
+  const booking     = document.getElementById('ed-booking').value.trim();
+  const warning     = document.getElementById('ed-warning').value.trim();
+  const narrative   = narrativeToHtml(document.getElementById('ed-narrative').value);
+
+  const highlights = [...document.querySelectorAll('.tip-input')].map(i => i.value.trim()).filter(Boolean);
+  const photos = [...document.querySelectorAll('.photo-thumb')].map(t => t.dataset.photoPath).filter(Boolean);
+
+  const entry = { name: countryName };
+  if (warning)   entry.warning   = warning;
+  if (author)    entry.author    = author;
+  if (route)     entry.route     = route;
+  if (duration)  entry.duration  = duration;
+  if (price)     entry.price     = price;
+  if (booking)   entry.booking   = booking;
+  if (narrative) entry.narrative = narrative;
+  if (highlights.length) entry.highlights = highlights;
+  if (photos.length) entry.photos = photos;
+  return { countryId, entry };
+}
+
+document.getElementById('btn-preview').addEventListener('click', () => {
+  try {
+    const { countryId, entry } = buildStoryEntry();
+    document.getElementById('json-preview').textContent = JSON.stringify({ [countryId]: entry }, null, 2);
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('previewModal')).show();
+  } catch (e) { setMsg(e.message, 'danger'); }
+});
+
+document.getElementById('btn-copy-json').addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('json-preview').textContent)
+    .then(() => setMsg('Copié ✓', 'success'));
+});
+
+document.getElementById('btn-publish').addEventListener('click', async () => {
+  const cfg = loadCfg();
+  if (!cfg.ghOwner || !cfg.ghRepo || !cfg.ghPat) { alert('Configure GitHub d\'abord.'); return; }
+  const btn = document.getElementById('btn-publish');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Publication…';
+  try {
+    const { countryId, entry } = buildStoryEntry();
+    const { stories, indexSha, indexCodes } = await ghGetStories();
+    const isNew = !stories[countryId];
+    await ghPutStory(countryId, entry, isNew, indexSha, indexCodes);
+    document.getElementById('gh-dot').className = 'rs-dot ok';
+    setMsg('✓ Publié sur GitHub !', 'success');
+  } catch (e) {
+    document.getElementById('gh-dot').className = 'rs-dot err';
+    setMsg('Erreur : ' + e.message, 'danger');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-cloud-arrow-up me-1"></i>Publier';
+  }
+});
+
+// ─── TRIPS VIEW ────────────────────────────────────────────────────────────
+let cachedTrips = null;
+let cachedTripsIndex = null;
+
+document.getElementById('btn-load-trips').addEventListener('click', loadTripsFromGitHub);
+
+async function loadTripsFromGitHub() {
+  const cfg = loadCfg();
+  if (!cfg.ghOwner || !cfg.ghRepo || !cfg.ghPat) { alert('Configure GitHub d\'abord.'); return; }
+  const btn = document.getElementById('btn-load-trips');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Chargement…';
+  try {
+    const { stories, indexSha, indexCodes } = await ghGetStories();
+    cachedTrips = stories;
+    cachedTripsIndex = { indexSha, indexCodes };
+    renderTripsView(stories);
+    document.getElementById('gh-dot').className = 'rs-dot ok';
+  } catch (e) {
+    document.getElementById('gh-dot').className = 'rs-dot err';
+    document.getElementById('trips-list').innerHTML =
+      `<div class="empty-state"><i class="bi bi-exclamation-triangle"></i><p>${e.message}</p></div>`;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-arrow-clockwise me-1"></i>Charger depuis GitHub';
+  }
+}
+
+function renderTripsView(stories) {
+  const el = document.getElementById('trips-list');
+  const entries = Object.entries(stories);
+  if (!entries.length) {
+    el.innerHTML = '<div class="empty-state"><i class="bi bi-map"></i><p>Aucun voyage publié</p></div>';
+    return;
+  }
+  el.innerHTML = entries
+    .sort((a, b) => (a[1].name || '').localeCompare(b[1].name || '', 'fr'))
+    .map(([id, data]) => {
+      const cities = data.cities || [];
+      const cityChips = cities.map(c => `<span class="trip-city-chip">${c.name}</span>`).join('');
+      const authorBadge = data.author ? `<span class="trip-author"><i class="bi bi-person-fill me-1"></i>${data.author}</span>` : '';
+      const routeMeta = data.route ? `<span class="trip-meta" style="font-size:0.72rem">${data.route}</span>` : '';
+      const warning = data.warning
+        ? `<div class="trip-warning"><i class="bi bi-exclamation-triangle-fill flex-shrink-0"></i>${data.warning}</div>`
+        : '';
+      const hlCount = (data.highlights||[]).length;
+      return `
+      <div class="trip-entry">
+        <div class="trip-hdr">
+          <span class="trip-name">${data.name || id}</span>
+          ${authorBadge}
+          ${routeMeta}
+          ${hlCount ? `<span class="trip-meta" style="color:#b83060"><i class="bi bi-heart-fill me-1"></i>${hlCount} coup${hlCount>1?'s':''} de cœur</span>` : ''}
+          <span class="ms-auto d-flex gap-2">
+            <button class="btn btn-xs btn-outline-primary py-0 px-2" style="font-size:0.73rem" onclick="editTrip('${id}')">
+              <i class="bi bi-pencil me-1"></i>Modifier
+            </button>
+            <button class="btn btn-xs btn-outline-danger py-0 px-2" style="font-size:0.73rem" onclick="deleteTrip('${id}')">
+              <i class="bi bi-trash"></i>
+            </button>
+          </span>
+        </div>
+        ${warning}
+      </div>`;
+    }).join('');
+}
+
+window.editTrip = function(countryId) {
+  const data = cachedTrips?.[countryId];
+  if (!data) return;
+  // Parse route to extract dep/arr/stopovers country codes
+  const routeParts = (data.route || '').split('→').map(s => s.trim());
+  const nameToCode = Object.fromEntries(Object.entries(COUNTRY_NAMES_FR).map(([id,n]) => [n.toLowerCase(), id]));
+  const depCode  = nameToCode[routeParts[0]?.toLowerCase()] || '';
+  const arrCode  = nameToCode[routeParts[routeParts.length-1]?.toLowerCase()] || '';
+  const stopovers = routeParts.slice(1,-1).map(p => nameToCode[p.toLowerCase()]||'').filter(Boolean);
+  document.querySelector('[data-section="soumissions"]').click();
+  showEditor({ countryId, countryName: data.name, author: data.author || '', route: data.route || '',
+    depCode, arrCode, stopovers,
+    duration: data.duration || '', price: data.price || '', booking: data.booking || '',
+    warning: data.warning || '', narrative: htmlToNarrative(data.narrative || ''),
+    highlights: data.highlights || [], photos: data.photos || [] });
+};
+
+window.deleteTrip = async function(countryId) {
+  const name = cachedTrips?.[countryId]?.name || countryId;
+  if (!confirm(`Supprimer « ${name} » ?\nCette action est irréversible.`)) return;
+  try {
+    const { indexSha, indexCodes } = cachedTripsIndex || await ghGetStories().then(r => r);
+    await ghDeleteStory(countryId, name, indexSha, indexCodes);
+    delete cachedTrips[countryId];
+    if (cachedTripsIndex) cachedTripsIndex.indexCodes = cachedTripsIndex.indexCodes.filter(c => c !== countryId);
+    renderTripsView(cachedTrips);
+    document.getElementById('gh-dot').className = 'rs-dot ok';
+  } catch (e) {
+    document.getElementById('gh-dot').className = 'rs-dot err';
+    alert('Erreur : ' + e.message);
+  }
+};
+
+// ─── UTILS ────────────────────────────────────────────────────────────────
+function setMsg(msg, type = 'secondary') {
+  const el = document.getElementById('save-msg');
+  if (!el) return;
+  el.className = `text-${type}`;
+  el.textContent = msg;
+  if (type === 'success') setTimeout(() => { if (el.textContent === msg) el.textContent = ''; }, 4000);
+}
+
+document.addEventListener('click', e => {
+  if (e.target.closest('.remove-tip')) e.target.closest('.tip-item').remove();
+  if (e.target.closest('.city-icon-sel, .city-color-sel')) updateIconPreview(e.target.closest('.city-block'));
+});
+
+// ─── BONS PLANS CARTE ─────────────────────────────────────────────────────────
+let cachedBonsPlans = null;
+let currentBpCode   = null;
+
+async function ghGetBonsPlans() {
+  const cfg = loadCfg();
+  const apiBase = `https://api.github.com/repos/${cfg.ghOwner}/${cfg.ghRepo}/contents/bons-plans.json`;
+  const headers = { Authorization: `token ${cfg.ghPat}`, 'Content-Type': 'application/json' };
+  const res = await fetch(`${apiBase}?ref=${cfg.ghBranch}`, { headers });
+  if (res.status === 404) return { sha: null, data: {}, headers, apiBase, cfg };
+  if (!res.ok) throw new Error(`GitHub GET: ${res.status}`);
+  const json = await res.json();
+  return { sha: json.sha, data: ghDecode(json.content), headers, apiBase, cfg };
+}
+
+async function ghPutBonsPlans(data, sha, message, headers, apiBase, cfg) {
+  const body = { message, content: ghEncode(data), branch: cfg.ghBranch };
+  if (sha) body.sha = sha;
+  const res = await fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify(body) });
+  if (!res.ok) throw new Error(`GitHub PUT: ${res.status}`);
+}
+
+document.getElementById('btn-load-bp').addEventListener('click', async () => {
+  const cfg = loadCfg();
+  if (!cfg.ghOwner || !cfg.ghRepo || !cfg.ghPat) { alert('Configure GitHub d\'abord.'); return; }
+  const btn = document.getElementById('btn-load-bp');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Chargement…';
+  try {
+    const { data } = await ghGetBonsPlans();
+    cachedBonsPlans = data;
+    renderBpCountryList();
+    document.getElementById('gh-dot').className = 'rs-dot ok';
+  } catch (e) {
+    document.getElementById('gh-dot').className = 'rs-dot err';
+    alert('Erreur : ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-arrow-clockwise me-1"></i>Charger depuis GitHub';
+  }
+});
+
+function renderBpCountryList() {
+  const el = document.getElementById('bp-country-list');
+  const entries = Object.entries(cachedBonsPlans || {});
+  if (!entries.length) {
+    el.innerHTML = '<div class="empty-state"><i class="bi bi-tag"></i><p>Aucun bon plan</p></div>';
+    return;
+  }
+  el.innerHTML = entries
+    .sort((a, b) => (COUNTRY_NAMES_FR[a[0]] || a[0]).localeCompare(COUNTRY_NAMES_FR[b[0]] || b[0], 'fr'))
+    .map(([code, tips]) => `
+      <div class="sub-item d-flex align-items-center" data-code="${code}">
+        <div style="flex:1;min-width:0">
+          <div class="sub-item-name">${COUNTRY_NAMES_FR[code] || code}</div>
+          <div class="sub-item-snippet">${tips.length} bon${tips.length !== 1 ? 's' : ''} plan${tips.length !== 1 ? 's' : ''}</div>
+        </div>
+        <button class="btn btn-link p-0 ms-2 text-danger bp-delete-country" data-code="${code}" style="font-size:0.8rem;opacity:0.4" title="Supprimer ce pays">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    `).join('');
+  el.querySelectorAll('.sub-item').forEach(item => {
+    item.addEventListener('click', e => {
+      if (e.target.closest('.bp-delete-country')) return;
+      selectBpCountry(item.dataset.code);
+    });
+  });
+  el.querySelectorAll('.bp-delete-country').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.stopPropagation();
+      const code = btn.dataset.code;
+      const name = COUNTRY_NAMES_FR[code] || code;
+      if (!confirm(`Supprimer tous les bons plans pour « ${name} » ?\nCette action sera effective après publication.`)) return;
+      delete cachedBonsPlans[code];
+      if (currentBpCode === code) {
+        currentBpCode = null;
+        document.getElementById('bp-editor-area').innerHTML = '<div class="empty-state"><i class="bi bi-cursor"></i><p>Sélectionne un pays<br>ou clique « Nouveau pays »</p></div>';
+        document.getElementById('bp-statusbar').classList.add('d-none');
+      }
+      renderBpCountryList();
+      setBpMsg('Pays retiré — clique Publier pour enregistrer', 'warning');
+      document.getElementById('bp-statusbar').classList.remove('d-none');
+    });
+  });
+}
+
+function selectBpCountry(code) {
+  currentBpCode = code;
+  document.querySelectorAll('#bp-country-list .sub-item').forEach(el => el.classList.toggle('active', el.dataset.code === code));
+  showBpEditor(code, cachedBonsPlans[code] || []);
+}
+
+function showBpEditor(code, tips) {
+  const countryOpts = Object.entries(COUNTRY_NAMES_FR)
+    .sort((a, b) => a[1].localeCompare(b[1], 'fr'))
+    .map(([id, name]) => `<option value="${id}" ${id === code ? 'selected' : ''}>${name}</option>`)
+    .join('');
+
+  const tipsHtml = tips.map((t, i) => buildBpTipBlock(i, t)).join('');
+
+  document.getElementById('bp-editor-area').innerHTML = `
+    <div class="section-sep">Pays</div>
+    <div class="mb-3">
+      <select class="form-select form-select-sm" id="bp-country-sel">
+        <option value="">— Sélectionner —</option>${countryOpts}
+      </select>
+    </div>
+    <div class="section-sep">
+      Bons plans
+      <button class="btn btn-xs btn-outline-primary ms-auto py-0 px-2" id="btn-bp-add-tip">+ Ajouter</button>
+    </div>
+    <div id="bp-tips-container">${tipsHtml || '<div class="text-muted" style="font-size:0.8rem;padding:0.5rem 0">Aucun bon plan — clique + Ajouter</div>'}</div>
+  `;
+
+  document.getElementById('bp-statusbar').classList.remove('d-none');
+
+  document.getElementById('bp-country-sel').addEventListener('change', function() {
+    currentBpCode = this.value;
+  });
+  document.getElementById('btn-bp-add-tip').addEventListener('click', () => {
+    const container = document.getElementById('bp-tips-container');
+    const placeholder = container.querySelector('.text-muted');
+    if (placeholder) placeholder.remove();
+    const idx = container.querySelectorAll('.bp-tip-block').length;
+    container.insertAdjacentHTML('beforeend', buildBpTipBlock(idx, {}));
+  });
+}
+
+function buildBpTipBlock(idx, t = {}) {
+  return `
+  <div class="city-block bp-tip-block" data-tip="${idx}">
+    <button class="remove-city" onclick="this.closest('.bp-tip-block').remove()"><i class="bi bi-x-lg"></i></button>
+    <div class="mb-2">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.73rem">Titre</label>
+      <input type="text" class="form-control form-control-sm bp-label" value="${(t.label || '').replace(/"/g,'&quot;')}" placeholder="Ex: BahnCard">
+    </div>
+    <div class="mb-2">
+      <label class="form-label fw-semibold mb-1" style="font-size:0.73rem">Description</label>
+      <textarea class="form-control form-control-sm bp-desc" rows="2" placeholder="Courte description…">${t.desc || ''}</textarea>
+    </div>
+    <div>
+      <label class="form-label fw-semibold mb-1" style="font-size:0.73rem">URL</label>
+      <input type="url" class="form-control form-control-sm bp-url" value="${(t.url || '').replace(/"/g,'&quot;')}" placeholder="https://…">
+    </div>
+  </div>`;
+}
+
+document.getElementById('btn-bp-new').addEventListener('click', () => {
+  currentBpCode = null;
+  document.querySelectorAll('#bp-country-list .sub-item').forEach(el => el.classList.remove('active'));
+  showBpEditor('', []);
+});
+
+document.getElementById('btn-bp-publish').addEventListener('click', async () => {
+  const cfg = loadCfg();
+  if (!cfg.ghOwner || !cfg.ghRepo || !cfg.ghPat) { alert('Configure GitHub d\'abord.'); return; }
+
+  const code = currentBpCode || document.getElementById('bp-country-sel')?.value;
+  if (!code) { setBpMsg('Sélectionne un pays', 'danger'); return; }
+
+  const tips = [...document.querySelectorAll('.bp-tip-block')].map(block => ({
+    label: block.querySelector('.bp-label')?.value.trim() || '',
+    desc:  block.querySelector('.bp-desc')?.value.trim() || '',
+    url:   block.querySelector('.bp-url')?.value.trim() || '',
+  })).filter(t => t.label);
+
+  const btn = document.getElementById('btn-bp-publish');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Publication…';
+  try {
+    const { sha, data, headers, apiBase, cfg: c } = await ghGetBonsPlans();
+    if (tips.length > 0) {
+      data[code] = tips;
+    } else {
+      delete data[code];
+    }
+    const countryName = COUNTRY_NAMES_FR[code] || code;
+    await ghPutBonsPlans(data, sha, `Update bons plans: ${countryName}`, headers, apiBase, c);
+    cachedBonsPlans = data;
+    renderBpCountryList();
+    if (tips.length > 0) selectBpCountry(code);
+    document.getElementById('gh-dot').className = 'rs-dot ok';
+    setBpMsg('✓ Publié sur GitHub !', 'success');
+  } catch (e) {
+    document.getElementById('gh-dot').className = 'rs-dot err';
+    setBpMsg('Erreur : ' + e.message, 'danger');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-cloud-arrow-up me-1"></i>Publier';
+  }
+});
+
+function setBpMsg(msg, type = 'secondary') {
+  const el = document.getElementById('bp-msg');
+  if (!el) return;
+  el.className = `text-${type}`;
+  el.textContent = msg;
+  if (type === 'success') setTimeout(() => { if (el.textContent === msg) el.textContent = ''; }, 4000);
+}
+</script>
+</body>
+</html>

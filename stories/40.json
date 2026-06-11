@@ -1,0 +1,22 @@
+{
+  "name": "Autriche",
+  "author": "Mathilde G.",
+  "route": "Prague → Bratislava → Vienne",
+  "duration": "04h10",
+  "price": "~72 €",
+  "booking": "Interrail + achat en gare",
+  "narrative": "<p>Petit tour de 3 capitales européennes !</p><p>Prague, Vienne, et Bratislava, sont 3 capitales assez rapprochées, ce qui permet de facilement voyager de l'une à l'autre (surtout Bratislava, qui se trouve à moins d'une heure de train de Vienne). De Prague à Vienne : 4h10 de train (compris dans mon Interrail). De Vienne à Bratislava : l'aller-retour était à 19 EUR, je n'ai donc pas activé un jour de voyage car c'était moins intéressant.</p><p>La bonne nouvelle ? Prague et Vienne sont directement accessibles en train de nuit depuis Bruxelles (avec European Sleeper pour Prague et Night Jet pour Vienne).</p><p>Chacune de ces villes a un charme qui lui est propre. À Prague (capitale de la République Tchèque), on retrouve une superposition de styles, où les clochers médiévaux et les palais baroques côtoient des monuments et installations plus modernes (comme la maison Dansante ou la tête tournante de Kafka). À Vienne (capitale de l'Autriche), on se perd entre palais impériaux et boulevards majestueux, tandis que Bratislava (capitale de la Slovaquie) se montre plus discrète mais regorge d'adresses intéressantes.</p>",
+  "highlights": [
+    "Le mur Lennon et ses slogans engagés (Prague)",
+    "Les jardins franciscains (Prague)",
+    "Le Café Impérial au style art nouveau (Prague)",
+    "Le Smetana Hall (Prague)",
+    "Déguster un Trdelník — pâtisserie à la broche enrobée de sucre (Prague)",
+    "Monter au Château de Prague",
+    "Lacinka — crêpes salées et sucrées, délicieuses et à petit prix (Bratislava)",
+    "Klástorný pivovar — église désacralisée reconvertie en microbrasserie, bryndzové halušky au menu (Bratislava)",
+    "Se poser au bord du Danube, au pied du Château de Bratislava",
+    "Les jardins présidentiels (Bratislava)",
+    "Le majestueux Palais du Belvédère (Vienne)"
+  ]
+}

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rail Stories | Récits de voyage en train en Europe</title>
+    <meta name="description" content="Rail Stories rassemble des récits de voyage en train, des bons plans Interrail, des conseils pour les trains de nuit et une carte interactive collaborative." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Rail Stories" />
+    <meta name="keywords" content="voyage en train, récits de voyage, Interrail, trains de nuit, voyage Europe train, carte voyage train, bons plans train" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="canonical" href="https://railstories.eu/" />
+    <link rel="alternate" hreflang="fr" href="https://railstories.eu/" />
+    <link rel="alternate" hreflang="en" href="https://railstories.eu/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://railstories.eu/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Rail Stories" />
+    <meta property="og:title" content="Rail Stories | Récits de voyage en train en Europe" />
+    <meta property="og:description" content="Découvre des récits de voyage en train, des itinéraires inspirants, des bons plans Interrail et une carte collaborative des expériences ferroviaires." />
+    <meta property="og:url" content="https://railstories.eu/" />
+    <meta property="og:image" content="https://railstories.eu/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Rail Stories, récits de voyage en train en Europe" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rail Stories | Récits de voyage en train en Europe" />
+    <meta name="twitter:description" content="Récits, carte interactive et bons plans pour voyager en train en Europe." />
+    <meta name="twitter:image" content="https://railstories.eu/og-image.png" />
+    <meta name="theme-color" content="#0d2337" />
+    <link rel="preload" href="STTitanRegular.woff2" as="font" type="font/woff2" crossorigin />
+
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Custom -->
+    <link rel="stylesheet" href="styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://railstories.eu/#website",
+            "url": "https://railstories.eu/",
+            "name": "Rail Stories",
+            "description": "Récits de voyage en train, bons plans ferroviaires et carte interactive collaborative.",
+            "inLanguage": "fr",
+            "publisher": { "@id": "https://railstories.eu/#organization" }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://railstories.eu/#organization",
+            "name": "Rail Stories",
+            "url": "https://railstories.eu/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://railstories.eu/logo-blue.png",
+              "width": 363,
+              "height": 314
+            },
+            "email": "contact@railstories.eu"
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://railstories.eu/#webpage",
+            "url": "https://railstories.eu/",
+            "name": "Rail Stories | Récits de voyage en train en Europe",
+            "description": "Découvre des récits de voyage en train, des bons plans Interrail, des conseils pour les trains de nuit et une carte collaborative.",
+            "isPartOf": { "@id": "https://railstories.eu/#website" },
+            "about": [
+              "voyage en train",
+              "Interrail",
+              "trains de nuit",
+              "voyage bas-carbone",
+              "récits de voyage"
+            ],
+            "inLanguage": "fr"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+
+    <!-- ═══ NAVBAR ═══════════════════════════════════════════════════════════════ -->
+    <nav class="navbar navbar-expand-lg rs-navbar" id="site-header">
+      <div class="container-xl">
+        <a class="navbar-brand" href="#accueil">
+          <img src="logo-blue.png" alt="Rail Stories" height="44" class="d-block">
+        </a>
+        <button class="navbar-toggler border-0" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Navigation">
+          <i class="bi bi-list text-white fs-4"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto gap-1">
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#accueil">Accueil</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#carte">La carte des voyages</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#bons-plans">Le wagon des bons plans</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#je-monte">Je monte à bord</a></li>
+            <li class="nav-item"><a class="nav-link rs-nav-link" href="#contact">Contact</a></li>
+            <li class="nav-item d-flex align-items-center ps-2">
+              <a href="/en/" class="rs-lang-btn"><i class="bi bi-translate me-1"></i>EN</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══ HERO ══════════════════════════════════════════════════════════════════ -->
+    <section id="accueil" class="rs-hero">
+      <video class="rs-hero-video" autoplay muted loop playsinline preload="auto">
+        <source src="IMG_2314.MOV" type="video/mp4">
+      </video>
+      <div class="container rs-hero-inner">
+        <div class="rs-hero-content">
+          <h1 class="mb-3">
+            <img src="Logo_hero.svg" alt="Rail Stories" class="rs-hero-logo">
+          </h1>
+          <!-- <p class="rs-hero-tagline mb-5">des récits qui prennent le train</p> -->
+          <p class="rs-hero-desc mb-5">
+            Bienvenue sur Rail Stories ! Ici, on partage nos récits et expériences de voyage en train pour rendre nos souvenirs vivants, on s'inspire mutuellement et on s'échange nos coups de cœur et bons plans, tous réunis sur une carte interactive.
+          </p>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="#carte" class="btn btn-warning rounded-pill fw-bold px-4">
+              <i class="bi bi-map me-1"></i>Explorer la carte
+            </a>
+            <button class="btn rs-btn-outline-hero rounded-pill fw-bold px-4" data-bs-toggle="modal" data-bs-target="#shareModal">
+              <i class="bi bi-pencil-square me-1"></i>Partager mon voyage
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="rs-hero-scene" aria-hidden="true">
+        <svg viewBox="0 0 1600 850" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="rs-scene-svg">
+          <defs><style>
+            .rl  { fill:none; stroke-linecap:round; stroke-linejoin:round; }
+            .lbl { fill:rgba(255,255,255,0.58); font-family:'Inter',Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:.02em; }
+          </style></defs>
+
+          <!-- Yellow: SNCF France -->
+          <polyline class="rl" stroke="#f5d34c" stroke-width="2.5" points="300,370 390,440 465,520 480,592 547,577"/>
+          <polyline class="rl" stroke="#f5d34c" stroke-width="2.5" points="390,440 562,440 682,456"/>
+          <polyline class="rl" stroke="#f5d34c" stroke-width="2"   points="390,440 295,552 362,582 255,592"/>
+          <polyline class="rl" stroke="#f5d34c" stroke-width="1.5" stroke-dasharray="6,5" points="255,592 377,647 195,667"/>
+
+          <!-- Purple: Thalys / Eurostar -->
+          <polyline class="rl" stroke="#b55ff5" stroke-width="2.5" points="300,370 457,387 472,342"/>
+          <polyline class="rl" stroke="#b55ff5" stroke-width="2"   points="457,387 532,382"/>
+          <polyline class="rl" stroke="#b55ff5" stroke-width="1.5" stroke-dasharray="8,5" points="457,387 532,382 592,400 742,338 772,400"/>
+
+          <!-- Blue: German ICE -->
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2.5" points="632,308 742,338 982,352"/>
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2.5" points="532,382 592,400 682,456 842,456 922,477"/>
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2"   points="592,400 742,338"/>
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2"   points="742,338 772,400 842,456"/>
+          <polyline class="rl" stroke="#5aa8cc" stroke-width="2"   points="632,308 712,257"/>
+
+          <!-- Teal: Trenitalia Italy -->
+          <polyline class="rl" stroke="#1abc9c" stroke-width="2.5" points="547,577 607,530"/>
+          <polyline class="rl" stroke="#1abc9c" stroke-width="2.5" points="607,530 672,575 707,637 722,682"/>
+          <polyline class="rl" stroke="#1abc9c" stroke-width="2"   points="607,530 702,530"/>
+          <polyline class="rl" stroke="#1abc9c" stroke-width="2"   points="607,530 587,474 682,456"/>
+
+          <!-- Orange: Eastern Europe -->
+          <polyline class="rl" stroke="#e67e22" stroke-width="2"   points="842,456 782,510 827,520 962,544"/>
+          <polyline class="rl" stroke="#e67e22" stroke-width="2"   points="982,352 1122,285 1082,224"/>
+          <polyline class="rl" stroke="#e67e22" stroke-width="2"   stroke-dasharray="8,4" points="1082,224 1197,304 1522,250"/>
+          <polyline class="rl" stroke="#e67e22" stroke-width="1.5" points="922,477 1147,560"/>
+
+          <!-- Red: Balkans -->
+          <polyline class="rl" stroke="#e74c3c" stroke-width="2"   points="922,477 962,544 1057,600 1242,650"/>
+          <polyline class="rl" stroke="#e74c3c" stroke-width="1.5" points="1057,600 1042,662 1067,730"/>
+
+          <!-- Green: Nordic -->
+          <polyline class="rl" stroke="#2ecc71" stroke-width="2"   points="222,250 300,370"/>
+          <polyline class="rl" stroke="#2ecc71" stroke-width="2"   points="712,257 902,157"/>
+          <polyline class="rl" stroke="#2ecc71" stroke-width="1.5" points="632,308 472,342"/>
+
+          <!-- Pink: Night trains -->
+          <polyline class="rl" stroke="#e91e8c" stroke-width="1.5" stroke-dasharray="8,5" points="390,440 457,387 532,382 592,400 742,338"/>
+          <polyline class="rl" stroke="#e91e8c" stroke-width="1.5" stroke-dasharray="6,4" points="842,456 587,474 517,510 390,440"/>
+
+          <!-- Lilac: Swiss connections -->
+          <polyline class="rl" stroke="#a29bfe" stroke-width="2"   points="467,520 517,510 587,474"/>
+          <polyline class="rl" stroke="#a29bfe" stroke-width="1.5" points="517,510 607,530"/>
+
+          <!-- City dots — major hubs -->
+          <circle cx="390" cy="440" r="5.5" fill="#fff"/>
+          <circle cx="457" cy="387" r="5"   fill="#fff"/>
+          <circle cx="742" cy="338" r="5"   fill="#fff"/>
+          <circle cx="842" cy="456" r="5"   fill="#fff"/>
+          <circle cx="682" cy="456" r="5"   fill="#fff"/>
+          <circle cx="607" cy="530" r="5"   fill="#fff"/>
+          <!-- medium -->
+          <circle cx="300" cy="370" r="4"   fill="#fff"/>
+          <circle cx="472" cy="342" r="3.5" fill="#fff"/>
+          <circle cx="532" cy="382" r="3.5" fill="#fff"/>
+          <circle cx="592" cy="400" r="3.5" fill="#fff"/>
+          <circle cx="632" cy="308" r="3.5" fill="#fff"/>
+          <circle cx="982" cy="352" r="4"   fill="#fff"/>
+          <circle cx="922" cy="477" r="4"   fill="#fff"/>
+          <circle cx="587" cy="474" r="3.5" fill="#fff"/>
+          <circle cx="517" cy="510" r="3"   fill="#fff"/>
+          <circle cx="467" cy="520" r="3"   fill="#fff"/>
+          <circle cx="480" cy="592" r="3"   fill="#fff"/>
+          <circle cx="547" cy="577" r="3"   fill="#fff"/>
+          <circle cx="702" cy="530" r="3"   fill="#fff"/>
+          <circle cx="672" cy="575" r="3"   fill="#fff"/>
+          <circle cx="707" cy="637" r="3.5" fill="#fff"/>
+          <circle cx="722" cy="682" r="3"   fill="#fff"/>
+          <circle cx="712" cy="257" r="3.5" fill="#fff"/>
+          <circle cx="222" cy="250" r="3"   fill="#fff"/>
+          <circle cx="902" cy="157" r="3"   fill="#fff"/>
+          <circle cx="772" cy="400" r="3.5" fill="#fff"/>
+          <circle cx="782" cy="510" r="3"   fill="#fff"/>
+          <circle cx="827" cy="520" r="3"   fill="#fff"/>
+          <circle cx="962" cy="544" r="3.5" fill="#fff"/>
+          <circle cx="1057" cy="600" r="3"  fill="#fff"/>
+          <circle cx="1147" cy="560" r="3.5" fill="#fff"/>
+          <circle cx="1242" cy="650" r="3"  fill="#fff"/>
+          <circle cx="1042" cy="662" r="3"  fill="#fff"/>
+          <circle cx="1067" cy="730" r="3"  fill="#fff"/>
+          <circle cx="1082" cy="224" r="3"  fill="#fff"/>
+          <circle cx="1122" cy="285" r="3"  fill="#fff"/>
+          <circle cx="1197" cy="304" r="3"  fill="#fff"/>
+          <circle cx="1522" cy="250" r="4"  fill="#fff"/>
+          <circle cx="295"  cy="552" r="3"  fill="#fff"/>
+          <circle cx="362"  cy="582" r="3"  fill="#fff"/>
+          <circle cx="255"  cy="592" r="3"  fill="#fff"/>
+          <circle cx="377"  cy="647" r="3.5" fill="#fff"/>
+          <circle cx="195"  cy="667" r="3.5" fill="#fff"/>
+
+          <!-- City labels -->
+          <g class="lbl">
+            <text x="390" y="430" text-anchor="middle">Paris</text>
+            <text x="457" y="377" text-anchor="middle">Bruxelles</text>
+            <text x="752" y="328" text-anchor="start">Berlin</text>
+            <text x="842" y="446" text-anchor="middle">Wien</text>
+            <text x="682" y="446" text-anchor="middle">München</text>
+            <text x="607" y="520" text-anchor="middle">Milano</text>
+            <text x="312" y="360" text-anchor="start">London</text>
+            <text x="482" y="332" text-anchor="middle">Amsterdam</text>
+            <text x="522" y="374" text-anchor="start">Köln</text>
+            <text x="602" y="390" text-anchor="start">Frankfurt</text>
+            <text x="632" y="298" text-anchor="middle">Hamburg</text>
+            <text x="990" y="342" text-anchor="middle">Warszawa</text>
+            <text x="922" y="467" text-anchor="middle">Budapest</text>
+            <text x="597" y="464" text-anchor="start">Zürich</text>
+            <text x="455" y="512" text-anchor="end">Lyon</text>
+            <text x="492" y="604" text-anchor="middle">Marseille</text>
+            <text x="559" y="569" text-anchor="start">Nice</text>
+            <text x="714" y="520" text-anchor="start">Venezia</text>
+            <text x="717" y="627" text-anchor="middle">Roma</text>
+            <text x="712" y="247" text-anchor="middle">København</text>
+            <text x="222" y="240" text-anchor="middle">Edinburgh</text>
+            <text x="902" y="147" text-anchor="middle">Stockholm</text>
+            <text x="772" y="390" text-anchor="middle">Praha</text>
+            <text x="962" y="534" text-anchor="middle">Beograd</text>
+            <text x="1057" y="590" text-anchor="middle">Sofia</text>
+            <text x="1147" y="550" text-anchor="middle">Bucharest</text>
+            <text x="1252" y="640" text-anchor="middle">Istanbul</text>
+            <text x="1082" y="214" text-anchor="middle">Rīga</text>
+            <text x="1522" y="240" text-anchor="middle">Moskva</text>
+            <text x="377"  y="637" text-anchor="middle">Barcelona</text>
+            <text x="195"  y="657" text-anchor="middle">Madrid</text>
+            <text x="283"  y="544" text-anchor="end">Bordeaux</text>
+            <text x="372"  y="574" text-anchor="end">Toulouse</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══ BENTO INTRO ════════════════════════════════════════════════════════════ -->
+    <section class="py-5 rs-section-light border-bottom">
+      <div class="container-xl">
+        <div class="row g-3">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="card rs-bento-card h-100 p-1">
+              <div class="card-body p-4 d-flex flex-column">
+                <i class="bi bi-map-fill text-warning mb-3" style="font-size:1.75rem"></i>
+                <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Une carte interactive</h6>
+                <p class="text-muted small mb-0">Chaque pays coloré sur la carte cache des récits de voyage et/ou des bons plans. Clique pour les découvrir.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="card rs-bento-card h-100 p-1">
+              <div class="card-body p-4 d-flex flex-column">
+                <i class="bi bi-ticket-perforated-fill text-warning mb-3" style="font-size:1.75rem"></i>
+                <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Un espace de ressources</h6>
+                <p class="text-muted small mb-0">Le wagon des bons plans rassemble et met en commun les meilleures astuces, recommandations et informations qui existent déjà pour mieux s'y retrouver.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="card rs-bento-card h-100 p-1">
+              <div class="card-body p-4 d-flex flex-column">
+                <i class="bi bi-people-fill text-warning mb-3" style="font-size:1.75rem"></i>
+                <h6 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Un projet collaboratif</h6>
+                <p class="text-muted small mb-0">Un espace vivant nourri par les récits, conseils et expériences de chacun·e.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CARTE DES VOYAGES ══════════════════════════════════════════════════════ -->
+    <section id="carte" class="py-5 rs-map-section">
+      <div class="container-xl">
+        <div class="mb-4">
+          <span class="badge rounded-pill rs-badge-kicker mb-2">
+            <i class="bi bi-globe-europe-africa me-1"></i>Communauté
+          </span>
+          <h2 class="rs-heading">La carte des voyages</h2>
+          <p class="text-muted" style="max-width:600px">
+            Cette carte est interactive et collaborative ; il te suffit de cliquer sur les pays qui t'intéressent pour y voir les récits de voyages en train.
+          </p>
+        </div>
+
+        <div class="row g-3 align-items-start">
+          <div class="col-12">
+            <div class="card border-0 overflow-hidden rounded-4 rs-map-card">
+              <div id="map" aria-label="Carte interactive des voyages en train"></div>
+              <div class="card-footer border-0 rs-map-footer small">
+                <i class="bi bi-cursor me-1"></i>Les pays colorés ont des récits et/ou des bons plans — clique pour les découvrir.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 flex-wrap mt-4">
+          <button class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#shareModal">
+            <i class="bi bi-pencil me-1"></i>Partager mon récit
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ WAGON DES BONS PLANS ═══════════════════════════════════════════════════ -->
+    <section id="bons-plans" class="py-5 rs-section-light border-top">
+      <div class="container-xl">
+
+        <!-- Section header -->
+        <div class="mb-5" style="max-width:640px">
+          <span class="badge rounded-pill rs-badge-kicker rs-badge-kicker-light mb-2">
+            <i class="bi bi-ticket-perforated me-1"></i>Ressources
+          </span>
+          <h2 class="rs-heading">Le wagon des bons plans</h2>
+          <p class="text-muted">
+            Bienvenue dans le wagon des bons plans ! Parce que le prix d'un billet peut parfois nous faire hésiter (oui, on a tous.tes déjà choisi le bus vert pomme pour économiser quelques euros), tu trouveras ici les meilleures astuces et ressources pour voyager en train à moindre coût.
+          </p>
+          <p class="text-muted fst-italic small mb-0">
+            <i class="bi bi-info-circle me-1"></i>Cette page est également collaborative ! Si tu as des bons plans à partager, n'hésite pas à
+            <a href="#contact">m'envoyer un message</a>.
+          </p>
+        </div>
+
+        <!-- ── Billets à prix réduits et promotions ───────────────────────── -->
+        <div class="card rs-bento-card mb-4 p-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge rounded-pill rs-badge-pink">Promotions</span>
+              <h3 class="rs-bp-heading">Billets à prix réduits et promotions</h3>
+            </div>
+            <div class="d-flex flex-column gap-3 mb-4">
+              <div class="rs-resource-card">
+                <div class="rs-rc-title"><a href="https://snap.eurostar.com/" target="_blank" rel="noopener" class="text-decoration-none" style="color:var(--rs-navy)">Eurostar Snap</a></div>
+                <p class="rs-rc-desc mb-1">Une option très intéressante pour voyager à petit prix vers Paris, Londres, ou Amsterdam.</p>
+                <p class="rs-rc-desc mb-1"><strong>Le principe :</strong></p>
+                <ul class="rs-rc-desc ps-3 mb-1">
+                  <li>tu choisis un jour et une plage horaire (matin ou après-midi/soir) au maximum 12 jours avant ton départ</li>
+                  <li>ton horaire est confirmé 48h à l'avance — vérifie les infos sur leur site</li>
+                </ul>
+                <p class="rs-rc-desc mb-0">C'est la solution idéale si tu es flexible, avec des prix souvent bien plus bas que les billets classiques.</p>
+              </div>
+              <div class="rs-resource-card">
+                <div class="rs-rc-title"><a href="https://www.ouigo.com/services-train-ouigo/ouigoswap" target="_blank" rel="noopener" class="text-decoration-none" style="color:var(--rs-navy)">OUIGOSWAP</a></div>
+                <p class="rs-rc-desc mb-1">Plateforme permettant :</p>
+                <ul class="rs-rc-desc ps-3 mb-1">
+                  <li>de revendre un billet que tu ne peux plus utiliser</li>
+                  <li>d'en acheter un à prix réduit</li>
+                </ul>
+                <p class="rs-rc-desc mb-0">Particulièrement utile pour les trajets de dernière minute.</p>
+              </div>
+              <a href="https://www.europeansleeper.eu/fr/last-minute" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">European Sleeper — Dernière minute</div>
+                <p class="rs-rc-desc mb-0">La compagnie de trains de nuit propose également des trajets à prix réduits si achetés en dernière minute. Ça vaut toujours la peine d'y jeter un coup d'œil.</p>
+              </a>
+            </div>
+            <h6 class="fw-bold mb-2" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--rs-royal)">Autres bons plans à garder en tête</h6>
+            <ul class="text-muted ps-3 mb-0">
+              <li>Surveiller les ventes flash SNCF / DB / Trenitalia / Ouigo, etc.</li>
+              <li>Réserver tôt pour les trains populaires</li>
+              <li>Comparer les billets via <a href="https://www.thetrainline.com/fr" target="_blank" rel="noopener">Trainline</a> ou <a href="https://www.raileurope.com/fr" target="_blank" rel="noopener">Rail Europe</a>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ── Pass & cartes de réductions ───────────────────────────────── -->
+        <div class="mb-4 px-1 d-flex align-items-center gap-3">
+          <span class="badge rounded-pill rs-badge-pink">Pass</span>
+          <h3 class="rs-bp-heading">Pass &amp; cartes de réductions</h3>
+        </div>
+
+        <!-- Interrail -->
+        <div class="card rs-bento-card mb-4 p-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge rounded-pill rs-badge-pink">Europe</span>
+              <h3 class="rs-bp-heading">Interrail</h3>
+            </div>
+            <p class="text-muted">
+              On ne le présente plus, bien que ses avantages restent encore méconnus ! Car oui, le pass Interrail ce n'est pas que pour les jeunes. Il existe quatre catégories d'âge (enfant, jeune, adulte, senior), ce qui le rend accessible à presque tout le monde. Si tu prévois de faire plus qu'un simple aller-retour à une destination un peu lointaine, il devient très intéressant financièrement.
+            </p>
+            <p class="text-muted">
+              L'un des grands avantages d'Interrail, c'est aussi sa flexibilité. tu n'es pas obligé·e de voyager plusieurs jours d'affilée. Par exemple, avec un pass 4 jours sur 1 mois, tu peux voyager à ton rythme, même un jour par semaine.
+            </p>
+            <h6 class="fw-bold mb-2 mt-4" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--rs-royal)">Avant de partir</h6>
+            <ul class="text-muted ps-3">
+              <li>Une fois acheté, le pass est valable 1 an avant activation</li>
+              <li>N'active pas ton pass trop tôt → active-le uniquement le jour où tu es sûr·e de voyager</li>
+              <li>Si tu as 27 ans → ton pass "jeune" doit être activé avant le jour de ton 28e anniversaire, même s'il a été acheté il y a moins d'un an.</li>
+              <li>Il y a en général des promotions deux fois par an (en hiver et en été) → c'est le meilleur moment pour acheter ton pass !</li>
+            </ul>
+            <h6 class="fw-bold mb-2 mt-3" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--rs-royal)">Utilisation au quotidien</h6>
+            <ul class="text-muted ps-3">
+              <li>Télécharge l'application <a href="https://www.interrail.eu/fr/plan-your-trip/tips-and-tricks/rail-planner-app" target="_blank" rel="noopener">Rail Planner</a> et ajoute-y ton pass mobile.</li>
+              <li>Tous tes trajets doivent être ajoutés dans l'application Rail Planner</li>
+              <li>Il faut ensuite les lier à ton pass avant de monter dans le train</li>
+              <li>L'application est globalement très bien faite et t'accompagne étape par étape</li>
+            </ul>
+            <h6 class="fw-bold mb-2 mt-3" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--rs-royal)">Quelques repères de prix</h6>
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <div class="p-3 bg-light border rounded-3 d-flex justify-content-between align-items-center">
+                  <div><span class="fw-semibold">4 jours / 1 mois</span><br/><small class="text-muted">12–27 ans</small></div>
+                  <div class="text-end"><strong class="text-dark">212 €</strong><br/><small class="text-muted">~53 €/jour</small></div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-light border rounded-3 d-flex justify-content-between align-items-center">
+                  <div><span class="fw-semibold">5 jours / 1 mois</span><br/><small class="text-muted">28–59 ans</small></div>
+                  <div class="text-end"><strong class="text-dark">318 €</strong><br/><small class="text-muted">~64 €/jour</small></div>
+                </div>
+              </div>
+            </div>
+            <h6 class="fw-bold mb-2 mt-3" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--rs-royal)">Conseils pratiques</h6>
+            <ul class="text-muted ps-3 mb-4">
+              <li>Vérifie les réservations obligatoires à l'avance pour éviter les mauvaises surprises (notamment en France et en Allemagne, surtout en période estivale), c'est indiqué sur l'application d'Interrail. Tu peux réserver ton siège via <a href="https://www.raileurope.com/" target="_blank" rel="noopener">Rail Europe</a> ou directement auprès des compagnies ferroviaires.</li>
+              <li>En Suisse, privilégie des temps de correspondances courts (tu peux modifier ça dans les paramètres de l'application) : le réseau est extrêmement fiable</li>
+            </ul>
+            <div class="d-flex gap-2 flex-wrap">
+              <a href="https://www.interrail.eu/fr" target="_blank" rel="noopener" class="btn btn-dark btn-sm rounded-pill">
+                <i class="bi bi-box-arrow-up-right me-1"></i>Site Interrail
+              </a>
+              <a href="https://www.interrail.eu/en/interrail-passes/deals" target="_blank" rel="noopener" class="btn btn-dark btn-sm rounded-pill">
+                <i class="bi bi-tag me-1"></i>Promotions
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Offres par pays -->
+        <div class="card rs-bento-card mb-4 p-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge rounded-pill rs-badge-pink">Par pays</span>
+              <h3 class="rs-bp-heading">Offres par pays</h3>
+            </div>
+            <p class="text-muted mb-2">Si tu prévois de voyager beaucoup dans un même pays, trois options s'offrent à toi :</p>
+            <ul class="text-muted ps-3 mb-3">
+              <li><strong>Le pass Interrail national</strong> : il permet de voyager de manière flexible dans un seul pays pendant une période déterminée.</li>
+              <li><strong>Le pass de la compagnie ferroviaire nationale</strong> (lorsqu'il existe) : selon la destination, il peut être plus avantageux qu'un pass Interrail et mieux adapté aux spécificités du réseau local.</li>
+              <li><strong>La carte de réduction de la compagnie ferroviaire</strong> : si tu voyages régulièrement dans ce pays tout au long de l'année — ou si tu y vis — cette option est souvent la plus intéressante pour bénéficier de tarifs réduits sur tes trajets.</li>
+            </ul>
+            <div class="alert rs-alert-info d-flex gap-2 align-items-start mb-4">
+              <i class="bi bi-info-circle-fill flex-shrink-0 mt-1"></i>
+              <div>Lorsque les compagnies nationales proposent leurs propres pass, compare-le toujours avec le pass Interrail du pays car il y a parfois de meilleures offres (et parfois pas) selon ce que tu recherches. Quelques comparaisons à titre d'exemple :
+                <ul class="mb-0 mt-1">
+                  <li><strong>Grande-Bretagne :</strong> <a href="https://www.britrail.com/britrail-passes/" target="_blank" rel="noopener">BritRail Pass</a> — plus intéressant que le <a href="https://www.interrail.eu/fr/interrail-passes/one-country-pass/great-britain" target="_blank" rel="noopener">pass Interrail Grande-Bretagne</a> (ex : si tu as plus de 28 ans, un pass de 3 jours sur le mois te coûtera 199 EUR avec BritRail contre 218 EUR avec Interrail).</li>
+                  <li><strong>Suisse :</strong> tout dépend de ce que tu veux faire sur place. Un <a href="https://www.interrail.eu/fr/interrail-passes/one-country-pass/switzerland" target="_blank" rel="noopener">pass Interrail Suisse</a> de 3 jours coûte 193 EUR vs 283 EUR avec le <a href="https://www.myswitzerland.com/fr-fr/planification/offres/swiss-travel-pass/" target="_blank" rel="noopener">Swiss Travel Pass</a> — mais ces 90 EUR de différence sont justifiés par de nombreux avantages (500 musées gratuits, réductions remontées mécaniques, transports publics illimités).</li>
+                  <li><strong>Italie :</strong> le <a href="https://www.trenitalia.com/it/offerte_e_servizi/italia-in-tour.html" target="_blank" rel="noopener">pass Trenitalia</a> de 3 jours coûte 139 EUR vs 165 EUR avec le <a href="https://www.interrail.eu/fr/interrail-passes/one-country-pass/italy" target="_blank" rel="noopener">pass Interrail Italie</a>, mais avec moins de flexibilité (valable 7 jours après activation contre 30 pour Interrail).</li>
+                </ul>
+              </div>
+            </div>
+            <h6 class="fw-bold mb-2" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--rs-royal)">Autres pistes utiles</h6>
+            <ul class="text-muted ps-3 mb-0">
+              <li>Certaines compagnies privées, comme <a href="https://www.europeansleeper.eu/passes" target="_blank" rel="noopener">European Sleeper</a>, proposent aussi des pass intéressants pour les voyageurs.euses régulier.ère.s.</li>
+              <li>Les offres low-cost comme celles de OUIGO peuvent être très compétitives sur certaines lignes.</li>
+              <li>Une nouvelle ligne de train low-cost, reliant Paris à Berlin (en passant par Amsterdam) sera opérationnelle dès décembre 2026 : <a href="https://govolta.nl/nl/" target="_blank" rel="noopener">GoVolta</a>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ── Trains de nuit — dark card ─────────────────────────────────── -->
+        <div class="card rs-bento-featured rounded-4 mb-4 p-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge rounded-pill rs-badge-kicker">Nuit sur les rails</span>
+              <h3 class="rs-bp-heading text-white">Trains de nuit</h3>
+            </div>
+            <p style="color:rgba(255,255,255,0.7)">
+              Voyager de nuit permet d'optimiser son temps et souvent de réduire les coûts, en remplaçant une nuit d'hôtel. Même si le billet est parfois plus cher, l'équilibre global reste intéressant, surtout avec un pass Interrail, où la réservation peut coûter autour de 20 €.
+            </p>
+            <div class="alert rs-alert-yellow d-flex gap-2 align-items-start mb-3">
+              <i class="bi bi-stars flex-shrink-0 mt-1"></i>
+              <div><strong>Astuce train de nuit + Interrail :</strong> si tu as voyagé toute la journée et prends un train de nuit le soir même, pas besoin d'activer un jour de voyage supplémentaire. Un très très bon deal.</div>
+            </div>
+            <p style="color:rgba(255,255,255,0.7)" class="mb-1">
+              <strong class="text-white">À noter :</strong> Il existe des wagons réservés aux femmes ; il suffit de cocher l'option lors de la réservation.
+            </p>
+            <p style="color:rgba(255,255,255,0.7)" class="mb-3">
+              L'application Rail Planner ne met pas toujours en avant les trains de nuit → pense à activer le filtre dédié dans les paramètres.
+            </p>
+            <h6 class="text-white fw-bold mb-2 mt-3" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;">À savoir</h6>
+            <ul style="color:rgba(255,255,255,0.7)" class="ps-3 mb-3">
+              <li>une réservation est presque toujours obligatoire</li>
+              <li>plusieurs niveaux de confort existent (siège, couchette, cabine privée)</li>
+              <li>dans certains pays, il peut être demandé de présenter une réservation imprimée → vérifie toujours avant le départ</li>
+            </ul>
+            <p style="color:rgba(255,255,255,0.7)" class="mb-3">
+              Pour toutes les actualités sur les trains de nuit et la carte des connexions :
+              <a href="https://back-on-track.eu/fr/" target="_blank" rel="noopener" style="color:var(--rs-sky)"><strong>back-on-track.eu</strong></a>
+            </p>
+            <p class="fw-semibold text-white mb-2">Quelques liaisons avec le train de nuit Intercités SNCF depuis Paris :</p>
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <a href="https://www.sncf-connect.com/train/trajet/paris/toulouse" target="_blank" rel="noopener" class="badge rounded-pill rs-night-badge text-decoration-none"><i class="bi bi-moon me-1"></i>Paris → Toulouse</a>
+              <a href="https://www.sncf-connect.com/train/trajet/paris/montpellier" target="_blank" rel="noopener" class="badge rounded-pill rs-night-badge text-decoration-none"><i class="bi bi-moon me-1"></i>Paris → Montpellier</a>
+              <a href="https://www.sncf-connect.com/train/trajet/paris/bayonne" target="_blank" rel="noopener" class="badge rounded-pill rs-night-badge text-decoration-none"><i class="bi bi-moon me-1"></i>Paris → Bayonne</a>
+              <a href="https://www.sncf-connect.com/train/trajet/paris/nice" target="_blank" rel="noopener" class="badge rounded-pill rs-night-badge text-decoration-none"><i class="bi bi-moon me-1"></i>Paris → Nice</a>
+            </div>
+            <p class="fw-semibold text-white mb-2">D'autres liaisons depuis Bruxelles :</p>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+              <a href="https://www.b-europe.com/FR/Trains/Nightjet" target="_blank" rel="noopener" class="badge rounded-pill rs-night-badge text-decoration-none"><i class="bi bi-moon me-1"></i>Bruxelles → Vienne (OBB)</a>
+              <a href="https://www.europeansleeper.eu/fr" target="_blank" rel="noopener" class="badge rounded-pill rs-night-badge text-decoration-none"><i class="bi bi-moon me-1"></i>Bruxelles → Prague (European Sleeper)</a>
+            </div>
+            <a href="https://back-on-track.eu/fr/" target="_blank" rel="noopener" class="btn btn-sm rs-btn-sky rounded-pill">
+              <i class="bi bi-box-arrow-up-right me-1"></i>back-on-track.eu
+            </a>
+          </div>
+        </div>
+
+        <!-- ── Planifier son itinéraire ────────────────────────────────────── -->
+        <div class="card rs-bento-card mb-4 p-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge rounded-pill rs-badge-pink">Planification</span>
+              <h3 class="rs-bp-heading">Planifier son itinéraire</h3>
+            </div>
+            <p class="text-muted mb-4">"Bon, tout ça c'est bien sympa, mais je vais où ?" Planifier un itinéraire peut sembler complexe, mais de nombreux outils existent pour t'aider à imaginer le voyage en train de tes rêves !</p>
+            <div class="d-flex flex-column gap-2">
+              <a href="https://www.seat61.com/" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Seat61</div>
+                <p class="rs-rc-desc">Le site de référence pour comprendre les trajets en train partout dans le monde. Design un peu daté, mais le contenu est extrêmement riche et fiable.</p>
+              </a>
+              <a href="https://www.thetrainline.com/fr" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Trainline</div>
+                <p class="rs-rc-desc">Permet de comparer et réserver facilement des billets dans toute l'Europe. Très pratique pour avoir une vue rapide des options disponibles.</p>
+              </a>
+              <a href="https://www.chronotrains.com/fr" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Chronotrains</div>
+                <p class="rs-rc-desc">Montre jusqu'où aller en train depuis une ville donnée selon une durée de trajet définie. Très utile pour trouver des idées.</p>
+              </a>
+              <a href="https://openrailwaymap.org/" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">OpenRailwayMap</div>
+                <p class="rs-rc-desc">Un site un peu "geek" mais qui permet de voir toutes les lignes de train qui existent dans le monde.</p>
+              </a>
+              <a href="https://www.hourrail.com" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Hourrail</div>
+                <p class="rs-rc-desc">Le média du voyage éco-responsable. Plus de 600 itinéraires en train, avec une approche tournée vers le voyage bas-carbone. Une application est également disponible.</p>
+              </a>
+              <a href="https://mollow.co" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Mollow</div>
+                <p class="rs-rc-desc">Une mine d'idées avec une sélection de plus de 700 itinéraires combinant train, vélo et randonnée pour voyager en Europe sans avion.</p>
+              </a>
+              <a href="https://www.facebook.com/groups/InterrailTravelers/" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Groupes Facebook</div>
+                <p class="rs-rc-desc">Même si Facebook c'est old school, rien de tel que des conseils directs via un fil de discussion ! Un que je recommande : <em>Interrail &amp; Eurail Travelers</em>.</p>
+              </a>
+              <a href="https://www.rectoverso.co/guides-pdf" target="_blank" rel="noopener" class="rs-resource-card">
+                <div class="rs-rc-title">Guides et livres</div>
+                <p class="rs-rc-desc">On ne les compte plus non plus, et c'est tant mieux ! Coup de cœur personnel : les guides et fiches Recto-Verso avec randonnées et trajets vélo directement accessibles en train.</p>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══ JE MONTE À BORD ════════════════════════════════════════════════════════ -->
+    <section id="je-monte" class="py-5 rs-section-light border-top">
+      <div class="container-xl">
+        <div class="mb-4" style="max-width:640px">
+          <span class="badge rounded-pill rs-badge-kicker rs-badge-kicker-light mb-2">
+            <i class="bi bi-pencil-square me-1"></i>Contribuer
+          </span>
+          <h2 class="rs-heading">Je monte à bord</h2>
+          <p class="text-muted">Partage ton récit de voyage en train ! Un canevas tout fait t'attend.</p>
+          <button class="btn btn-warning rounded-pill fw-bold px-5 py-3 mt-2"
+            data-bs-toggle="modal" data-bs-target="#shareModal">
+            <i class="bi bi-pencil-square me-2"></i>Ouvrir le formulaire
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CONTACT ════════════════════════════════════════════════════════════════ -->
+    <section id="contact" class="py-5 rs-section-light border-top">
+      <div class="container-xl">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-7">
+            <span class="badge rounded-pill rs-badge-kicker rs-badge-kicker-light mb-2">
+              <i class="bi bi-envelope me-1"></i>Contact
+            </span>
+            <h2 class="rs-heading rs-heading-nowrap">Une question, une idée, un bon plan ?</h2>
+            <!-- <p class="text-muted mb-4">
+              Rail Stories est un projet collaboratif avant tout. N'hésite pas à me contacter pour
+              toute suggestion, contribution, ou simplement pour un message d'une amoureuse du rail à une autre.
+            </p> -->
+            <a href="mailto:contact@railstories.eu" class="btn btn-warning rounded-pill fw-bold px-4">
+              <i class="bi bi-envelope me-1"></i>Envoyer un message
+            </a>
+          </div>
+          <div class="col-lg-4 offset-lg-1">
+            <div class="card border-0 rounded-4 text-white rs-contact-card p-2">
+              <div class="card-body d-flex flex-column gap-3">
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-globe2 fs-5 text-warning flex-shrink-0"></i>
+                  <span class="small fw-semibold">railstories.eu</span>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-envelope fs-5 text-warning flex-shrink-0"></i>
+                  <a href="mailto:contact@railstories.eu" class="small fw-semibold text-decoration-none" style="color:inherit">contact@railstories.eu</a>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-instagram fs-5 text-warning flex-shrink-0"></i>
+                  <a href="https://www.instagram.com/railstories.eu/" target="_blank" rel="noopener" class="small fw-semibold text-decoration-none" style="color:inherit">@railstories.eu</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FOOTER ═════════════════════════════════════════════════════════════════ -->
+    <footer class="rs-footer py-4">
+      <div class="container-xl">
+        <div class="mb-3">
+          <img src="logo-blue.png" alt="Rail Stories" height="64" class="rs-footer-logo mb-1" />
+        </div>
+
+        <button class="btn btn-sm rs-legal-btn rounded-pill mb-3" id="legal-toggle"
+          data-bs-toggle="collapse" data-bs-target="#legalPanels" aria-expanded="false">
+          <i class="bi bi-file-text me-1"></i>Pages légales
+          <i class="bi bi-chevron-down ms-1 rs-chevron"></i>
+        </button>
+
+        <div class="collapse" id="legalPanels">
+          <div class="row g-3 mb-4">
+            <div class="col-lg-4">
+              <div class="rs-legal-card rounded-3 p-3">
+                <h6 class="text-white mb-3">Mentions légales</h6>
+                <p class="rs-legal-text">Le site Railstories.eu est un site de partage d'expériences, de récits et de témoignages autour du voyage en train.</p>
+                <p class="rs-legal-text"><strong class="text-white-50">Éditrice et responsable de publication :</strong> Mathilde Graas<br/><strong class="text-white-50">Contact :</strong> <a href="mailto:contact@railstories.eu" class="text-info">contact@railstories.eu</a></p>
+                <p class="rs-legal-text rs-legal-label">Propriété intellectuelle</p>
+                <p class="rs-legal-text">Sauf mention contraire, les contenus publiés sont protégés par le droit d'auteur.</p>
+                <p class="rs-legal-text">Les contenus soumis par les contributeur·ices restent leur propriété. En publiant un contenu sur Rail Stories, vous autorisez sa publication et sa diffusion sur :</p>
+                <ul class="rs-legal-text ps-3">
+                  <li>le site Railstories.eu (y compris la carte collaborative)</li>
+                  <li>les supports de communication du projet, notamment la page Instagram associée</li>
+                </ul>
+                <p class="rs-legal-text">Les récits peuvent faire l'objet d'une mise en forme éditoriale (corrections mineures, ajustements de style ou d'orthographe) dans le respect du contenu et de l'intention initiale.</p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="rs-legal-card rounded-3 p-3">
+                <h6 class="text-white mb-3">Politique de confidentialité</h6>
+                <p class="rs-legal-text fst-italic">Dernière mise à jour : 22/05/2026</p>
+                <p class="rs-legal-text rs-legal-label">Responsable du traitement</p>
+                <p class="rs-legal-text">Mlle Mathilde Graas — <a href="mailto:contact@railstories.eu" class="text-info">contact@railstories.eu</a></p>
+                <p class="rs-legal-text rs-legal-label">Données collectées</p>
+                <p class="rs-legal-text">Dans le cadre des contributions :</p>
+                <ul class="rs-legal-text ps-3">
+                  <li>Contenu du témoignage</li>
+                  <li>Nom ou pseudonyme</li>
+                </ul>
+                <p class="rs-legal-text">Données techniques :</p>
+                <ul class="rs-legal-text ps-3">
+                  <li>Données de navigation (cookies analytiques Google Analytics si consentement, logs techniques)</li>
+                  <li>Aucune donnée de contact (email) n'est requise pour soumettre un témoignage.</li>
+                </ul>
+                <p class="rs-legal-text rs-legal-label">Base légale</p>
+                <p class="rs-legal-text">Le traitement est fondé sur le consentement de l'utilisateur·ice (soumission volontaire d'un contenu).</p>
+                <p class="rs-legal-text rs-legal-label">Durée de conservation</p>
+                <p class="rs-legal-text">Les contributions sont conservées tant qu'elles restent publiées sur les plateformes de Rail Stories.</p>
+                <p class="rs-legal-text rs-legal-label">Vos droits</p>
+                <p class="rs-legal-text">Conformément au RGPD, vous disposez des droits suivants concernant vos contributions : accès, rectification, suppression.<br/>Vous pouvez exercer ces droits à : <a href="mailto:contact@railstories.eu" class="text-info">contact@railstories.eu</a></p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="rs-legal-card rounded-3 p-3">
+                <h6 class="text-white mb-3">CGU & Cookies</h6>
+                <p class="rs-legal-text rs-legal-label">Conditions générales d'utilisation</p>
+                <p class="rs-legal-text">En publiant un contenu sur Rail Stories, vous garantissez :</p>
+                <ul class="rs-legal-text ps-3">
+                  <li>être l'auteur·ice du contenu</li>
+                  <li>disposer des droits nécessaires (textes, photos, etc.)</li>
+                </ul>
+                <p class="rs-legal-text">Rail Stories se réserve le droit de modérer, refuser ou supprimer tout contenu inapproprié.</p>
+                <p class="rs-legal-text rs-legal-label">Retrait des contributions</p>
+                <p class="rs-legal-text">Pour modifier ou demander la suppression de votre contribution : <a href="mailto:contact@railstories.eu" class="text-info">contact@railstories.eu</a></p>
+                <p class="rs-legal-text rs-legal-label">Cookies</p>
+                <p class="rs-legal-text">Ce site utilise <strong style="color:rgba(255,255,255,0.85)">Google Analytics</strong> (mesure d'audience) avec votre consentement préalable. Aucun cookie publicitaire n'est utilisé. Vous pouvez retirer votre consentement à tout moment en vidant les données de votre navigateur ou en nous contactant.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-top rs-footer-divider pt-3">
+          <p class="rs-footer-copy mb-0">&copy; 2026 Rail Stories. Fait avec <i class="bi bi-heart-fill text-warning small"></i> pour les amoureux·ses du rail.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ═══ MODAL CARTE — récit de voyage ══════════════════════════════════════ -->
+    <div class="modal fade" id="storyModal" tabindex="-1" aria-labelledby="storyModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 rounded-4 overflow-hidden">
+          <div class="modal-header border-0 pb-2 px-4 pt-4" style="background:#f7f7fd">
+            <h5 class="modal-title fw-bold fs-4" id="storyModalTitle" style="font-family:'Playfair Display',Georgia,serif;color:var(--rs-royal)"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
+          <div class="modal-body px-4 py-4" id="storyModalBody"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MODAL — Je monte à bord ══════════════════════════════════════════════ -->
+    <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 rounded-4 overflow-hidden">
+          <div class="modal-header border-0 pb-0 px-4 pt-4">
+            <h5 class="modal-title fw-bold" id="shareModalLabel" style="font-family:'Playfair Display',Georgia,serif">
+              <i class="bi bi-pencil-square me-2 text-warning"></i>Je monte à bord
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
+          <div class="modal-body px-4 py-3">
+
+            <form id="rs-story-form" action="https://submit.jotform.com/submit/261065258654057" method="post" enctype="multipart/form-data" novalidate>
+              <input type="hidden" name="formID" value="261065258654057">
+              <input type="text" name="website" value="" style="display:none" tabindex="-1" autocomplete="off">
+
+              <div class="rs-form-sep"><i class="bi bi-person-fill"></i>Qui es-tu ?</div>
+
+              <div class="mb-3">
+                <label class="rs-form-label">Prénom / pseudonyme <span class="rs-req">*</span></label>
+                <input type="text" name="q23_q23_textbox21" class="rs-form-ctrl" required placeholder="ex: Marie">
+                <p class="rs-form-hint">Il sera utilisé pour la publication de ton récit.</p>
+              </div>
+
+              <div class="rs-form-sep"><i class="bi bi-map"></i>Itinéraire</div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="rs-form-label">Ville et pays de départ <span class="rs-req">*</span></label>
+                  <input type="text" name="q3_q3_textbox1" class="rs-form-ctrl" required placeholder="ex: Bruxelles, Belgique">
+                </div>
+                <div class="col-md-6">
+                  <label class="rs-form-label">Ville et pays d'arrivée final <span class="rs-req">*</span></label>
+                  <input type="text" name="q4_q4_textbox2" class="rs-form-ctrl" required placeholder="ex: Barcelone, Espagne">
+                </div>
+              </div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <label class="rs-form-label">Durée totale du trajet <span class="rs-req">*</span></label>
+                  <input type="text" name="q25_dureeTotale[timeInput]" id="rs-dur-input"
+                         class="rs-form-ctrl" required placeholder="HH:MM" autocomplete="off">
+                  <input type="hidden" name="q25_dureeTotale[hourSelect]" id="rs-dur-h">
+                  <input type="hidden" name="q25_dureeTotale[minuteSelect]" id="rs-dur-m">
+                </div>
+                <div class="col-md-8">
+                  <label class="rs-form-label">Correspondances (villes de passage)</label>
+                  <input type="text" name="q5_q5_widget_ConfigurableList3" class="rs-form-ctrl"
+                         placeholder="ex: Lyon, Bordeaux — séparées par une virgule">
+                </div>
+              </div>
+
+              <div class="rs-form-sep"><i class="bi bi-credit-card"></i>Budget &amp; réservation</div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <label class="rs-form-label">Prix total des billets (€) <span class="rs-req">*</span></label>
+                  <input type="number" name="q8_q8_number6" class="rs-form-ctrl" min="0" max="50000" step="any" required placeholder="ex: 89">
+                </div>
+                <div class="col-md-8">
+                  <label class="rs-form-label">Site de réservation <span class="rs-req">*</span></label>
+                  <input type="text" name="q9_q9_textbox7" class="rs-form-ctrl" required placeholder="ex: raileurope.com, sncf-connect.com…">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="rs-form-label">Voyage effectué avec un pass Interrail ? <span class="rs-req">*</span></label>
+                <div class="rs-radio-group">
+                  <label class="rs-radio-card">
+                    <input type="radio" name="q10_q10_checkbox8[]" value="Oui" required> Oui
+                  </label>
+                  <label class="rs-radio-card">
+                    <input type="radio" name="q10_q10_checkbox8[]" value="Non"> Non
+                  </label>
+                </div>
+              </div>
+
+              <div class="rs-form-sep"><i class="bi bi-journal-text"></i>Récit du voyage</div>
+
+              <div class="mb-3">
+                <label class="rs-form-label">Récit général <span class="rs-req">*</span></label>
+                <textarea name="q16_q16_textarea14" class="rs-form-ctrl" rows="6" required
+                          placeholder="Raconte ton voyage à ta façon — quelques lignes ou un long récit, c'est toi qui décides !"></textarea>
+                <p class="rs-form-hint">Cette partie est libre — chacun·e partage à sa façon.</p>
+              </div>
+
+              <div class="mb-3">
+                <label class="rs-form-label">Tes coups de cœur (culture, cafés, aventure…)</label>
+                <textarea name="q19_q19_textarea17" class="rs-form-ctrl" rows="3"
+                          placeholder="Ce qui a rendu ce voyage unique"></textarea>
+              </div>
+
+              <div class="mb-4">
+                <label class="rs-form-label">Photos / vidéos</label>
+                <input type="file" name="q15_q15_fileupload13[]" class="rs-form-ctrl" multiple
+                       accept=".jpg,.jpeg,.png,.gif,.mp4,.mov">
+                <p class="rs-form-hint">Elles seront publiées avec ton récit sur la page Instagram railstories.eu</p>
+              </div>
+
+              <div class="rs-consent-box mb-4">
+                <input type="checkbox" id="rs-consent" name="q40_consentementA" required
+                       value="En cochant cette case, j'accepte la publication et le partage de mon texte/mes photos sur les plateformes de railstories.eu, conformément à la mention d'information relative à la protection des données personnelles.">
+                <label for="rs-consent" style="cursor:pointer">
+                  En cochant cette case, j'accepte la publication et le partage de mon texte/mes photos sur les plateformes de railstories.eu, conformément à la politique de confidentialité du projet.
+                </label>
+              </div>
+
+              <div id="rs-form-msg" class="alert d-none mb-3" role="alert"></div>
+
+              <button type="submit" class="btn btn-warning rounded-pill fw-bold px-5 py-3 w-100" id="rs-form-submit">
+                <i class="bi bi-send me-2"></i>Envoyer mon récit
+              </button>
+            </form>
+
+            <div id="rs-form-success" class="d-none rs-form-success-state">
+              <i class="bi bi-check-circle-fill rs-ok-icon d-block"></i>
+              <h4 class="fw-bold mb-2" style="font-family:'Playfair Display',Georgia,serif">Merci !</h4>
+              <p class="text-muted">Ton récit a bien été envoyé. Il sera publié prochainement sur la carte collaborative de Rail Stories.</p>
+              <button class="btn btn-outline-secondary rounded-pill px-4 mt-2" id="rs-form-reset">
+                Envoyer un autre récit
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cookie consent banner -->
+    <div id="rs-cookie-banner" style="display:none;" role="dialog" aria-modal="true" aria-label="Consentement aux cookies">
+      <div id="rs-cookie-inner">
+        <div id="rs-cookie-icon">🍪</div>
+        <h2 id="rs-cookie-title">Ce site utilise des cookies</h2>
+        <p id="rs-cookie-text">
+          Rail Stories utilise <strong>Google Analytics</strong> pour mieux comprendre comment vous utilisez le site et améliorer votre expérience. Ces données restent anonymes et ne sont jamais revendues.
+        </p>
+        <button id="rs-cookie-accept" type="button">J'accepte — améliorer le site</button>
+        <button id="rs-cookie-decline" type="button">Continuer sans accepter</button>
+        <p id="rs-cookie-legal"><a href="#legal">Politique de confidentialité</a></p>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+      (function () {
+        var GA_ID = 'G-8ZY0CG311J';
+        function loadGA() {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { window.dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', GA_ID);
+        }
+        var consent = localStorage.getItem('rs_cookie_consent');
+        if (consent === 'accepted') {
+          loadGA();
+        } else if (!consent) {
+          document.getElementById('rs-cookie-banner').style.display = 'block';
+        }
+        document.getElementById('rs-cookie-accept').addEventListener('click', function () {
+          localStorage.setItem('rs_cookie_consent', 'accepted');
+          loadGA();
+          document.getElementById('rs-cookie-banner').style.display = 'none';
+        });
+        document.getElementById('rs-cookie-decline').addEventListener('click', function () {
+          localStorage.setItem('rs_cookie_consent', 'declined');
+          document.getElementById('rs-cookie-banner').style.display = 'none';
+        });
+      })();
+    </script>
+  </body>
+</html>

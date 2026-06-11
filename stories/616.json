@@ -1,0 +1,21 @@
+{
+  "name": "Pologne",
+  "author": "Mathilde Gs",
+  "route": "Bruxelles → Cologne → Berlin → Varsovie",
+  "duration": "12h35",
+  "price": "~140 €",
+  "booking": "Trainline",
+  "narrative": "<p>Je démarre tôt de Bruxelles (6h20), pour éviter les retards de la Deutsche Bahn (la compagnie ferroviaire allemande, connue pour être très peu ponctuelle). Après un rapide changement de train à Cologne, j'arrive à Berlin juste à temps pour le lunch, que je prends à la gare.</p><p>La gare d'Ostbahnhof ne se trouve qu'à quelques mètres de la « East Side Gallery » (vestiges du mur de Berlin), et je profite donc de mes 45 minutes d'attente pour aller m'y balader. Ensuite, je ne suis plus qu'à un train (5 heures) de ma destination finale. Petit bonus des trains polonais : une distribution d'eau gratuite — plate ou pétillante, au choix !</p><p>À Varsovie, j'arrive à la gare qui se trouve juste à côté du Palais de la culture et de la science (un bâtiment de style communiste, aussi appelé le cadeau controversé de Staline), direction mon hôtel capsule pour y passer le weekend !</p>",
+  "highlights": [
+    "Musée de l'insurrection — incontournable, prévoir ~2h",
+    "La vieille ville (Stare Miasto) — reconstituée après la Seconde Guerre mondiale, avec ses châteaux",
+    "Église Sainte-Croix — le cœur de Chopin est scellé dans un pilier",
+    "Praga, le vieux quartier ouvrier — de Zabkowska jusqu'à la rivière",
+    "Monument aux héros du ghetto, angle des rues Anielewizca et Zamenhofa",
+    "Bar Zabkowski (Praga) — « bar à lait » communiste : zurek, bortsch et pierogi à prix mini",
+    "Fabryka Norblina — foodcourt dans une ancienne usine réhabilitée",
+    "Cukiernia Pawlowicz — les meilleurs pączki (beignets fourrés) de la ville",
+    "E. Wedel — chocolat chaud maison, une institution varsovienne",
+    "30e étage du Palais de la culture et de la science — vue imprenable sur la ville"
+  ]
+}
