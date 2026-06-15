@@ -923,7 +923,7 @@ body { background: #fff; }
   gap: 5px;
   font-style: italic;
 }
-.map-back-control { background: #fff; border-radius: 4px; margin-top: 8px !important; }
+.map-back-control { background: #fff; border-radius: 6px; margin-top: 8px !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 .map-back-control a {
   display: flex;
   align-items: center;

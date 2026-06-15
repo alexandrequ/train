@@ -437,7 +437,7 @@ function initMap() {
   const BackControl = L.Control.extend({
     options: { position: 'topleft' },
     onAdd() {
-      const div = L.DomUtil.create('div', 'map-back-control leaflet-bar');
+      const div = L.DomUtil.create('div', 'map-back-control');
       div.id = 'map-back-btn';
       div.style.display = 'none';
       div.innerHTML = '<a href="#" role="button"><i class="bi bi-arrow-left"></i> Retour</a>';
@@ -484,7 +484,7 @@ function initMap() {
       const coords = (pts && pts.length >= 2) ? pts : routeCoords(data.route);
       if (coords.length < 2) return;
 
-      const line = L.polyline(coords, { color: '#10318f', weight: 4, opacity: 0.85, lineJoin: 'round', lineCap: 'round' });
+      const line = L.polyline(coords, { color: '#10318f', weight: 4, opacity: 0.85, dashArray: '10 6', lineJoin: 'round', lineCap: 'round' });
       const ends  = pts ? [coords[0], coords[coords.length - 1]] : coords;
       const dots  = L.featureGroup();
       [ends[0], ends[ends.length - 1]].forEach(c =>
