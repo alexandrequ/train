@@ -508,7 +508,12 @@ function initMap() {
       dots.addTo(routeGroup);
     });
 
-    map.flyToBounds(countryLayer.getBounds(), { padding: [40, 40], maxZoom: 8, duration: 1 });
+    // Custom bounds for countries with overseas territories that skew the zoom
+    const CUSTOM_BOUNDS = {
+      '250': [[41.3, -5.2], [51.1, 9.6]], // France métropolitaine + Corse
+    };
+    const bounds = CUSTOM_BOUNDS[code] ? L.latLngBounds(CUSTOM_BOUNDS[code]) : countryLayer.getBounds();
+    map.flyToBounds(bounds, { padding: [40, 40], maxZoom: 8, duration: 1 });
     setBackBtn(true);
   }
 
