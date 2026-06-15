@@ -881,6 +881,62 @@ body { background: #fff; }
 .leaflet-control-zoom a { background: #fff !important; color: var(--rs-royal) !important; border-color: rgba(16,49,143,0.12) !important; }
 .leaflet-control-zoom a:hover { background: #edf4ff !important; color: var(--rs-royal) !important; }
 
+/* ─── MAP ROUTE OVERLAY ──────────────────────────────────────────────────── */
+#map-hover-card {
+  position: absolute;
+  z-index: 800;
+  background: #fff;
+  border: 1px solid rgba(16,49,143,0.14);
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(16,49,143,0.16);
+  padding: 11px 15px 10px;
+  min-width: 180px;
+  max-width: 250px;
+  pointer-events: none;
+}
+.map-hc-route {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--rs-royal);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.map-hc-arrow { color: #f5a623; font-weight: 900; }
+.map-hc-via { font-size: 0.75rem; color: #888; margin-top: 2px; }
+.map-hc-meta {
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.map-hc-meta i { color: #c8960c; }
+.map-hc-hint {
+  font-size: 0.73rem;
+  color: #aaa;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-style: italic;
+}
+.map-back-control { background: #fff; border-radius: 4px; margin-top: 8px !important; }
+.map-back-control a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  color: var(--rs-royal) !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.map-back-control a:hover { background: #edf4ff; }
+
 /* ─── BONS PLANS — flat sections ────────────────────────────────────────── */
 .rs-badge-pink {
   background: rgba(210,60,100,0.1) !important;

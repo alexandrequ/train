@@ -414,11 +414,142 @@ function initMap() {
     .addAttribution('© <a href="https://carto.com/attributions">CARTO</a> | © <a href="https://openstreetmap.org/copyright">OSM</a>')
     .addTo(map);
 
-  const FILL_DEFAULT  = '#c8960c';   /* dark yellow — récits et bons plans */
-  const FILL_ACTIVE   = '#8a6500';   /* deeper yellow — actif   */
-  const FILL_INACTIVE = '#e0e0e0';   /* light grey              */
-  const FILL_TIPS     = '#c8960c';   /* same yellow — bons plans */
-  const FILL_TIPS_ACT = '#8a6500';   /* same active — bons plans */
+  const FILL_DEFAULT  = '#c8960c';
+  const FILL_ACTIVE   = '#8a6500';
+  const FILL_INACTIVE = '#e0e0e0';
+  const FILL_TIPS     = '#c8960c';
+  const FILL_TIPS_ACT = '#8a6500';
+
+  // Route overlay state
+  const routeGroup = L.featureGroup().addTo(map);
+  let mapMode = 'world';
+  let activeCountryLayer = null;
+  let activeCountryCode  = null;
+
+  // Floating hover card
+  const mapEl   = document.getElementById('map');
+  const hoverCard = document.createElement('div');
+  hoverCard.id = 'map-hover-card';
+  hoverCard.style.display = 'none';
+  mapEl.appendChild(hoverCard);
+
+  // Back-to-world button as a Leaflet control
+  const BackControl = L.Control.extend({
+    options: { position: 'topleft' },
+    onAdd() {
+      const div = L.DomUtil.create('div', 'map-back-control leaflet-bar');
+      div.id = 'map-back-btn';
+      div.style.display = 'none';
+      div.innerHTML = '<a href="#" role="button"><i class="bi bi-arrow-left"></i> Retour</a>';
+      L.DomEvent.on(div, 'click', e => { L.DomEvent.stopPropagation(e); L.DomEvent.preventDefault(e); resetToWorldView(); });
+      return div;
+    },
+  });
+  map.addControl(new BackControl());
+
+  function setBackBtn(visible) {
+    const el = document.getElementById('map-back-btn');
+    if (el) el.style.display = visible ? '' : 'none';
+  }
+
+  function resetToWorldView() {
+    mapMode = 'world';
+    routeGroup.clearLayers();
+    hoverCard.style.display = 'none';
+    setBackBtn(false);
+    if (activeCountryLayer) {
+      const to = !(STORY_INDEX[activeCountryCode] || []).length && (!!BONS_PLANS[activeCountryCode] || INTERRAIL_COUNTRIES.has(activeCountryCode));
+      activeCountryLayer.setStyle({ fillOpacity: 0.65, fillColor: to ? FILL_TIPS : FILL_DEFAULT });
+      activeCountryLayer = null;
+      activeCountryCode  = null;
+    }
+    map.flyTo([52, 12], 3, { duration: 1 });
+  }
+
+  function showCountryRoutes(code, stories, countryLayer) {
+    // Reset previous active country style
+    if (activeCountryLayer && activeCountryLayer !== countryLayer) {
+      const prevTo = !(STORY_INDEX[activeCountryCode] || []).length && (!!BONS_PLANS[activeCountryCode] || INTERRAIL_COUNTRIES.has(activeCountryCode));
+      activeCountryLayer.setStyle({ fillOpacity: 0.65, fillColor: prevTo ? FILL_TIPS : FILL_DEFAULT });
+    }
+    mapMode = 'country';
+    activeCountryLayer = countryLayer;
+    activeCountryCode  = code;
+    routeGroup.clearLayers();
+    hoverCard.style.display = 'none';
+    countryLayer.setStyle({ fillOpacity: 1, fillColor: FILL_ACTIVE });
+
+    stories.forEach(([storyCode, data]) => {
+      const pts    = data.routePoints;
+      const coords = (pts && pts.length >= 2) ? pts : routeCoords(data.route);
+      if (coords.length < 2) return;
+
+      const line = L.polyline(coords, { color: '#10318f', weight: 4, opacity: 0.85, lineJoin: 'round', lineCap: 'round' });
+      const ends  = pts ? [coords[0], coords[coords.length - 1]] : coords;
+      const dots  = L.featureGroup();
+      [ends[0], ends[ends.length - 1]].forEach(c =>
+        L.circleMarker(c, { radius: 5, fillColor: '#10318f', color: '#fff', weight: 2, fillOpacity: 1 }).addTo(dots)
+      );
+
+      line.on('mouseover', e => {
+        line.setStyle({ color: '#f5a623', weight: 6, opacity: 1 });
+        dots.eachLayer(m => m.setStyle({ fillColor: '#f5a623' }));
+        showHoverCard(data, e.originalEvent.clientX, e.originalEvent.clientY);
+      });
+      line.on('mousemove', e => updateHoverCardPos(e.originalEvent.clientX, e.originalEvent.clientY));
+      line.on('mouseout', () => {
+        line.setStyle({ color: '#10318f', weight: 4, opacity: 0.85 });
+        dots.eachLayer(m => m.setStyle({ fillColor: '#10318f' }));
+        hoverCard.style.display = 'none';
+      });
+      line.on('click', e => { L.DomEvent.stopPropagation(e); openStoryDirect(storyCode, data); });
+
+      line.addTo(routeGroup);
+      dots.addTo(routeGroup);
+    });
+
+    map.flyToBounds(countryLayer.getBounds(), { padding: [40, 40], maxZoom: 8, duration: 1 });
+    setBackBtn(true);
+  }
+
+  function showHoverCard(data, clientX, clientY) {
+    const parts = (data.route || data.name).split('→').map(s => s.trim());
+    const from  = parts[0];
+    const to    = parts[parts.length - 1];
+    const via   = parts.length > 2 ? parts.slice(1, -1).join(' → ') : '';
+    hoverCard.innerHTML = `
+      <div class="map-hc-route">${from}<span class="map-hc-arrow">→</span>${to}</div>
+      ${via   ? `<div class="map-hc-via">via ${via}</div>` : ''}
+      ${data.author   ? `<div class="map-hc-meta"><i class="bi bi-person-fill"></i>${data.author}</div>`  : ''}
+      ${data.duration ? `<div class="map-hc-meta"><i class="bi bi-clock"></i>${data.duration}</div>`      : ''}
+      ${data.price    ? `<div class="map-hc-meta"><i class="bi bi-tag"></i>${data.price}</div>`           : ''}
+      <div class="map-hc-hint"><i class="bi bi-book"></i>Cliquer pour lire le récit</div>`;
+    hoverCard.style.display = 'block';
+    updateHoverCardPos(clientX, clientY);
+  }
+
+  function updateHoverCardPos(clientX, clientY) {
+    const rect  = mapEl.getBoundingClientRect();
+    const cardW = hoverCard.offsetWidth  || 220;
+    const cardH = hoverCard.offsetHeight || 120;
+    let x = clientX - rect.left + 14;
+    let y = clientY - rect.top  + 14;
+    if (x + cardW > rect.width  - 10) x = clientX - rect.left - cardW - 14;
+    if (y + cardH > rect.height - 10) y = clientY - rect.top  - cardH - 14;
+    hoverCard.style.left = `${x}px`;
+    hoverCard.style.top  = `${y}px`;
+  }
+
+  function openStoryDirect(storyCode, data) {
+    currentStoryData = data;
+    activeCode = String(data.countryCode || storyCode.split('-')[0]);
+    const parts = (data.route || data.name).split('→').map(s => s.trim());
+    document.getElementById('storyModalTitle').textContent = `${parts[0]} → ${parts[parts.length - 1]}`;
+    document.getElementById('storyModalBody').innerHTML = renderLevel2(data);
+    _pendingRouteMap = data.route;
+    history.replaceState(null, '', `?story=${storyCode}#carte`);
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('storyModal')).show();
+  }
 
   // Normalize polygon coordinates so no ring crosses the antimeridian.
   // Consecutive vertices with longitude gap > 180° get shifted to stay consistent,
@@ -439,7 +570,6 @@ function initMap() {
     return geojson;
   }
 
-
   fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
     .then(r => r.json())
     .then(world => {
@@ -459,9 +589,9 @@ function initMap() {
         },
 
         onEachFeature(feature, layer) {
-          const code            = String(Number(feature.id));
-          const storiesForCode  = STORY_INDEX[code] || [];
-          const hasTips         = !!BONS_PLANS[code] || INTERRAIL_COUNTRIES.has(code);
+          const code           = String(Number(feature.id));
+          const storiesForCode = STORY_INDEX[code] || [];
+          const hasTips        = !!BONS_PLANS[code] || INTERRAIL_COUNTRIES.has(code);
 
           if (!storiesForCode.length && !hasTips) {
             layer.options.interactive = false;
@@ -484,27 +614,31 @@ function initMap() {
             { sticky: true, direction: 'top', offset: [0, -4], className: 'rs-tooltip' }
           );
 
-          layer.on('mouseover', () => { if (layer !== activeLayer) layer.setStyle({ fillOpacity: 0.85, fillColor: fillAct }); });
-          layer.on('mouseout',  () => { if (layer !== activeLayer) layer.setStyle({ fillOpacity: fillOpDef, fillColor: fillDef }); });
+          layer.on('mouseover', () => {
+            if (layer === activeCountryLayer) return;
+            layer.setStyle({ fillOpacity: 0.85, fillColor: fillAct });
+          });
+          layer.on('mouseout', () => {
+            if (layer === activeCountryLayer) return;
+            layer.setStyle({ fillOpacity: fillOpDef, fillColor: fillDef });
+          });
 
           layer.on('click', () => {
-            if (activeLayer && activeLayer !== layer) {
-              const prevTipsOnly = !(storyIndex[activeCode] || []).length && (!!BONS_PLANS[activeCode] || INTERRAIL_COUNTRIES.has(activeCode));
-              activeLayer.setStyle({
-                fillOpacity: prevTipsOnly ? 0.55 : 0.65,
-                fillColor:   prevTipsOnly ? FILL_TIPS : FILL_DEFAULT,
-              });
+            if (storiesForCode.length > 0) {
+              showCountryRoutes(code, storiesForCode, layer);
+            } else {
+              // Tips-only country: open modal directly
+              if (activeLayer && activeLayer !== layer) {
+                activeLayer.setStyle({ fillOpacity: 0.65, fillColor: FILL_TIPS });
+              }
+              activeLayer = layer;
+              activeCode  = code;
+              layer.setStyle({ fillOpacity: 1, fillColor: fillAct });
+              document.getElementById('storyModalTitle').textContent = countryName;
+              currentStoryData = null;
+              document.getElementById('storyModalBody').innerHTML = renderBonsPlansOnly(code);
+              bootstrap.Modal.getOrCreateInstance(document.getElementById('storyModal')).show();
             }
-            activeLayer = layer;
-            activeCode  = code;
-            layer.setStyle({ fillOpacity: 1, fillColor: fillAct });
-
-            document.getElementById('storyModalTitle').textContent = countryName;
-            currentStoryData = null;
-            document.getElementById('storyModalBody').innerHTML = storiesForCode.length
-              ? renderLevel1(code, storiesForCode)
-              : renderBonsPlansOnly(code);
-            bootstrap.Modal.getOrCreateInstance(document.getElementById('storyModal')).show();
           });
         },
       }).addTo(map);
@@ -514,7 +648,6 @@ function initMap() {
         `<p style="padding:1rem;color:#c00">${T.mapError}</p>`
       );
     });
-
 }
 
 // ─── MODAL LISTENERS (indépendants de la carte) ───────────────────────────────
