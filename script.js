@@ -459,7 +459,7 @@ function initMap() {
     setBackBtn(false);
     if (activeCountryLayer) {
       const to = !(STORY_INDEX[activeCountryCode] || []).length && (!!BONS_PLANS[activeCountryCode] || INTERRAIL_COUNTRIES.has(activeCountryCode));
-      activeCountryLayer.setStyle({ fillOpacity: 0.65, fillColor: to ? FILL_TIPS : FILL_DEFAULT });
+      activeCountryLayer.setStyle({ fillOpacity: 0.65, fillColor: to ? FILL_TIPS : FILL_DEFAULT, color: '#ffffff', weight: 0.7 });
       activeCountryLayer = null;
       activeCountryCode  = null;
     }
@@ -470,14 +470,14 @@ function initMap() {
     // Reset previous active country style
     if (activeCountryLayer && activeCountryLayer !== countryLayer) {
       const prevTo = !(STORY_INDEX[activeCountryCode] || []).length && (!!BONS_PLANS[activeCountryCode] || INTERRAIL_COUNTRIES.has(activeCountryCode));
-      activeCountryLayer.setStyle({ fillOpacity: 0.65, fillColor: prevTo ? FILL_TIPS : FILL_DEFAULT });
+      activeCountryLayer.setStyle({ fillOpacity: 0.65, fillColor: prevTo ? FILL_TIPS : FILL_DEFAULT, color: '#ffffff', weight: 0.7 });
     }
     mapMode = 'country';
     activeCountryLayer = countryLayer;
     activeCountryCode  = code;
     routeGroup.clearLayers();
     hoverCard.style.display = 'none';
-    countryLayer.setStyle({ fillOpacity: 1, fillColor: FILL_ACTIVE });
+    countryLayer.setStyle({ fillOpacity: 0.85, fillColor: FILL_ACTIVE, color: 'transparent', weight: 0 });
 
     stories.forEach(([storyCode, data]) => {
       const pts    = data.routePoints;
@@ -508,12 +508,8 @@ function initMap() {
       dots.addTo(routeGroup);
     });
 
-    // Custom bounds for countries with overseas territories that skew the zoom
-    const CUSTOM_BOUNDS = {
-      '250': [[41.3, -5.2], [51.1, 9.6]], // France métropolitaine + Corse
-    };
-    const bounds = CUSTOM_BOUNDS[code] ? L.latLngBounds(CUSTOM_BOUNDS[code]) : countryLayer.getBounds();
-    map.flyToBounds(bounds, { padding: [40, 40], maxZoom: 8, duration: 1 });
+    const bounds = routeGroup.getLayers().length > 0 ? routeGroup.getBounds() : countryLayer.getBounds();
+    map.flyToBounds(bounds, { padding: [60, 60], maxZoom: 9, duration: 1 });
     setBackBtn(true);
   }
 
