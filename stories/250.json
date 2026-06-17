@@ -1,0 +1,18 @@
+{
+  "name": "France",
+  "author": "Lola",
+  "route": "Bruxelles → Grenoble",
+  "duration": "5h00",
+  "price": "~88 €",
+  "booking": "https://www.sncf-connect.com",
+  "narrative": "<p>Un week-end à la montagne à 5h de Bruxelles !</p><p>Je suis partie le vendredi et je suis revenue le dimanche.</p><p>Rapide et efficace pour aller rejoindre des copaines le temps d'un week-end !</p>",
+  "highlights": [
+    "Aller faire une rando dans le massif de Belledonne, au refuge des 7 laux."
+  ],
+  "photos": [
+    "stories/img/250/1781711166156.jpg",
+    "stories/img/250/1781711176251.jpg",
+    "stories/img/250/1781711358837.jpg",
+    "stories/img/250/1781711368407.jpg"
+  ]
+}
