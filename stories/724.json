@@ -1,0 +1,15 @@
+{
+  "name": "Espagne",
+  "author": "Lola",
+  "route": "Bruxelles → Gérone",
+  "duration": "9h00",
+  "price": "~198 €",
+  "booking": "https://www.sncf-connect.com",
+  "narrative": "<p>C'est l'été, plein mois de juillet (d'où le prix...)</p><p>J'apprends que j'ai des vacances et que je peux donc aller rejoindre ma famille pour une petite semaine près de Gérone.  Hop me voilà dans un train à observer tous les paysages par la fenêtre (je les recommande!)</p>",
+  "highlights": [
+    "La vieille ville de Gérone",
+    "La côte",
+    "Barcelone (1h en train)",
+    "Le musée Dali à Figueras (accessible en train également)"
+  ]
+}
