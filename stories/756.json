@@ -1,12 +1,20 @@
 {
   "name": "Suisse",
-  "author": "Léa",
-  "route": "Bruxelles → Paris → Genève",
-  "duration": "6h30",
-  "price": "~265 €",
-  "booking": "https://www.sncf-connect.com",
-  "narrative": "<p>J’ai effectué un trajet en train de Bruxelles à Genève au mois de mai.</p><p>J’ai d’abord pris un Ouigo entre Bruxelles et Paris : le trajet est plus long que celui d’un TGV Eurostar (environ 3  heures), mais il est nettement moins cher. À Paris, il faut changer de gare (de Paris Nord à Paris Gare de Lyon), puis emprunter un train SNCF Lyria jusqu’à Genève.</p><p>Les sièges du Lyria sont très confortables et le wifi fonctionne bien, ce qui rend le voyage particulièrement agréable : les 3  heures passent très vite.</p><p>Le trajet offre également de très beaux paysages tout au long du parcours. En approchant de Genève, les vues deviennent magnifiques, avec des panoramas sur les montagnes.</p>",
+  "author": "Mathilde",
+  "route": "Liège → Cologne → Bâle → Berne → Lausanne",
+  "duration": "08h05",
+  "price": "~53 €",
+  "booking": "Interrail",
+  "narrative": "<p>Dernier trip Interrail avec le tarif Jeunes, j'en profite pour descendre en Suisse, où les billets sont hors de prix sans le pass.</p><p>J'ai, comme à mon habitude (pour qui je me prend?), prévu des temps de correspondances très courts une fois en Suisse car leurs trains sont toujours très ponctuels. Et bien, étonnamment, pas cette fois-ci ! J'arrive heureusement à la gare de Renens VD avant minuit, ce qui est pas mal en étant partie à 15h de Liège.</p><p>Ce long week-end au bord du lac Léman (et de la ligne de chemin de fer) est ponctué de balades, baignades, et bons repas ! Il est encore un peu tôt dans l'année pour voir les vignes en feuillaison, mais les terrasses des Vignes de Lavaux (classées au patrimoine mondiale de l'UNESCO) restent impressionnantes peu importe la saison.</p><p>Les villages sont reliés entre eux par le train, il est donc très facile de faire une longue balade d'un point A à un point B, et de revenir en train. Pour ce qui est du prix, un trajet de Saint-Saphorin à Villette coûte 3,90 francs suisses (environ 4,4 EUR) pour 10 minutes de trajet.</p>",
+  "highlights": [
+    "Se baigner dans le lac Léman",
+    "Les vignes de Lavaux",
+    "Café du Raisin à Saint-Saphorin",
+    "Le charmant village de Cully"
+  ],
   "photos": [
-    "stories/img/756/1781170678238.jpg"
+    "stories/img/756/1781713281317.jpg",
+    "stories/img/756/1781713297818.jpg",
+    "stories/img/756/1781713325832.jpg"
   ]
 }
