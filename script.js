@@ -727,15 +727,23 @@ function renderBonsPlansSection(code) {
 
   const tipsHtml = tips.map(t => `
     <a href="${t.url}" target="_blank" rel="noopener" class="sp-tip-card">
-      <span class="sp-tip-label">${t.label}</span>
-      <p class="sp-tip-desc">${t.desc}</p>
+      <div class="sp-tip-strip"><i class="bi bi-tag-fill"></i></div>
+      <div class="sp-tip-body">
+        <span class="sp-tip-label">${t.label}</span>
+        <p class="sp-tip-desc">${t.desc}</p>
+      </div>
+      <i class="bi bi-chevron-right sp-tip-arrow"></i>
     </a>
   `).join('');
 
   const interrailHtml = isInterrail ? `
     <a href="https://www.interrail.eu/fr" target="_blank" rel="noopener" class="sp-tip-card sp-tip-card--interrail">
-      <span class="sp-tip-label"><i class="bi bi-globe2 me-1"></i>Pass Interrail</span>
-      <p class="sp-tip-desc">${T.interrailNote}.</p>
+      <div class="sp-tip-strip"><i class="bi bi-globe2"></i></div>
+      <div class="sp-tip-body">
+        <span class="sp-tip-label">Pass Interrail</span>
+        <p class="sp-tip-desc">${T.interrailNote}.</p>
+      </div>
+      <i class="bi bi-chevron-right sp-tip-arrow"></i>
     </a>
   ` : '';
 
