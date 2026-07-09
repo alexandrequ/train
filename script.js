@@ -935,6 +935,8 @@ async function initStoryPage() {
             ${data.price    ? `<div class="sp-aside-stat"><i class="bi bi-tag"></i><span>${data.price}</span></div>` : ''}
             ${bUrl          ? `<a href="${bUrl}" target="_blank" rel="noopener" class="sp-aside-stat"><i class="bi bi-box-arrow-up-right"></i><span>${bLabel}</span></a>` : ''}
           </div>` : ''}
+        ${highlightsHtml(data)}
+        ${renderBonsPlansSection(countryCode)}
       `;
     }
 
@@ -943,8 +945,6 @@ async function initStoryPage() {
       ${data.warning ? `<div class="sp-warning">⚠️ ${data.warning}</div>` : ''}
       ${data.narrative ? `<article class="sp-narrative-article">${data.narrative}</article>` : ''}
       ${photosHtml(data)}
-      ${highlightsHtml(data)}
-      ${renderBonsPlansSection(countryCode)}
     `;
 
     if (data.route) requestAnimationFrame(() => initRouteMap(data.route));
