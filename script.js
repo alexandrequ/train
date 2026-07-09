@@ -1,5 +1,9 @@
 // ─── I18N & BASE PATH ─────────────────────────────────────────────────────────
 const BASE = (typeof window.RS_BASE !== 'undefined') ? window.RS_BASE : '';
+
+// ─── UNSPLASH (hero fallback) ──────────────────────────────────────────────────
+// Free key from https://unsplash.com/developers — 50 req/hour, attribution required
+const UNSPLASH_KEY = '';
 const T = Object.assign({
   departure:  'Départ',
   arrival:    'Arrivée',
@@ -827,6 +831,35 @@ if (_mapEl) mapObserver.observe(_mapEl);
 
 // ─── PAGE RÉCIT ──────────────────────────────────────────────────────────────
 
+async function applyStoryHero(heroEl, photoSrc, unsplashPhoto) {
+  if (!heroEl) return;
+  if (photoSrc) {
+    heroEl.style.backgroundImage = `url(${photoSrc})`;
+    heroEl.classList.add('sp-hero-has-image');
+    return;
+  }
+  if (!unsplashPhoto) return;
+  heroEl.style.backgroundImage = `url(${unsplashPhoto.urls.regular})`;
+  heroEl.classList.add('sp-hero-has-image');
+  const credit = heroEl.querySelector('.sp-hero-credit');
+  if (credit) {
+    const pUrl  = `${unsplashPhoto.user.links.html}?utm_source=railstories&utm_medium=referral`;
+    const uUrl  = 'https://unsplash.com/?utm_source=railstories&utm_medium=referral';
+    credit.innerHTML = `Photo : <a href="${pUrl}" target="_blank" rel="noopener">${unsplashPhoto.user.name}</a> / <a href="${uUrl}" target="_blank" rel="noopener">Unsplash</a>`;
+    credit.hidden = false;
+  }
+}
+
+async function fetchUnsplashPhoto(query) {
+  if (!UNSPLASH_KEY) return null;
+  try {
+    const r = await fetch(
+      `https://api.unsplash.com/photos/random?query=${encodeURIComponent(query)}&orientation=landscape&client_id=${UNSPLASH_KEY}`
+    );
+    return r.ok ? await r.json() : null;
+  } catch { return null; }
+}
+
 async function initStoryPage() {
   const code = new URLSearchParams(window.location.search).get('story');
   const contentEl = document.getElementById('sp-story-content');
@@ -852,6 +885,13 @@ async function initStoryPage() {
       metaDesc.content = data.narrative.replace(/<[^>]*>/g, '').trim().slice(0, 160);
     }
     if (titleEl) titleEl.textContent = routeTitle;
+
+    // Hero background: story photo → Unsplash fallback
+    const heroEl = document.querySelector('.sp-story-hero');
+    const storyPhoto = data.photos && data.photos[0] ? BASE + data.photos[0] : null;
+    const unsplashQuery = `train travel ${parts[parts.length - 1]} ${COUNTRY_NAMES[countryCode] || ''}`.trim();
+    const unsplashPhoto = storyPhoto ? null : await fetchUnsplashPhoto(unsplashQuery);
+    applyStoryHero(heroEl, storyPhoto, unsplashPhoto);
 
     // Hero: byline
     const bylineEl = document.getElementById('sp-story-byline');
