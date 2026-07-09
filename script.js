@@ -305,6 +305,7 @@ let _pendingRouteMap = null;
 let activeLayer = null;
 let _routeOverlays = null;
 let _mapBackControl = null;
+let _map = null;
 
 function routeCoords(route) {
   if (!route) return [];
@@ -390,6 +391,26 @@ function openStoryFromHash() {
 
 // ─── MAP ──────────────────────────────────────────────────────────────────────
 
+function showMapPanel(code, countryName) {
+  const panelEl = document.getElementById('rs-map-panel');
+  const titleEl  = document.getElementById('rs-map-panel-title');
+  const bodyEl   = document.getElementById('rs-map-panel-body');
+  if (!panelEl || !bodyEl) return;
+  const content = renderBonsPlansSection(code);
+  if (!content) return;
+  titleEl.textContent = countryName;
+  bodyEl.innerHTML = content;
+  panelEl.classList.remove('rs-map-panel--hidden');
+  if (_map) setTimeout(() => _map.invalidateSize(), 280);
+}
+
+function hideMapPanel() {
+  const panelEl = document.getElementById('rs-map-panel');
+  if (!panelEl) return;
+  panelEl.classList.add('rs-map-panel--hidden');
+  if (_map) setTimeout(() => _map.invalidateSize(), 280);
+}
+
 function showCountryRoutes(map, storiesForCode) {
   if (_routeOverlays) { _routeOverlays.remove(); _routeOverlays = null; }
   _routeOverlays = L.layerGroup().addTo(map);
@@ -424,6 +445,7 @@ function showMapBack(map) {
       map.setView([52, 12], 3, { animate: true });
       activeLayer = null; activeCode = null;
       _mapBackControl.remove(); _mapBackControl = null;
+      hideMapPanel();
     });
     return div;
   };
@@ -443,6 +465,7 @@ function initMap() {
     maxBounds: [[-90, -180], [90, 180]],
     maxBoundsViscosity: 1.0,
   }).setView([52, 12], 3);
+  _map = map;
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
@@ -542,12 +565,8 @@ function initMap() {
               map.fitBounds(bounds, { padding: [40, 40], maxZoom: 6 });
               showCountryRoutes(map, storiesForCode);
               showMapBack(map);
-            } else {
-              document.getElementById('storyModalTitle').textContent = countryName;
-              currentStoryData = null;
-              document.getElementById('storyModalBody').innerHTML = renderBonsPlansOnly(code);
-              bootstrap.Modal.getOrCreateInstance(document.getElementById('storyModal')).show();
             }
+            showMapPanel(code, countryName);
           });
         },
       }).addTo(map);
@@ -561,6 +580,9 @@ function initMap() {
 }
 
 // ─── MODAL LISTENERS (indépendants de la carte) ───────────────────────────────
+const _panelCloseBtn = document.getElementById('rs-map-panel-close');
+if (_panelCloseBtn) _panelCloseBtn.addEventListener('click', hideMapPanel);
+
 const _storyModalEl = document.getElementById('storyModal');
 if (_storyModalEl) {
   _storyModalEl.addEventListener('shown.bs.modal', () => {
