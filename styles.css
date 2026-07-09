@@ -1718,6 +1718,9 @@ html, body { overflow-x: hidden; }
   flex-shrink: 0;
 }
 
+/* Force SVG stroke to capture pointer events even at opacity:0 */
+.rs-route-hit { pointer-events: stroke !important; }
+
 /* ─── MAP BACK BUTTON ────────────────────────────────────────────────────── */
 .rs-map-back-btn {
   background: #fff;
