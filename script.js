@@ -412,8 +412,11 @@ function initMap() {
     .addAttribution('© <a href="https://carto.com/attributions">CARTO</a> | © <a href="https://openstreetmap.org/copyright">OSM</a>')
     .addTo(map);
 
-  // Force Leaflet to recalculate container size after layout settles
-  requestAnimationFrame(() => map.invalidateSize());
+  // Force Leaflet to recalculate container size then re-center
+  requestAnimationFrame(() => {
+    map.invalidateSize({ pan: false });
+    map.setView([52, 12], 3, { animate: false });
+  });
 
   const FILL_DEFAULT  = '#c8960c';   /* dark yellow — récits et bons plans */
   const FILL_ACTIVE   = '#8a6500';   /* deeper yellow — actif   */
