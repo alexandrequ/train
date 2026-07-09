@@ -1204,6 +1204,43 @@ a.rs-resource-card:hover {
 .sp-tip-card--interrail .sp-tip-label { color: #7a5e00; }
 .sp-bonsplans-only-intro { padding: 0 0.1rem; }
 
+/* ─── PAGE RÉCIT ─────────────────────────────────────────────────────────── */
+.sp-story-page-main {
+  min-height: 80vh;
+  padding: 2rem 0 5rem;
+  background: var(--rs-light);
+}
+.sp-story-page-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+.sp-story-page-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--rs-royal);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+}
+.sp-back-btn--page {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--rs-royal);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  transition: color 0.15s;
+}
+.sp-back-btn--page:hover { color: var(--rs-sky); }
+/* On the story page, ticket card and route map get a bit more breathing room */
+.sp-story-page-inner .sp-journey-card { margin-bottom: 1.5rem; }
+.sp-story-page-inner .sp-route-map { margin-bottom: 1.5rem; }
+.sp-story-page-inner .sp-narrative-article { margin-bottom: 1.5rem; }
+.sp-story-page-inner .sp-photos { margin-bottom: 1.5rem; }
+.sp-story-page-inner .sp-bonsplans-divider { margin-top: 2rem; }
+.sp-story-page-inner .sp-tips-list { margin-bottom: 0.5rem; }
+
 /* ─── FORMULAIRE NATIF (Je monte à bord) ────────────────────────────────── */
 .rs-form-card {
   background: #fff;

@@ -355,37 +355,31 @@ function buildStoryIndex() {
   return index;
 }
 
-fetch(BASE + 'stories/index.json')
-  .then(r => r.json())
-  .then(codes => Promise.all(
-    codes.map(code =>
-      fetch(BASE + `stories/${code}.json`).then(r => r.json()).then(data => [code, data])
-    )
-  ))
-  .then(entries => {
-    STORIES = Object.fromEntries(entries);
-    STORY_INDEX = buildStoryIndex();
-    _storiesLoaded = true;
-    if (_mapPending && _bonsPlansLoaded) initMap();
-    renderRecitsSection();
-    openStoryFromHash();
-  })
-  .catch(() => console.error('Impossible de charger les récits'));
+if (!window.RS_STORY_PAGE) {
+  fetch(BASE + 'stories/index.json')
+    .then(r => r.json())
+    .then(codes => Promise.all(
+      codes.map(code =>
+        fetch(BASE + `stories/${code}.json`).then(r => r.json()).then(data => [code, data])
+      )
+    ))
+    .then(entries => {
+      STORIES = Object.fromEntries(entries);
+      STORY_INDEX = buildStoryIndex();
+      _storiesLoaded = true;
+      if (_mapPending && _bonsPlansLoaded) initMap();
+      renderRecitsSection();
+      openStoryFromHash();
+    })
+    .catch(() => console.error('Impossible de charger les récits'));
+}
 
 // ─── DEEP LINK ────────────────────────────────────────────────────────────────
 
 function openStoryFromHash() {
   const code = new URLSearchParams(window.location.search).get('story');
   if (!code) return;
-  const data = STORIES[code];
-  if (!data) return;
-  currentStoryData = data;
-  activeCode = String(data.countryCode || code.split('-')[0]);
-  const parts = (data.route || data.name).split('→').map(s => s.trim());
-  document.getElementById('storyModalTitle').textContent = `${parts[0]} → ${parts[parts.length - 1]}`;
-  document.getElementById('storyModalBody').innerHTML = renderLevel2(data);
-  _pendingRouteMap = data.route;
-  bootstrap.Modal.getOrCreateInstance(document.getElementById('storyModal')).show();
+  window.location.replace(`${BASE}histoire/?story=${code}`);
 }
 
 // ─── MAP ──────────────────────────────────────────────────────────────────────
@@ -518,60 +512,56 @@ function initMap() {
 }
 
 // ─── MODAL LISTENERS (indépendants de la carte) ───────────────────────────────
-document.getElementById('storyModal').addEventListener('shown.bs.modal', () => {
-  if (_pendingRouteMap) {
-    initRouteMap(_pendingRouteMap);
-    _pendingRouteMap = null;
-  }
-});
+const _storyModalEl = document.getElementById('storyModal');
+if (_storyModalEl) {
+  _storyModalEl.addEventListener('shown.bs.modal', () => {
+    if (_pendingRouteMap) {
+      initRouteMap(_pendingRouteMap);
+      _pendingRouteMap = null;
+    }
+  });
 
-document.getElementById('storyModal').addEventListener('hidden.bs.modal', () => {
-  if (activeLayer) {
-    const wasTipsOnly = !(STORY_INDEX[activeCode] || []).length && (!!BONS_PLANS[activeCode] || INTERRAIL_COUNTRIES.has(activeCode));
-    activeLayer.setStyle({
-      fillOpacity: wasTipsOnly ? 0.55 : 0.65,
-      fillColor:   wasTipsOnly ? '#c8960c' : '#c8960c',
-    });
-    activeLayer = null;
-    activeCode  = null;
-  }
-  currentStoryData = null;
-  if (_routeMap) { _routeMap.remove(); _routeMap = null; }
-  history.replaceState(null, '', '#carte');
-});
-
-document.getElementById('storyModalBody').addEventListener('click', e => {
-  // Lightbox photo
-  const photoEl = e.target.closest('.sp-photo');
-  if (photoEl) {
-    const gallery = photoEl.closest('.sp-photos');
-    if (gallery) openLightbox(JSON.parse(gallery.dataset.photos || '[]'), parseInt(photoEl.dataset.idx, 10));
-    return;
-  }
-  // Niveau 1 → Niveau 2 : clic sur un billet
-  const listItem = e.target.closest('.sp-story-list-item');
-  if (listItem && !e.target.closest('[data-action]') && !e.target.closest('a[href]')) {
-    const storyCode = listItem.dataset.storyCode;
-    const storyData = STORIES[storyCode];
-    if (!storyData) return;
-    currentStoryData = storyData;
-    const parts = (storyData.route || storyData.name).split('→').map(s => s.trim());
-    document.getElementById('storyModalTitle').textContent = `${parts[0]} → ${parts[parts.length - 1]}`;
-    document.getElementById('storyModalBody').innerHTML = renderLevel2(storyData);
-    requestAnimationFrame(() => initRouteMap(storyData.route));
-    history.replaceState(null, '', `?story=${storyCode}#carte`);
-    return;
-  }
-  // Niveau 2 → Niveau 1 : bouton retour
-  const btn = e.target.closest('[data-action]');
-  if (!btn) return;
-  if (btn.dataset.action === 'show-level1') {
+  _storyModalEl.addEventListener('hidden.bs.modal', () => {
+    if (activeLayer) {
+      const wasTipsOnly = !(STORY_INDEX[activeCode] || []).length && (!!BONS_PLANS[activeCode] || INTERRAIL_COUNTRIES.has(activeCode));
+      activeLayer.setStyle({
+        fillOpacity: wasTipsOnly ? 0.55 : 0.65,
+        fillColor:   wasTipsOnly ? '#c8960c' : '#c8960c',
+      });
+      activeLayer = null;
+      activeCode  = null;
+    }
     currentStoryData = null;
+    if (_routeMap) { _routeMap.remove(); _routeMap = null; }
     history.replaceState(null, '', '#carte');
-    document.getElementById('storyModalTitle').textContent = COUNTRY_NAMES[activeCode] || activeCode;
-    document.getElementById('storyModalBody').innerHTML = renderLevel1(activeCode, STORY_INDEX[activeCode] || []);
-  }
-});
+  });
+
+  document.getElementById('storyModalBody').addEventListener('click', e => {
+    // Lightbox photo
+    const photoEl = e.target.closest('.sp-photo');
+    if (photoEl) {
+      const gallery = photoEl.closest('.sp-photos');
+      if (gallery) openLightbox(JSON.parse(gallery.dataset.photos || '[]'), parseInt(photoEl.dataset.idx, 10));
+      return;
+    }
+    // Niveau 1 → page récit (navigation)
+    const listItem = e.target.closest('.sp-story-list-item');
+    if (listItem && !e.target.closest('[data-action]') && !e.target.closest('a[href]')) {
+      const storyCode = listItem.dataset.storyCode;
+      window.location.href = `${BASE}histoire/?story=${storyCode}`;
+      return;
+    }
+    // Niveau 2 → Niveau 1 : bouton retour (kept for renderStory context)
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action === 'show-level1') {
+      currentStoryData = null;
+      history.replaceState(null, '', '#carte');
+      document.getElementById('storyModalTitle').textContent = COUNTRY_NAMES[activeCode] || activeCode;
+      document.getElementById('storyModalBody').innerHTML = renderLevel1(activeCode, STORY_INDEX[activeCode] || []);
+    }
+  });
+}
 
 function buildTicketCard(data, storyCode, countryCode) {
   const parts = (data.route || data.name).split('→').map(s => s.trim());
@@ -819,15 +809,7 @@ function renderRecitsSection() {
 
   list.querySelectorAll('.rs-open-story').forEach(btn => {
     btn.addEventListener('click', () => {
-      const code = btn.dataset.storyCode;
-      const storyData = STORIES[code];
-      if (!storyData) return;
-      currentStoryData = storyData;
-      activeCode = code;
-      document.getElementById('storyModalTitle').textContent = storyData.name;
-      document.getElementById('storyModalBody').innerHTML = renderStory(storyData, code);
-      _pendingRouteMap = storyData.route;
-      bootstrap.Modal.getOrCreateInstance(document.getElementById('storyModal')).show();
+      window.location.href = `${BASE}histoire/?story=${btn.dataset.storyCode}`;
     });
   });
 }
@@ -840,4 +822,57 @@ const mapObserver = new IntersectionObserver(entries => {
   }
 }, { threshold: 0.1 });
 
-mapObserver.observe(document.getElementById('map'));
+const _mapEl = document.getElementById('map');
+if (_mapEl) mapObserver.observe(_mapEl);
+
+// ─── PAGE RÉCIT ──────────────────────────────────────────────────────────────
+
+async function initStoryPage() {
+  const code = new URLSearchParams(window.location.search).get('story');
+  const contentEl = document.getElementById('sp-story-content');
+  const titleEl   = document.getElementById('sp-story-title');
+  if (!code || !contentEl) return;
+
+  try {
+    const [data, bonsPlans] = await Promise.all([
+      fetch(BASE + `stories/${code}.json`).then(r => { if (!r.ok) throw new Error(); return r.json(); }),
+      fetch(BASE + 'bons-plans.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
+    ]);
+
+    BONS_PLANS = bonsPlans;
+    currentStoryData = data;
+
+    const countryCode = String(data.countryCode || code.split('-')[0]);
+    const parts = (data.route || data.name).split('→').map(s => s.trim());
+    const routeTitle = `${parts[0]} → ${parts[parts.length - 1]}`;
+
+    document.title = `${routeTitle} — Rail Stories`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && data.narrative) {
+      metaDesc.content = data.narrative.replace(/<[^>]*>/g, '').trim().slice(0, 160);
+    }
+    if (titleEl) titleEl.textContent = routeTitle;
+
+    contentEl.innerHTML = `
+      ${buildTicketCard(data, code, countryCode)}
+      ${data.warning ? `<div class="sp-warning">⚠️ ${data.warning}</div>` : ''}
+      ${data.route ? '<div id="sp-route-map" class="sp-route-map"></div>' : ''}
+      ${data.narrative ? `<article class="sp-narrative-article">${data.narrative}</article>` : ''}
+      ${photosHtml(data)}
+      ${highlightsHtml(data)}
+      ${renderBonsPlansSection(countryCode)}
+    `;
+
+    if (data.route) requestAnimationFrame(() => initRouteMap(data.route));
+
+    contentEl.addEventListener('click', e => {
+      const photoEl = e.target.closest('.sp-photo');
+      if (photoEl) {
+        const gallery = photoEl.closest('.sp-photos');
+        if (gallery) openLightbox(JSON.parse(gallery.dataset.photos || '[]'), parseInt(photoEl.dataset.idx, 10));
+      }
+    });
+  } catch {
+    if (contentEl) contentEl.innerHTML = '<p class="text-muted py-5 text-center">Récit introuvable.</p>';
+  }
+}
