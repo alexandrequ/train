@@ -1594,6 +1594,9 @@ html, body { overflow-x: hidden; }
   #map { height: 280px; }
 }
 
+/* ─── MAP: remove Leaflet focus ring ────────────────────────────────────── */
+.leaflet-interactive:focus { outline: none; }
+
 /* ─── MAP BACK BUTTON ────────────────────────────────────────────────────── */
 .rs-map-back-btn {
   background: #fff;
