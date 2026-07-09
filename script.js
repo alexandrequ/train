@@ -420,9 +420,11 @@ function showCountryRoutes(map, storiesForCode) {
     if (coords.length < 2) return;
     const parts = (data.route || data.name).split('→').map(s => s.trim());
     const label = `${parts[0]} → ${parts[parts.length - 1]}`;
-    L.polyline(coords, { color: '#10318f', weight: 3, opacity: 0.85, dashArray: '6 4' }).addTo(_routeOverlays);
+    const visibleLine = L.polyline(coords, { color: '#10318f', weight: 3, opacity: 0.85, dashArray: '6 4' }).addTo(_routeOverlays);
     L.polyline(coords, { color: 'transparent', weight: 20, opacity: 0.001 })
       .bindTooltip(label, { sticky: true, className: 'rs-tooltip' })
+      .on('mouseover', () => visibleLine.setStyle({ weight: 5, opacity: 1, dashArray: null, color: '#0a1f6e' }))
+      .on('mouseout',  () => visibleLine.setStyle({ weight: 3, opacity: 0.85, dashArray: '6 4', color: '#10318f' }))
       .on('click', () => { window.location.href = `${BASE}histoire/?story=${slug}`; })
       .addTo(_routeOverlays);
     [coords[0], coords[coords.length - 1]].forEach(c => {
