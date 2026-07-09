@@ -1658,30 +1658,64 @@ html, body { overflow-x: hidden; }
 .rs-rt {
   display: flex;
   align-items: stretch;
-  background: #10318f;
-  color: #fff;
-  border-radius: 7px;
+  background: #fff;
+  border-radius: 8px;
   font-family: Inter, system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
-  box-shadow: 0 3px 16px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 22px rgba(16,49,143,0.22), 0 1px 4px rgba(0,0,0,0.1);
   user-select: none;
+  border: 1.5px solid #dde3f5;
+  min-width: 190px;
+  cursor: pointer;
 }
-.rs-rt-dep, .rs-rt-arr {
-  padding: 8px 12px;
+.rs-rt-stripe {
+  width: 5px;
+  background: #10318f;
+  flex-shrink: 0;
+}
+.rs-rt-body {
   display: flex;
   align-items: center;
+  padding: 10px 13px;
+  gap: 8px;
+  flex: 1;
 }
-.rs-rt-mid {
-  padding: 8px 9px;
+.rs-rt-station {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 1px;
+}
+.rs-rt-station--arr { text-align: right; }
+.rs-rt-label {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9aa2c0;
+  font-weight: 700;
+}
+.rs-rt-city {
   font-size: 13px;
-  background: rgba(255,255,255,0.13);
-  border-left: 1px solid rgba(255,255,255,0.18);
-  border-right: 1px solid rgba(255,255,255,0.18);
+  font-weight: 800;
+  color: #10318f;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.rs-rt-connector {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 40px;
+}
+.rs-rt-dash {
+  flex: 1;
+  border-top: 2px dashed #c8d2f0;
+}
+.rs-rt-train {
+  font-size: 14px;
+  color: #10318f;
+  flex-shrink: 0;
 }
 
 /* ─── MAP BACK BUTTON ────────────────────────────────────────────────────── */
