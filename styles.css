@@ -1647,6 +1647,43 @@ html, body { overflow-x: hidden; }
 /* ─── MAP: remove Leaflet focus ring ────────────────────────────────────── */
 .leaflet-interactive:focus { outline: none; }
 
+/* ─── ROUTE TICKET TOOLTIP ───────────────────────────────────────────────── */
+.leaflet-tooltip.rs-route-ticket {
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+.leaflet-tooltip.rs-route-ticket::before { display: none; }
+.rs-rt {
+  display: flex;
+  align-items: stretch;
+  background: #10318f;
+  color: #fff;
+  border-radius: 7px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  box-shadow: 0 3px 16px rgba(0,0,0,0.3);
+  user-select: none;
+}
+.rs-rt-dep, .rs-rt-arr {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+}
+.rs-rt-mid {
+  padding: 8px 9px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  background: rgba(255,255,255,0.13);
+  border-left: 1px solid rgba(255,255,255,0.18);
+  border-right: 1px solid rgba(255,255,255,0.18);
+}
+
 /* ─── MAP BACK BUTTON ────────────────────────────────────────────────────── */
 .rs-map-back-btn {
   background: #fff;
