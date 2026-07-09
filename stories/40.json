@@ -18,5 +18,43 @@
     "Se poser au bord du Danube, au pied du Château de Bratislava",
     "Les jardins présidentiels (Bratislava)",
     "Le majestueux Palais du Belvédère (Vienne)"
+  ],
+  "routePoints": [
+    [
+      50.083,
+      14.435
+    ],
+    [
+      50.036,
+      15.779
+    ],
+    [
+      49.906,
+      16.449
+    ],
+    [
+      49.586,
+      17.257
+    ],
+    [
+      49.455,
+      17.451
+    ],
+    [
+      49.191,
+      16.614
+    ],
+    [
+      48.758,
+      16.882
+    ],
+    [
+      48.157,
+      17.107
+    ],
+    [
+      48.196,
+      16.375
+    ]
   ]
 }

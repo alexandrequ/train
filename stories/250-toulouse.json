@@ -17,5 +17,39 @@
     "Se poser aux bords du quai de la Garonne",
     "Ras la tasse pour un bon café",
     "Pour du pastis : passage obligé Chez Tonton (l'alcool est à consommer avec modération)"
+  ],
+  "routePoints": [
+    [
+      48.841,
+      2.321
+    ],
+    [
+      47.393,
+      0.726
+    ],
+    [
+      46.58,
+      0.341
+    ],
+    [
+      45.649,
+      0.156
+    ],
+    [
+      44.826,
+      -0.557
+    ],
+    [
+      44.203,
+      0.613
+    ],
+    [
+      44.019,
+      1.358
+    ],
+    [
+      43.611,
+      1.454
+    ]
   ]
 }

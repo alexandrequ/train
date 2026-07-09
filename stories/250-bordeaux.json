@@ -15,5 +15,39 @@
     "Le Bar à Vin pour de super vins pas chers",
     "Darwin eco-système, un tiers-lieu avec plein de chouettes initiatives",
     "Prendre le Bordeaux City pass pour avoir accès aux musées (Porte Cailhau, Bassin des lumières, Tour Pey Berland, Cité du vin avec dégustation, CAPC, balade en bateau sur la Garonne, Musée du vin et du négoce)"
+  ],
+  "routePoints": [
+    [
+      50.85,
+      4.352
+    ],
+    [
+      50.629,
+      3.057
+    ],
+    [
+      49.008,
+      2.551
+    ],
+    [
+      48.728,
+      2.248
+    ],
+    [
+      47.393,
+      0.726
+    ],
+    [
+      46.58,
+      0.341
+    ],
+    [
+      45.649,
+      0.156
+    ],
+    [
+      44.826,
+      -0.557
+    ]
   ]
 }

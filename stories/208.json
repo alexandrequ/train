@@ -18,5 +18,63 @@
     "Jernbanecafeen — LE bar des train lovers, juste en face de la gare, déco ferroviaire et concerts réguliers",
     "Les jardins de Frederiksberg Have et les éléphants du zoo (entrée gratuite depuis les jardins)",
     "Le quartier de Kødbyen — Tommi's Burger Joint et le Prolog Coffee Bar"
+  ],
+  "routePoints": [
+    [
+      50.85,
+      4.352
+    ],
+    [
+      50.633,
+      5.58
+    ],
+    [
+      50.776,
+      6.084
+    ],
+    [
+      50.938,
+      6.959
+    ],
+    [
+      51.518,
+      7.459
+    ],
+    [
+      52.032,
+      8.533
+    ],
+    [
+      52.377,
+      9.742
+    ],
+    [
+      53.553,
+      10.006
+    ],
+    [
+      54.793,
+      9.435
+    ],
+    [
+      54.82,
+      9.359
+    ],
+    [
+      55.49,
+      9.475
+    ],
+    [
+      55.404,
+      10.386
+    ],
+    [
+      55.449,
+      11.789
+    ],
+    [
+      55.673,
+      12.565
+    ]
   ]
 }
