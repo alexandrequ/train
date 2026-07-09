@@ -535,7 +535,11 @@ function initMap() {
             activeCode  = code;
 
             if (storiesForCode.length) {
-              map.fitBounds(layer.getBounds(), { padding: [40, 40], maxZoom: 6 });
+              const METRO_BOUNDS = { '250': [[41.3, -5.2], [51.2, 9.6]] };
+              const bounds = METRO_BOUNDS[code]
+                ? L.latLngBounds(METRO_BOUNDS[code][0], METRO_BOUNDS[code][1])
+                : layer.getBounds();
+              map.fitBounds(bounds, { padding: [40, 40], maxZoom: 6 });
               showCountryRoutes(map, storiesForCode);
               showMapBack(map);
             } else {
