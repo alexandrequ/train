@@ -1593,3 +1593,23 @@ html, body { overflow-x: hidden; }
   .rs-hero-logo { width: clamp(200px, 72vw, 340px); }
   #map { height: 280px; }
 }
+
+/* ─── MAP BACK BUTTON ────────────────────────────────────────────────────── */
+.rs-map-back-btn {
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rs-royal);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.15);
+  margin-top: 10px;
+  user-select: none;
+  transition: background 0.15s;
+}
+.rs-map-back-btn:hover { background: #f0f0f0; }
