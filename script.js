@@ -894,7 +894,7 @@ async function initStoryPage() {
 
     // Hero background: story photo → Unsplash fallback
     const heroEl = document.querySelector('.sp-story-hero');
-    const storyPhoto = data.photos && data.photos[0] ? BASE + data.photos[0] : null;
+    const storyPhoto = data.heroPhoto ? BASE + data.heroPhoto : (data.photos && data.photos[0] ? BASE + data.photos[0] : null);
     const unsplashQuery = `train travel ${parts[parts.length - 1]} ${COUNTRY_NAMES[countryCode] || ''}`.trim();
     const unsplashPhoto = storyPhoto ? null : await fetchUnsplashPhoto(unsplashQuery);
     applyStoryHero(heroEl, storyPhoto, unsplashPhoto);
