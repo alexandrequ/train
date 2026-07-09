@@ -441,13 +441,31 @@ function showCountryRoutes(map, storiesForCode) {
   const seenMarkers = new Set();
   storyRoutes.forEach(({ slug, data, coords }) => {
     const parts = (data.route || data.name).split('→').map(s => s.trim());
-    const ticketHtml = `<div class="rs-rt"><span class="rs-rt-dep">${parts[0]}</span><span class="rs-rt-mid"><i class="bi bi-train-front-fill"></i></span><span class="rs-rt-arr">${parts[parts.length - 1]}</span></div>`;
+    const ticketHtml = `
+      <div class="rs-rt">
+        <div class="rs-rt-stripe"></div>
+        <div class="rs-rt-body">
+          <div class="rs-rt-station">
+            <span class="rs-rt-label">Départ</span>
+            <span class="rs-rt-city">${parts[0]}</span>
+          </div>
+          <div class="rs-rt-connector">
+            <span class="rs-rt-dash"></span>
+            <i class="bi bi-train-front-fill rs-rt-train"></i>
+            <span class="rs-rt-dash"></span>
+          </div>
+          <div class="rs-rt-station rs-rt-station--arr">
+            <span class="rs-rt-label">Arrivée</span>
+            <span class="rs-rt-city">${parts[parts.length - 1]}</span>
+          </div>
+        </div>
+      </div>`;
     let highlight = null;
     L.polyline(coords, { color: 'transparent', weight: 20, opacity: 0.001 })
       .bindTooltip(ticketHtml, { sticky: true, className: 'rs-route-ticket', direction: 'top', offset: [0, -6] })
       .on('mouseover', () => { highlight = L.polyline(coords, { color: '#0a1f6e', weight: 5, opacity: 1 }).addTo(_routeOverlays); })
       .on('mouseout',  () => { if (highlight) { highlight.remove(); highlight = null; } })
-      .on('click', () => { window.location.href = `${BASE}histoire/?story=${slug}`; })
+      .on('click', (e) => { L.DomEvent.stopPropagation(e); window.location.href = `${BASE}histoire/?story=${slug}`; })
       .addTo(_routeOverlays);
 
     // Endpoint markers (deduplicated)
@@ -456,7 +474,7 @@ function showCountryRoutes(map, storiesForCode) {
       if (seenMarkers.has(mk)) return;
       seenMarkers.add(mk);
       L.circleMarker(c, { radius: 5, fillColor: '#10318f', color: '#fff', weight: 2, fillOpacity: 1 })
-        .on('click', () => { window.location.href = `${BASE}histoire/?story=${slug}`; })
+        .on('click', (e) => { L.DomEvent.stopPropagation(e); window.location.href = `${BASE}histoire/?story=${slug}`; })
         .addTo(_routeOverlays);
     });
   });
