@@ -411,26 +411,36 @@ function hideMapPanel() {
   if (_map) setTimeout(() => _map.invalidateSize(), 280);
 }
 
+const ROUTE_PALETTE = [
+  { base: '#10318f', hover: '#071d5c' },
+  { base: '#b83232', hover: '#7a1e1e' },
+  { base: '#1a7a5e', hover: '#0e4f3d' },
+  { base: '#7b3fa0', hover: '#522870' },
+  { base: '#c47a00', hover: '#8a5500' },
+  { base: '#1a6e8a', hover: '#0e4a5c' },
+];
+
 function showCountryRoutes(map, storiesForCode) {
   if (_routeOverlays) { _routeOverlays.remove(); _routeOverlays = null; }
   _routeOverlays = L.layerGroup().addTo(map);
-  storiesForCode.forEach(([slug, data]) => {
+  storiesForCode.forEach(([slug, data], idx) => {
     const coords = (data.routePoints && data.routePoints.length >= 2)
       ? data.routePoints : routeCoords(data.route);
     if (coords.length < 2) return;
+    const { base, hover } = ROUTE_PALETTE[idx % ROUTE_PALETTE.length];
     const parts = (data.route || data.name).split('→').map(s => s.trim());
     const dep = parts[0];
     const arr = parts[parts.length - 1];
-    const ticketHtml = `<div class="rs-rt"><span class="rs-rt-dep">${dep}</span><span class="rs-rt-mid"><i class="bi bi-train-front-fill"></i></span><span class="rs-rt-arr">${arr}</span></div>`;
-    const visibleLine = L.polyline(coords, { color: '#10318f', weight: 3, opacity: 0.85, dashArray: '6 4' }).addTo(_routeOverlays);
+    const ticketHtml = `<div class="rs-rt" style="--rt-color:${base}"><span class="rs-rt-dep">${dep}</span><span class="rs-rt-mid"><i class="bi bi-train-front-fill"></i></span><span class="rs-rt-arr">${arr}</span></div>`;
+    const visibleLine = L.polyline(coords, { color: base, weight: 3, opacity: 0.85, dashArray: '6 4' }).addTo(_routeOverlays);
     L.polyline(coords, { color: 'transparent', weight: 20, opacity: 0.001 })
       .bindTooltip(ticketHtml, { sticky: true, className: 'rs-route-ticket', direction: 'top', offset: [0, -6] })
-      .on('mouseover', () => visibleLine.setStyle({ weight: 5, opacity: 1, dashArray: null, color: '#0a1f6e' }))
-      .on('mouseout',  () => visibleLine.setStyle({ weight: 3, opacity: 0.85, dashArray: '6 4', color: '#10318f' }))
+      .on('mouseover', () => visibleLine.setStyle({ weight: 5, opacity: 1, dashArray: null, color: hover }))
+      .on('mouseout',  () => visibleLine.setStyle({ weight: 3, opacity: 0.85, dashArray: '6 4', color: base }))
       .on('click', () => { window.location.href = `${BASE}histoire/?story=${slug}`; })
       .addTo(_routeOverlays);
     [coords[0], coords[coords.length - 1]].forEach(c => {
-      L.circleMarker(c, { radius: 5, fillColor: '#10318f', color: '#fff', weight: 2, fillOpacity: 1 })
+      L.circleMarker(c, { radius: 5, fillColor: base, color: '#fff', weight: 2, fillOpacity: 1 })
         .on('click', () => { window.location.href = `${BASE}histoire/?story=${slug}`; })
         .addTo(_routeOverlays);
     });
