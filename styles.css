@@ -1076,6 +1076,8 @@ a.rs-resource-card:hover {
 .rs-legal-label { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--rs-sky); margin-top: 0.8rem; margin-bottom: 0.28rem; }
 .rs-footer-divider { border-color: rgba(255,255,255,0.15) !important; }
 .rs-footer-copy { font-size: 0.76rem; color: rgba(255,255,255,0.7); }
+.rs-footer-contact-link { font-size: 0.76rem; color: rgba(255,255,255,0.7); text-decoration: none; display: flex; align-items: center; gap: 0.35rem; }
+.rs-footer-contact-link:hover { color: #fff; }
 
 .rs-footer .text-white,
 .rs-footer .text-white-50 {
