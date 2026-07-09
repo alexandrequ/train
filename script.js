@@ -303,6 +303,8 @@ let currentStoryData = null;
 let _routeMap = null;
 let _pendingRouteMap = null;
 let activeLayer = null;
+let _routeOverlays = null;
+let _mapBackControl = null;
 
 function routeCoords(route) {
   if (!route) return [];
@@ -387,6 +389,49 @@ function openStoryFromHash() {
 }
 
 // ─── MAP ──────────────────────────────────────────────────────────────────────
+
+function showCountryRoutes(map, storiesForCode) {
+  if (_routeOverlays) { _routeOverlays.remove(); _routeOverlays = null; }
+  _routeOverlays = L.layerGroup().addTo(map);
+  storiesForCode.forEach(([slug, data]) => {
+    const coords = (data.routePoints && data.routePoints.length >= 2)
+      ? data.routePoints : routeCoords(data.route);
+    if (coords.length < 2) return;
+    const parts = (data.route || data.name).split('→').map(s => s.trim());
+    const label = `${parts[0]} → ${parts[parts.length - 1]}`;
+    L.polyline(coords, { color: '#10318f', weight: 3, opacity: 0.85, dashArray: '6 4' }).addTo(_routeOverlays);
+    L.polyline(coords, { color: 'transparent', weight: 20, opacity: 0.001 })
+      .bindTooltip(label, { sticky: true, className: 'rs-tooltip' })
+      .on('click', () => { window.location.href = `${BASE}histoire/?story=${slug}`; })
+      .addTo(_routeOverlays);
+    [coords[0], coords[coords.length - 1]].forEach(c => {
+      L.circleMarker(c, { radius: 5, fillColor: '#10318f', color: '#fff', weight: 2, fillOpacity: 1 })
+        .on('click', () => { window.location.href = `${BASE}histoire/?story=${slug}`; })
+        .addTo(_routeOverlays);
+    });
+  });
+}
+
+function showMapBack(map) {
+  if (_mapBackControl) return;
+  _mapBackControl = L.control({ position: 'topleft' });
+  _mapBackControl.onAdd = () => {
+    const div = L.DomUtil.create('div', 'rs-map-back-btn');
+    div.innerHTML = '<i class="bi bi-arrow-left"></i> Retour';
+    L.DomEvent.disableClickPropagation(div);
+    L.DomEvent.on(div, 'click', () => {
+      if (_routeOverlays) { _routeOverlays.remove(); _routeOverlays = null; }
+      map.setView([52, 12], 3, { animate: true });
+      if (activeLayer) {
+        activeLayer.setStyle({ fillOpacity: 0.65, fillColor: '#c8960c' });
+        activeLayer = null; activeCode = null;
+      }
+      _mapBackControl.remove(); _mapBackControl = null;
+    });
+    return div;
+  };
+  _mapBackControl.addTo(map);
+}
 
 let mapReady = false;
 
@@ -503,12 +548,16 @@ function initMap() {
             activeCode  = code;
             layer.setStyle({ fillOpacity: 1, fillColor: fillAct });
 
-            document.getElementById('storyModalTitle').textContent = countryName;
-            currentStoryData = null;
-            document.getElementById('storyModalBody').innerHTML = storiesForCode.length
-              ? renderLevel1(code, storiesForCode)
-              : renderBonsPlansOnly(code);
-            bootstrap.Modal.getOrCreateInstance(document.getElementById('storyModal')).show();
+            if (storiesForCode.length) {
+              map.fitBounds(layer.getBounds(), { padding: [40, 40], maxZoom: 6 });
+              showCountryRoutes(map, storiesForCode);
+              showMapBack(map);
+            } else {
+              document.getElementById('storyModalTitle').textContent = countryName;
+              currentStoryData = null;
+              document.getElementById('storyModalBody').innerHTML = renderBonsPlansOnly(code);
+              bootstrap.Modal.getOrCreateInstance(document.getElementById('storyModal')).show();
+            }
           });
         },
       }).addTo(map);
