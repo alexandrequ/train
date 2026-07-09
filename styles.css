@@ -385,7 +385,53 @@ body { background: #fff; }
   border-top: 1px solid rgba(16,49,143,0.08);
   border-bottom: 1px solid rgba(16,49,143,0.08);
 }
-#map { width: 100%; height: 560px; background: #f7fbff; }
+.rs-map-with-panel { display: flex; height: 560px; }
+#map { flex: 1 1 auto; min-width: 0; height: 100%; background: #f7fbff; }
+
+/* ─── MAP SIDE PANEL ─────────────────────────────────────────────────────── */
+.rs-map-panel {
+  width: 300px;
+  flex-shrink: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-left: 1px solid #e8e8e8;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.07);
+  transition: width 0.25s ease;
+  overflow: hidden;
+}
+.rs-map-panel--hidden { width: 0; border-left: none; box-shadow: none; }
+.rs-map-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #f7f7fd;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  min-width: 300px;
+}
+.rs-map-panel-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--rs-royal);
+}
+.rs-map-panel-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #999;
+  padding: 0 2px;
+  transition: color 0.15s;
+}
+.rs-map-panel-close:hover { color: #333; }
+.rs-map-panel-body { padding: 12px 14px; overflow-y: auto; flex: 1; min-width: 300px; }
 .rs-map-footer {
   color: rgba(23,28,50,0.58) !important;
   background: #f7fbff !important;
@@ -1557,7 +1603,8 @@ textarea.rs-form-ctrl { resize: vertical; min-height: 120px; }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
 @media (max-width: 992px) {
-  #map { height: 400px; }
+  .rs-map-with-panel { height: 400px; }
+  #map { height: 100%; }
 }
 
 /* Prevent any element from causing horizontal scroll */
@@ -1591,7 +1638,10 @@ html, body { overflow-x: hidden; }
 
 @media (max-width: 576px) {
   .rs-hero-logo { width: clamp(200px, 72vw, 340px); }
-  #map { height: 280px; }
+  .rs-map-with-panel { flex-direction: column; height: auto; }
+  #map { height: 280px; width: 100%; }
+  .rs-map-panel { width: 100% !important; height: auto; max-height: 240px; border-left: none; border-top: 1px solid #e8e8e8; }
+  .rs-map-panel--hidden { max-height: 0; }
 }
 
 /* ─── MAP: remove Leaflet focus ring ────────────────────────────────────── */

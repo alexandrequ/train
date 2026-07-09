@@ -341,7 +341,16 @@
 
       <!-- Full-width map -->
       <div class="rs-map-card border-0 overflow-hidden rounded-0">
-        <div id="map" aria-label="Carte interactive des voyages en train"></div>
+        <div class="rs-map-with-panel">
+          <div id="map" aria-label="Carte interactive des voyages en train"></div>
+          <aside id="rs-map-panel" class="rs-map-panel rs-map-panel--hidden" aria-label="Bons plans">
+            <div class="rs-map-panel-header">
+              <span id="rs-map-panel-title" class="rs-map-panel-title"></span>
+              <button id="rs-map-panel-close" class="rs-map-panel-close" aria-label="Fermer">&times;</button>
+            </div>
+            <div id="rs-map-panel-body" class="rs-map-panel-body"></div>
+          </aside>
+        </div><!-- /.rs-map-with-panel -->
         <div class="rs-map-footer small px-3 py-2">
           <i class="bi bi-cursor me-1"></i>Les pays colorés ont des récits et/ou des bons plans — clique pour les découvrir.
         </div>
