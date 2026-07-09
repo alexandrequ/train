@@ -422,10 +422,7 @@ function showMapBack(map) {
     L.DomEvent.on(div, 'click', () => {
       if (_routeOverlays) { _routeOverlays.remove(); _routeOverlays = null; }
       map.setView([52, 12], 3, { animate: true });
-      if (activeLayer) {
-        activeLayer.setStyle({ fillOpacity: 0.65, fillColor: '#c8960c' });
-        activeLayer = null; activeCode = null;
-      }
+      activeLayer = null; activeCode = null;
       _mapBackControl.remove(); _mapBackControl = null;
     });
     return div;
@@ -533,20 +530,12 @@ function initMap() {
             { sticky: true, direction: 'top', offset: [0, -4], className: 'rs-tooltip' }
           );
 
-          layer.on('mouseover', () => { if (layer !== activeLayer) layer.setStyle({ fillOpacity: 0.85, fillColor: fillAct }); });
-          layer.on('mouseout',  () => { if (layer !== activeLayer) layer.setStyle({ fillOpacity: fillOpDef, fillColor: fillDef }); });
+          layer.on('mouseover', () => { if (layer !== activeLayer) layer.setStyle({ fillOpacity: 0.85, fillColor: fillAct, color: '#ffffff', weight: 0.7 }); });
+          layer.on('mouseout',  () => { if (layer !== activeLayer) layer.setStyle({ fillOpacity: fillOpDef, fillColor: fillDef, color: '#ffffff', weight: 0.7 }); });
 
           layer.on('click', () => {
-            if (activeLayer && activeLayer !== layer) {
-              const prevTipsOnly = !(STORY_INDEX[activeCode] || []).length && (!!BONS_PLANS[activeCode] || INTERRAIL_COUNTRIES.has(activeCode));
-              activeLayer.setStyle({
-                fillOpacity: prevTipsOnly ? 0.55 : 0.65,
-                fillColor:   prevTipsOnly ? FILL_TIPS : FILL_DEFAULT,
-              });
-            }
             activeLayer = layer;
             activeCode  = code;
-            layer.setStyle({ fillOpacity: 1, fillColor: fillAct });
 
             if (storiesForCode.length) {
               map.fitBounds(layer.getBounds(), { padding: [40, 40], maxZoom: 6 });
@@ -581,15 +570,8 @@ if (_storyModalEl) {
   });
 
   _storyModalEl.addEventListener('hidden.bs.modal', () => {
-    if (activeLayer) {
-      const wasTipsOnly = !(STORY_INDEX[activeCode] || []).length && (!!BONS_PLANS[activeCode] || INTERRAIL_COUNTRIES.has(activeCode));
-      activeLayer.setStyle({
-        fillOpacity: wasTipsOnly ? 0.55 : 0.65,
-        fillColor:   wasTipsOnly ? '#c8960c' : '#c8960c',
-      });
-      activeLayer = null;
-      activeCode  = null;
-    }
+    activeLayer = null;
+    activeCode  = null;
     currentStoryData = null;
     if (_routeMap) { _routeMap.remove(); _routeMap = null; }
     history.replaceState(null, '', '#carte');
