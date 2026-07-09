@@ -379,7 +379,7 @@ if (!window.RS_STORY_PAGE) {
 function openStoryFromHash() {
   const code = new URLSearchParams(window.location.search).get('story');
   if (!code) return;
-  window.location.replace(`${BASE}histoire/?story=${code}`);
+  window.location.replace(`histoire/?story=${code}`);
 }
 
 // ─── MAP ──────────────────────────────────────────────────────────────────────
@@ -548,7 +548,7 @@ if (_storyModalEl) {
     const listItem = e.target.closest('.sp-story-list-item');
     if (listItem && !e.target.closest('[data-action]') && !e.target.closest('a[href]')) {
       const storyCode = listItem.dataset.storyCode;
-      window.location.href = `${BASE}histoire/?story=${storyCode}`;
+      window.location.href = `histoire/?story=${storyCode}`;
       return;
     }
     // Niveau 2 → Niveau 1 : bouton retour (kept for renderStory context)
@@ -809,7 +809,7 @@ function renderRecitsSection() {
 
   list.querySelectorAll('.rs-open-story').forEach(btn => {
     btn.addEventListener('click', () => {
-      window.location.href = `${BASE}histoire/?story=${btn.dataset.storyCode}`;
+      window.location.href = `histoire/?story=${btn.dataset.storyCode}`;
     });
   });
 }
