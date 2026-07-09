@@ -326,8 +326,8 @@
     </section>
 
     <!-- ═══ CARTE DES VOYAGES ══════════════════════════════════════════════════════ -->
-    <section id="carte" class="py-5 rs-map-section">
-      <div class="container-xl">
+    <section id="carte" class="rs-map-section">
+      <div class="container-xl pt-5 pb-3">
         <div class="mb-4">
           <span class="badge rounded-pill rs-badge-kicker mb-2">
             <i class="bi bi-globe-europe-africa me-1"></i>Communauté
@@ -337,19 +337,18 @@
             Cette carte est interactive et collaborative ; il te suffit de cliquer sur les pays qui t'intéressent pour y voir les récits de voyages en train.
           </p>
         </div>
+      </div>
 
-        <div class="row g-3 align-items-start">
-          <div class="col-12">
-            <div class="card border-0 overflow-hidden rounded-4 rs-map-card">
-              <div id="map" aria-label="Carte interactive des voyages en train"></div>
-              <div class="card-footer border-0 rs-map-footer small">
-                <i class="bi bi-cursor me-1"></i>Les pays colorés ont des récits et/ou des bons plans — clique pour les découvrir.
-              </div>
-            </div>
-          </div>
+      <!-- Full-width map -->
+      <div class="rs-map-card border-0 overflow-hidden rounded-0">
+        <div id="map" aria-label="Carte interactive des voyages en train"></div>
+        <div class="rs-map-footer small px-3 py-2">
+          <i class="bi bi-cursor me-1"></i>Les pays colorés ont des récits et/ou des bons plans — clique pour les découvrir.
         </div>
+      </div>
 
-        <div class="d-flex align-items-center gap-3 flex-wrap mt-4">
+      <div class="container-xl pb-5 pt-3">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
           <button class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#shareModal">
             <i class="bi bi-pencil me-1"></i>Partager mon récit
           </button>
