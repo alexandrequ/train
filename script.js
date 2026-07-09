@@ -874,10 +874,27 @@ async function initStoryPage() {
       statsEl.innerHTML = chips.join('');
     }
 
-    // Content
+    // Sidebar: route map + key facts card
+    const asideEl = document.getElementById('sp-story-aside');
+    if (asideEl) {
+      const bUrl   = data.booking && data.booking.startsWith('http') ? data.booking : data.booking ? `https://www.${data.booking.toLowerCase().replace(/\s/g,'')}.com` : null;
+      const bLabel = bUrl ? bUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '') : null;
+      const hasFacts = data.duration || data.price || bUrl;
+
+      asideEl.innerHTML = `
+        ${data.route ? '<div id="sp-route-map" class="sp-route-map"></div>' : ''}
+        ${hasFacts ? `
+          <div class="sp-aside-card">
+            ${data.duration ? `<div class="sp-aside-stat"><i class="bi bi-clock"></i><span>${data.duration}</span></div>` : ''}
+            ${data.price    ? `<div class="sp-aside-stat"><i class="bi bi-tag"></i><span>${data.price}</span></div>` : ''}
+            ${bUrl          ? `<a href="${bUrl}" target="_blank" rel="noopener" class="sp-aside-stat"><i class="bi bi-box-arrow-up-right"></i><span>${bLabel}</span></a>` : ''}
+          </div>` : ''}
+      `;
+    }
+
+    // Main article content
     contentEl.innerHTML = `
       ${data.warning ? `<div class="sp-warning">⚠️ ${data.warning}</div>` : ''}
-      ${data.route ? '<div id="sp-route-map" class="sp-route-map"></div>' : ''}
       ${data.narrative ? `<article class="sp-narrative-article">${data.narrative}</article>` : ''}
       ${photosHtml(data)}
       ${highlightsHtml(data)}

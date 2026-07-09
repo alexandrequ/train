@@ -56,9 +56,9 @@
     </nav>
 
     <main>
-      <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+      <!-- ── Hero ────────────────────────────────────────────────────────── -->
       <header class="sp-story-hero">
-        <div class="sp-story-page-inner">
+        <div class="sp-story-hero-inner">
           <a href="../#carte" class="sp-back-btn sp-back-btn--page">
             <i class="bi bi-arrow-left"></i>Retour à la carte
           </a>
@@ -68,15 +68,23 @@
         </div>
       </header>
 
-      <!-- ── Body ─────────────────────────────────────────────────────────── -->
+      <!-- ── Body: article + sidebar ──────────────────────────────────── -->
       <div class="sp-story-body">
-        <div class="sp-story-page-inner">
-          <div id="sp-story-content">
-            <div class="text-center py-5">
-              <div class="spinner-border" role="status" style="color:var(--rs-royal)">
-                <span class="visually-hidden">Chargement…</span>
+        <div class="sp-story-body-inner">
+          <div class="sp-story-layout">
+
+            <!-- Article principal -->
+            <div class="sp-story-main" id="sp-story-content">
+              <div class="text-center py-5">
+                <div class="spinner-border" role="status" style="color:var(--rs-royal)">
+                  <span class="visually-hidden">Chargement…</span>
+                </div>
               </div>
             </div>
+
+            <!-- Sidebar : carte + infos pratiques -->
+            <aside class="sp-story-aside" id="sp-story-aside"></aside>
+
           </div>
         </div>
       </div>
