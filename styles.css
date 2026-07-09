@@ -1248,15 +1248,19 @@ a.rs-resource-card:hover {
   flex: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 5.5rem 1.5rem 3.5rem;
+  padding: 0 1.5rem 3.5rem;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;  /* title block anchored at bottom */
 }
-/* Bottom block: title, byline, stats — anchored to bottom of hero */
+/* Bottom block: title, byline, stats */
 .sp-hero-bottom { max-width: 720px; }
+/* Back button: pinned top-left of the hero, just below navbar */
 .sp-back-btn--page {
+  position: absolute;
+  top: 5.75rem;   /* matches navbar height */
+  left: 1.5rem;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -1267,6 +1271,7 @@ a.rs-resource-card:hover {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: color 0.15s;
+  z-index: 2;
 }
 .sp-back-btn--page:hover { color: #fff; }
 .sp-story-page-title {
@@ -1429,7 +1434,8 @@ a.sp-aside-stat:hover { color: var(--rs-sky); }
 /* ── Responsive: mobile stacks sidebar above article ── */
 @media (max-width: 768px) {
   .sp-story-hero { min-height: 50vh; }
-  .sp-story-hero-inner { padding: 5rem 1.25rem 2.5rem; }
+  .sp-story-hero-inner { padding: 0 1.25rem 2.5rem; }
+  .sp-back-btn--page { top: 5rem; left: 1.25rem; }
   .sp-story-layout {
     grid-template-columns: 1fr;
     gap: 1.5rem;
