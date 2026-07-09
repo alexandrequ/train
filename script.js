@@ -468,6 +468,16 @@ function showCountryRoutes(map, storiesForCode) {
       .on('click', (e) => { L.DomEvent.stopPropagation(e); window.location.href = `${BASE}histoire/?story=${slug}`; })
       .addTo(_routeOverlays);
 
+    // Intermediate stop markers (train changes)
+    (data.stops || []).forEach(c => {
+      const mk = `${c[0]},${c[1]}`;
+      if (seenMarkers.has(mk)) return;
+      seenMarkers.add(mk);
+      L.circleMarker(c, { radius: 4, fillColor: '#fff', color: '#10318f', weight: 2, fillOpacity: 1 })
+        .on('click', (e) => { L.DomEvent.stopPropagation(e); window.location.href = `${BASE}histoire/?story=${slug}`; })
+        .addTo(_routeOverlays);
+    });
+
     // Endpoint markers (deduplicated)
     [coords[0], coords[coords.length - 1]].forEach(c => {
       const mk = `${c[0]},${c[1]}`;
