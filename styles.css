@@ -1206,13 +1206,6 @@ a.rs-resource-card:hover {
 
 /* ─── PAGE RÉCIT ─────────────────────────────────────────────────────────── */
 
-/* Hero inner: narrow, centré */
-.sp-story-hero-inner {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
 /* Body inner: large pour accueillir 2 colonnes */
 .sp-story-body-inner {
   max-width: 1100px;
@@ -1220,64 +1213,90 @@ a.rs-resource-card:hover {
   padding: 0 1.5rem;
 }
 
-/* ── Hero: dark section, clears fixed navbar (~84px) ── */
+/* ── Hero: full-bleed editorial (bikepacking.com style) ── */
 .sp-story-hero {
-  background: linear-gradient(160deg, var(--rs-night) 0%, var(--rs-navy) 100%);
-  padding: 7rem 0 2.75rem;
+  min-height: 75vh;
   position: relative;
+  background: var(--rs-night);           /* solid fallback */
   background-size: cover;
   background-position: center;
+  display: flex;
+  flex-direction: column;
 }
-/* When a photo is set via JS, layer a dark gradient on top for legibility */
-.sp-story-hero.sp-hero-has-image::before {
+/* Gradient overlay: always present so text stays readable */
+.sp-story-hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, rgba(13,35,55,0.82) 0%, rgba(16,49,143,0.65) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(13,35,55,0.35) 0%,
+    rgba(13,35,55,0.25) 35%,
+    rgba(13,35,55,0.78) 70%,
+    rgba(13,35,55,0.96) 100%
+  );
   pointer-events: none;
+  z-index: 0;
 }
-.sp-story-hero.sp-hero-has-image .sp-story-hero-inner { position: relative; z-index: 1; }
-/* Unsplash attribution credit */
-.sp-hero-credit {
-  position: absolute;
-  bottom: 0.6rem;
-  right: 1rem;
-  font-size: 0.65rem;
-  color: rgba(255,255,255,0.38);
-  z-index: 2;
+/* When no photo: replace with branded navy gradient */
+.sp-story-hero:not(.sp-hero-has-image)::before {
+  background: linear-gradient(160deg, var(--rs-night) 0%, var(--rs-navy) 100%);
 }
-.sp-hero-credit a { color: inherit; text-decoration: underline; }
-.sp-hero-credit a:hover { color: rgba(255,255,255,0.7); }
+.sp-story-hero-inner {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5.5rem 1.5rem 3.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* Bottom block: title, byline, stats — anchored to bottom of hero */
+.sp-hero-bottom { max-width: 720px; }
 .sp-back-btn--page {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
   font-size: 0.72rem;
   font-weight: 700;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.5);
   text-decoration: none;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: color 0.15s;
-  margin-bottom: 1.5rem;
 }
-.sp-back-btn--page:hover { color: rgba(255,255,255,0.85); }
+.sp-back-btn--page:hover { color: #fff; }
 .sp-story-page-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 5.5vw, 3.4rem);
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
   color: #fff;
   font-weight: 900;
-  margin: 0 0 0.5rem;
-  line-height: 1.1;
+  margin: 0 0 0.6rem;
+  line-height: 1.08;
+  text-shadow: 0 2px 28px rgba(0,0,0,0.45);
 }
 .sp-story-byline {
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.5);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.1rem;
 }
+/* Unsplash attribution credit */
+.sp-hero-credit {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 1rem;
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.3);
+  z-index: 2;
+}
+.sp-hero-credit a { color: inherit; text-decoration: underline; }
+.sp-hero-credit a:hover { color: rgba(255,255,255,0.65); }
 /* Stats chips in hero */
 .sp-story-stats {
   display: flex;
@@ -1409,7 +1428,8 @@ a.sp-aside-stat:hover { color: var(--rs-sky); }
 
 /* ── Responsive: mobile stacks sidebar above article ── */
 @media (max-width: 768px) {
-  .sp-story-hero { padding: 5.5rem 0 2rem; }
+  .sp-story-hero { min-height: 50vh; }
+  .sp-story-hero-inner { padding: 5rem 1.25rem 2.5rem; }
   .sp-story-layout {
     grid-template-columns: 1fr;
     gap: 1.5rem;
