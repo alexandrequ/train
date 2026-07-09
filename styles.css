@@ -1658,7 +1658,7 @@ html, body { overflow-x: hidden; }
 .rs-rt {
   display: flex;
   align-items: stretch;
-  background: #10318f;
+  background: var(--rt-color, #10318f);
   color: #fff;
   border-radius: 7px;
   font-family: Inter, system-ui, sans-serif;
