@@ -853,8 +853,19 @@ async function initStoryPage() {
     }
     if (titleEl) titleEl.textContent = routeTitle;
 
+    // Byline: author + country
+    const bylineEl = document.getElementById('sp-story-byline');
+    const country = COUNTRY_NAMES[countryCode] || '';
+    if (bylineEl) {
+      bylineEl.textContent = [data.author ? `${T.by} ${data.author}` : '', country].filter(Boolean).join(' · ');
+    }
+
+    // Ticket card in its own floating wrapper
+    const ticketEl = document.getElementById('sp-story-ticket');
+    if (ticketEl) ticketEl.innerHTML = buildTicketCard(data, code, countryCode);
+
+    // Rest of the content (no ticket card here)
     contentEl.innerHTML = `
-      ${buildTicketCard(data, code, countryCode)}
       ${data.warning ? `<div class="sp-warning">⚠️ ${data.warning}</div>` : ''}
       ${data.route ? '<div id="sp-route-map" class="sp-route-map"></div>' : ''}
       ${data.narrative ? `<article class="sp-narrative-article">${data.narrative}</article>` : ''}

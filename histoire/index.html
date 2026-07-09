@@ -22,22 +22,16 @@
     <meta name="theme-color" content="#0d2337" />
     <link rel="preload" href="../STTitanRegular.woff2" as="font" type="font/woff2" crossorigin />
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <!-- Custom -->
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
 
-    <!-- ═══ NAVBAR ═══════════════════════════════════════════════════════════════ -->
     <nav class="navbar navbar-expand-lg rs-navbar" id="site-header">
       <div class="container-xl">
         <a class="navbar-brand" href="../">
@@ -63,28 +57,38 @@
       </div>
     </nav>
 
-    <!-- ═══ MAIN ══════════════════════════════════════════════════════════════════ -->
-    <main class="sp-story-page-main">
-      <div class="sp-story-page-inner">
+    <main>
+      <!-- ── Hero ── -->
+      <header class="sp-story-hero">
+        <div class="sp-story-page-inner">
+          <a href="../#carte" class="sp-back-btn sp-back-btn--page">
+            <i class="bi bi-arrow-left me-1"></i>Retour à la carte
+          </a>
+          <h1 id="sp-story-title" class="sp-story-page-title">&nbsp;</h1>
+          <p id="sp-story-byline" class="sp-story-byline"></p>
+        </div>
+      </header>
 
-        <a href="../#carte" class="sp-back-btn sp-back-btn--page">
-          <i class="bi bi-arrow-left me-1"></i>Retour à la carte
-        </a>
+      <!-- ── Body ── -->
+      <div class="sp-story-body">
+        <div class="sp-story-page-inner">
 
-        <h1 id="sp-story-title" class="sp-story-page-title">&nbsp;</h1>
+          <!-- Ticket card floats up to overlap the hero -->
+          <div class="sp-story-ticket-wrap" id="sp-story-ticket"></div>
 
-        <div id="sp-story-content">
-          <div class="text-center py-5">
-            <div class="spinner-border" role="status" style="color:var(--rs-royal)">
-              <span class="visually-hidden">Chargement…</span>
+          <!-- Rest of the story (map, narrative, photos, highlights, bons plans) -->
+          <div id="sp-story-content">
+            <div class="text-center py-5">
+              <div class="spinner-border" role="status" style="color:var(--rs-royal)">
+                <span class="visually-hidden">Chargement…</span>
+              </div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </main>
 
-    <!-- ═══ FOOTER ═════════════════════════════════════════════════════════════════ -->
     <footer class="rs-footer py-4">
       <div class="container-xl">
         <div class="mb-3">
@@ -96,7 +100,6 @@
       </div>
     </footer>
 
-    <!-- Scripts -->
     <script>
       window.RS_BASE = '../';
       window.RS_STORY_PAGE = true;
