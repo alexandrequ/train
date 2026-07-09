@@ -853,18 +853,28 @@ async function initStoryPage() {
     }
     if (titleEl) titleEl.textContent = routeTitle;
 
-    // Byline: author + country
+    // Hero: byline
     const bylineEl = document.getElementById('sp-story-byline');
     const country = COUNTRY_NAMES[countryCode] || '';
     if (bylineEl) {
       bylineEl.textContent = [data.author ? `${T.by} ${data.author}` : '', country].filter(Boolean).join(' · ');
     }
 
-    // Ticket card in its own floating wrapper
-    const ticketEl = document.getElementById('sp-story-ticket');
-    if (ticketEl) ticketEl.innerHTML = buildTicketCard(data, code, countryCode);
+    // Hero: stats chips (duration · price · booking)
+    const statsEl = document.getElementById('sp-story-stats');
+    if (statsEl) {
+      const chips = [];
+      if (data.duration) chips.push(`<span class="sp-stat"><i class="bi bi-clock"></i>${data.duration}</span>`);
+      if (data.price)    chips.push(`<span class="sp-stat"><i class="bi bi-tag"></i>${data.price}</span>`);
+      if (data.booking) {
+        const bUrl   = data.booking.startsWith('http') ? data.booking : `https://www.${data.booking.toLowerCase().replace(/\s/g,'')}.com`;
+        const bLabel = data.booking.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+        chips.push(`<a href="${bUrl}" target="_blank" rel="noopener" class="sp-stat"><i class="bi bi-box-arrow-up-right"></i>${bLabel}</a>`);
+      }
+      statsEl.innerHTML = chips.join('');
+    }
 
-    // Rest of the content (no ticket card here)
+    // Content
     contentEl.innerHTML = `
       ${data.warning ? `<div class="sp-warning">⚠️ ${data.warning}</div>` : ''}
       ${data.route ? '<div id="sp-route-map" class="sp-route-map"></div>' : ''}
