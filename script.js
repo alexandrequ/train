@@ -461,7 +461,7 @@ function showCountryRoutes(map, storiesForCode) {
         </div>
       </div>`;
     let highlight = null;
-    L.polyline(coords, { color: 'transparent', weight: 20, opacity: 0.001 })
+    L.polyline(coords, { color: '#10318f', weight: 20, opacity: 0, className: 'rs-route-hit' })
       .bindTooltip(ticketHtml, { sticky: true, className: 'rs-route-ticket', direction: 'top', offset: [0, -6] })
       .on('mouseover', () => { highlight = L.polyline(coords, { color: '#0a1f6e', weight: 5, opacity: 1 }).addTo(_routeOverlays); })
       .on('mouseout',  () => { if (highlight) { highlight.remove(); highlight = null; } })
