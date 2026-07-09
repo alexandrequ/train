@@ -17,5 +17,39 @@
     "Le Palais Royal de Venaria",
     "Les foccacia fournies de Mollica (délicieuses !)",
     "Le marché de Porta Palazzo"
+  ],
+  "routePoints": [
+    [
+      48.844,
+      2.374
+    ],
+    [
+      45.76,
+      4.832
+    ],
+    [
+      45.572,
+      5.921
+    ],
+    [
+      45.34,
+      6.254
+    ],
+    [
+      45.196,
+      6.662
+    ],
+    [
+      45.078,
+      6.703
+    ],
+    [
+      45.137,
+      7.054
+    ],
+    [
+      45.063,
+      7.677
+    ]
   ]
 }

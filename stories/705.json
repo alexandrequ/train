@@ -9,5 +9,47 @@
     "Ljubjana est une super chouette ville pour se balader le long de l'eau ou dans la ville.",
     "Je vous conseille aussi de visiter le château, il en vaut la peine! Le reste de la Slovénie est aussi vraiment beau et naturel, ainsi que la côte croate (Rovinj, lacs de plitvice, ...)",
     "Le reste de la Slovénie est aussi vraiment beau et naturel, ainsi que la côte croate (Rovinj, lacs de Plitvice, ...)"
+  ],
+  "routePoints": [
+    [
+      50.85,
+      4.352
+    ],
+    [
+      50.633,
+      5.58
+    ],
+    [
+      50.776,
+      6.084
+    ],
+    [
+      50.938,
+      6.959
+    ],
+    [
+      50.107,
+      8.663
+    ],
+    [
+      49.446,
+      11.082
+    ],
+    [
+      48.14,
+      11.558
+    ],
+    [
+      47.812,
+      13.045
+    ],
+    [
+      46.612,
+      13.851
+    ],
+    [
+      46.057,
+      14.506
+    ]
   ]
 }

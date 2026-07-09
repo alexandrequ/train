@@ -22,5 +22,31 @@
     "A Croix-Rousse : Le Bouillon pour un repas facile et peu cher, les Délices du Liban",
     "Aller à la boulangerie Chez Romane (Croix-Rousse excellent), prendre des bons croissants et aller au café au Gros Caillou pour bien commencer la journée.",
     "Et surtout ne pas oublier d'aller chez Terre Adélice pour une glace (ils ont pleins pleins de saveurs) !"
+  ],
+  "routePoints": [
+    [
+      50.85,
+      4.352
+    ],
+    [
+      50.629,
+      3.057
+    ],
+    [
+      49.008,
+      2.551
+    ],
+    [
+      47.322,
+      5.043
+    ],
+    [
+      46.308,
+      4.825
+    ],
+    [
+      45.76,
+      4.859
+    ]
   ]
 }

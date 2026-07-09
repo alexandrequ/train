@@ -18,5 +18,31 @@
     "Randonner dans les Calanques — itinéraire conseillé : Marseilleveyere jusqu'à la calanque de Callelongue",
     "Le petit port du Vallon des Auffes",
     "Le Panier"
+  ],
+  "routePoints": [
+    [
+      50.629,
+      3.057
+    ],
+    [
+      49.008,
+      2.551
+    ],
+    [
+      45.76,
+      4.859
+    ],
+    [
+      44.924,
+      4.899
+    ],
+    [
+      43.924,
+      4.904
+    ],
+    [
+      43.302,
+      5.38
+    ]
   ]
 }

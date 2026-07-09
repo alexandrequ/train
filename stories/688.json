@@ -11,5 +11,63 @@
     "Le musée d'histoire de la Yougoslavie était très riche et intéressant.",
     "Pour ceux qui aiment les baristas, les cafés là-bas sont une véritable pépite ! Il y en a vraiment beaucoup ! J'ai testé DRIP Speciality Coffee, mais je suis sûre qu'il n'est pas le seul à valoir le détour !",
     "Belgrade est une ville pleine d'histoire et je conseille de prendre un guide pour mieux la comprendre. J'ai personnellement adoré cette ville et les Serbes que j'ai rencontrés étaient très amicaux ! Je recommande à 100 % !"
+  ],
+  "routePoints": [
+    [
+      50.633,
+      5.58
+    ],
+    [
+      50.776,
+      6.084
+    ],
+    [
+      50.938,
+      6.959
+    ],
+    [
+      50.107,
+      8.663
+    ],
+    [
+      49.801,
+      9.934
+    ],
+    [
+      49.446,
+      11.082
+    ],
+    [
+      48.365,
+      10.885
+    ],
+    [
+      48.14,
+      11.558
+    ],
+    [
+      47.812,
+      13.045
+    ],
+    [
+      46.612,
+      13.851
+    ],
+    [
+      46.057,
+      14.506
+    ],
+    [
+      45.815,
+      15.982
+    ],
+    [
+      45.159,
+      17.998
+    ],
+    [
+      44.8,
+      20.465
+    ]
   ]
 }

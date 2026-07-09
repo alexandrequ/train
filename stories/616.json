@@ -17,5 +17,59 @@
     "Cukiernia Pawlowicz — les meilleurs pączki (beignets fourrés) de la ville",
     "E. Wedel — chocolat chaud maison, une institution varsovienne",
     "30e étage du Palais de la culture et de la science — vue imprenable sur la ville"
+  ],
+  "routePoints": [
+    [
+      50.85,
+      4.352
+    ],
+    [
+      50.633,
+      5.58
+    ],
+    [
+      50.776,
+      6.084
+    ],
+    [
+      50.938,
+      6.959
+    ],
+    [
+      51.518,
+      7.459
+    ],
+    [
+      52.032,
+      8.533
+    ],
+    [
+      52.377,
+      9.742
+    ],
+    [
+      52.13,
+      11.625
+    ],
+    [
+      52.524,
+      13.41
+    ],
+    [
+      52.341,
+      14.55
+    ],
+    [
+      52.406,
+      16.925
+    ],
+    [
+      52.232,
+      19.369
+    ],
+    [
+      52.229,
+      21.012
+    ]
   ]
 }
