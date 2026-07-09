@@ -461,10 +461,8 @@ function initMap() {
   });
 
   const FILL_DEFAULT  = '#c8960c';   /* dark yellow — récits et bons plans */
-  const FILL_ACTIVE   = '#8a6500';   /* deeper yellow — actif   */
   const FILL_INACTIVE = '#e0e0e0';   /* light grey              */
   const FILL_TIPS     = '#c8960c';   /* same yellow — bons plans */
-  const FILL_TIPS_ACT = '#8a6500';   /* same active — bons plans */
 
   // Normalize polygon coordinates so no ring crosses the antimeridian.
   // Consecutive vertices with longitude gap > 180° get shifted to stay consistent,
@@ -516,7 +514,6 @@ function initMap() {
 
           const tipsOnly  = !storiesForCode.length && hasTips;
           const fillDef   = tipsOnly ? FILL_TIPS    : FILL_DEFAULT;
-          const fillAct   = tipsOnly ? FILL_TIPS_ACT : FILL_ACTIVE;
           const fillOpDef = 0.65;
 
           const countryName = COUNTRY_NAMES[code] || code;
@@ -530,8 +527,8 @@ function initMap() {
             { sticky: true, direction: 'top', offset: [0, -4], className: 'rs-tooltip' }
           );
 
-          layer.on('mouseover', () => { if (layer !== activeLayer) layer.setStyle({ fillOpacity: 0.85, fillColor: fillAct, color: '#ffffff', weight: 0.7 }); });
-          layer.on('mouseout',  () => { if (layer !== activeLayer) layer.setStyle({ fillOpacity: fillOpDef, fillColor: fillDef, color: '#ffffff', weight: 0.7 }); });
+          layer.on('mouseover', () => { layer.setStyle({ fillOpacity: 0.85, fillColor: fillDef, color: '#ffffff', weight: 0.7 }); });
+          layer.on('mouseout',  () => { layer.setStyle({ fillOpacity: fillOpDef, fillColor: fillDef, color: '#ffffff', weight: 0.7 }); });
 
           layer.on('click', () => {
             activeLayer = layer;
