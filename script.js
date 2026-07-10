@@ -521,7 +521,7 @@ function initMap() {
     attributionControl: false,
     maxBounds: [[-90, -180], [90, 180]],
     maxBoundsViscosity: 1.0,
-  }).setView([52, 12], 3);
+  }).setView([52, 15], 4);
   _map = map;
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
