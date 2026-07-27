@@ -1,26 +1,17 @@
 {
   "name": "France",
   "author": "Lola",
-  "route": "Bruxelles → Lyon",
-  "duration": "3h56",
-  "price": "~80 €",
-  "booking": "https://www.sncf-connect.com",
-  "narrative": "<p>J’adore venir à Lyon. C’est une ville où l’on se sent tout de suite bien.</p><p>J’y suis déjà allée plusieurs fois, toujours en train d’ailleurs : difficile de battre un trajet de seulement 3h56 !</p><p>Il y a toujours un petit air de vacances : du soleil, un changement de décor et une ambiance agréable, le tout à deux pas de Bruxelles.</p><p>J’ai déjà hâte d’y retourner !</p>",
+  "route": "Bruxelles → Lorient",
+  "duration": "5h30",
+  "price": "~70 €",
+  "booking": "https://www.sncf-connect.com/",
+  "narrative": "<p>Direction Lorient !</p><p>Quel plaisir de retourner en Bretagne.  C'était facile avec un stop à Paris, on change de gare et on y est.  J'ai pu partir le mercredi après le travail et suis arrivée à 23h à Lorient.  Efficace pour la plus belle région de France, j'ai nommé LA BRETAGNE encore et encore !!!!  Foncez foncez foncez  Juste la mer, les galettes, la belle vie>>></p>",
   "highlights": [
-    "Flâner au marché de la Croix-Rousse le samedi matin",
-    "Se poser sur les quais quand il fait beau",
-    "Monter à Fourvière pour la vue sur toute la ville",
-    "Descendre Croix-Rousse",
-    "Faire une balade au parc de la Tête d’Or",
-    "Prendre un verre sur une péniche au bord de l’eau",
-    "Regarder le coucher de soleil au bar de l’Opéra (arrivée avant l'ouverture pour avoir une bonne place)",
-    "Pour boire un verre, j’aime beaucoup le Broc Bar, près d’Hôtel de Ville, le Barabaar, à la Croix-Rousse. Croix-Rousse généralement sinon :)",
-    "Pour manger, le Café des Fédérations pour un vrai bouchon lyonnais (cadre++)",
-    "le Desjeuneur pour un  brunch pas cher (il vaut mieux ne pas arriver après 9h45 - grosse file sinon)",
-    "Chères Cousines (bagels), surtout à emporter pour manger sur les quais",
-    "Perko Café pour sa terrasse ensoleillée",
-    "A Croix-Rousse : Le Bouillon pour un repas facile et peu cher, les Délices du Liban",
-    "Aller à la boulangerie Chez Romane (Croix-Rousse excellent), prendre des bons croissants et aller au café au Gros Caillou pour bien commencer la journée.",
-    "Et surtout ne pas oublier d'aller chez Terre Adélice pour une glace (ils ont pleins pleins de saveurs) !"
+    "La cité de la voile",
+    "Quiberon",
+    "Belle-Île",
+    "Île-d'Houat",
+    "Golf du Morbihan",
+    "île de Groix"
   ]
 }
