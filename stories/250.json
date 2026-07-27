@@ -1,17 +1,18 @@
 {
   "name": "France",
   "author": "Lola",
-  "route": "Bruxelles → Lorient",
-  "duration": "5h30",
-  "price": "~70 €",
+  "route": "Bruxelles → Grenoble",
+  "duration": "5h00",
+  "price": "~88 €",
   "booking": "https://www.sncf-connect.com/",
-  "narrative": "<p>Direction Lorient !</p><p>Quel plaisir de retourner en Bretagne.  C'était facile avec un stop à Paris, on change de gare et on y est.  J'ai pu partir le mercredi après le travail et suis arrivée à 23h à Lorient.  Efficace pour la plus belle région de France, j'ai nommé LA BRETAGNE encore et encore !!!!  Foncez foncez foncez  Juste la mer, les galettes, la belle vie>>></p>",
+  "narrative": "<p>Un week-end à la montagne à 5h de Bruxelles !</p><p>Je suis partie le vendredi et je suis revenue le dimanche.</p><p>Rapide et efficace pour aller rejoindre des copaines le temps d'un week-end !</p>",
   "highlights": [
-    "La cité de la voile",
-    "Quiberon",
-    "Belle-Île",
-    "Île-d'Houat",
-    "Golf du Morbihan",
-    "île de Groix"
+    "Aller faire une rando dans le massif de Belledonne, au refuge des 7 laux."
+  ],
+  "photos": [
+    "stories/img/250/1785149336821.jpg",
+    "stories/img/250/1785149349827.jpg",
+    "stories/img/250/1785149359060.jpg",
+    "stories/img/250/1785149367117.jpg"
   ]
 }
