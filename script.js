@@ -314,6 +314,31 @@ function routeCoords(route) {
     .filter(Boolean);
 }
 
+// Distance (km) between two [lat, lng] points
+function haversineKm(a, b) {
+  const R = 6371;
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(b[0] - a[0]);
+  const dLng = toRad(b[1] - a[1]);
+  const h = Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(a[0])) * Math.cos(toRad(b[0])) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+// Snaps nearby points (within ROUTE_SNAP_KM) onto a shared coordinate so that
+// routes drawn from independently-authored routePoints line up exactly where
+// they overlap in reality, instead of drawing as near-parallel duplicates.
+const ROUTE_SNAP_KM = 8;
+function makeRouteSnapper() {
+  const canonical = [];
+  return (pt) => {
+    const match = canonical.find(c => haversineKm(c, pt) < ROUTE_SNAP_KM);
+    if (match) return match;
+    canonical.push(pt);
+    return pt;
+  };
+}
+
 function initRouteMap(route) {
   const el = document.getElementById('sp-route-map');
   if (!el) return;
@@ -415,12 +440,14 @@ function showCountryRoutes(map, storiesForCode) {
   if (_routeOverlays) { _routeOverlays.remove(); _routeOverlays = null; }
   _routeOverlays = L.layerGroup().addTo(map);
 
-  // Collect valid routes
+  // Collect valid routes, snapping nearby points from different stories onto
+  // the same coordinate so shared track sections overlap exactly
+  const snap = makeRouteSnapper();
   const storyRoutes = [];
   storiesForCode.forEach(([slug, data]) => {
-    const coords = (data.routePoints && data.routePoints.length >= 2)
+    const raw = (data.routePoints && data.routePoints.length >= 2)
       ? data.routePoints : routeCoords(data.route);
-    if (coords.length >= 2) storyRoutes.push({ slug, data, coords });
+    if (raw.length >= 2) storyRoutes.push({ slug, data, coords: raw.map(snap) });
   });
 
   // Draw each physical segment only once (deduplicated)
@@ -469,7 +496,8 @@ function showCountryRoutes(map, storiesForCode) {
       .addTo(_routeOverlays);
 
     // Intermediate stop markers (train changes)
-    (data.stops || []).forEach(c => {
+    (data.stops || []).forEach(raw => {
+      const c = snap(raw);
       const mk = `${c[0]},${c[1]}`;
       if (seenMarkers.has(mk)) return;
       seenMarkers.add(mk);
