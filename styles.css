@@ -390,7 +390,7 @@ body { background: #fff; }
 
 /* ─── MAP SIDE PANEL ─────────────────────────────────────────────────────── */
 .rs-map-panel {
-  width: 300px;
+  width: 420px;
   flex-shrink: 0;
   height: 100%;
   display: flex;
@@ -412,7 +412,7 @@ body { background: #fff; }
   position: sticky;
   top: 0;
   z-index: 1;
-  min-width: 300px;
+  min-width: 420px;
 }
 .rs-map-panel-title {
   font-family: 'Playfair Display', Georgia, serif;
@@ -431,7 +431,7 @@ body { background: #fff; }
   transition: color 0.15s;
 }
 .rs-map-panel-close:hover { color: #333; }
-.rs-map-panel-body { padding: 12px 14px; overflow-y: auto; flex: 1; min-width: 300px; }
+.rs-map-panel-body { padding: 12px 14px; overflow-y: auto; flex: 1; min-width: 420px; }
 .rs-map-footer {
   color: rgba(23,28,50,0.58) !important;
   background: #f7fbff !important;
@@ -633,6 +633,19 @@ body { background: #fff; }
 }
 .sp-ticket-read { font-size: 1.3rem; color: var(--rs-yellow); margin-top: 0.2rem; }
 .sp-ticket-transit { font-size: 0.68rem; color: var(--rs-yellow); opacity: 0.75; margin-top: 0.3rem; }
+
+/* ─── JE MONTE À BORD CTA ────────────────────────────────────────────────── */
+.rs-board-card {
+  max-width: 780px;
+  background: linear-gradient(135deg, var(--rs-night) 0%, var(--rs-navy) 100%);
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 34px rgba(8,14,29,0.22);
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.rs-board-card:hover {
+  box-shadow: 0 14px 40px rgba(8,14,29,0.3);
+  transform: translateY(-2px);
+}
 
 .sp-back-btn {
   display: inline-flex;
