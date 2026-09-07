@@ -1,6 +1,10 @@
 // ─── I18N & BASE PATH ─────────────────────────────────────────────────────────
 const BASE = (typeof window.RS_BASE !== 'undefined') ? window.RS_BASE : '';
 
+// ─── CARTO (basemap tiles) ─────────────────────────────────────────────────────
+// Free key from https://carto.com/basemaps/apikey — domain-restricted to railstories.eu/localhost
+const CARTO_API_KEY = 'cb1_30ln_1_f0a176d493370de048542df6';
+
 // ─── UNSPLASH (hero fallback) ──────────────────────────────────────────────────
 // Free key from https://unsplash.com/developers — 50 req/hour, attribution required
 const UNSPLASH_KEY = '';
@@ -351,7 +355,7 @@ function initRouteMap(route) {
     dragging: false, doubleClickZoom: false,
     attributionControl: false,
   });
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, subdomains: 'abc' }).addTo(_routeMap);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=' + CARTO_API_KEY, { maxZoom: 19 }).addTo(_routeMap);
   const line = L.polyline(coords, { color: '#10318f', weight: 2.5, opacity: 0.85, dashArray: '6 4' }).addTo(_routeMap);
   const markerPoints = customPoints ? [coords[0], coords[coords.length - 1]] : coords;
   markerPoints.forEach(c => {
@@ -552,14 +556,14 @@ function initMap() {
   }).setView([52, 15], 4);
   _map = map;
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    subdomains: 'abc',
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png?key=' + CARTO_API_KEY, {
+    subdomains: 'abcd',
     maxZoom: 18,
     noWrap: true,
   }).addTo(map);
 
   L.control.attribution({ position: 'bottomright' })
-    .addAttribution('© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors')
+    .addAttribution('© <a href="https://carto.com/attributions">CARTO</a> | © <a href="https://openstreetmap.org/copyright">OSM</a>')
     .addTo(map);
 
   // Force Leaflet to recalculate container size then re-center
