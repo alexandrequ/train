@@ -351,7 +351,7 @@ function initRouteMap(route) {
     dragging: false, doubleClickZoom: false,
     attributionControl: false,
   });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(_routeMap);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, subdomains: 'abc' }).addTo(_routeMap);
   const line = L.polyline(coords, { color: '#10318f', weight: 2.5, opacity: 0.85, dashArray: '6 4' }).addTo(_routeMap);
   const markerPoints = customPoints ? [coords[0], coords[coords.length - 1]] : coords;
   markerPoints.forEach(c => {
@@ -523,7 +523,7 @@ function showMapBack(map) {
   _mapBackControl = L.control({ position: 'topleft' });
   _mapBackControl.onAdd = () => {
     const div = L.DomUtil.create('div', 'rs-map-back-btn');
-    div.innerHTML = '<i class="bi bi-arrow-left"></i> Retour';
+    div.innerHTML = `<i class="bi bi-arrow-left"></i> ${T.back}`;
     L.DomEvent.disableClickPropagation(div);
     L.DomEvent.on(div, 'click', () => {
       if (_routeOverlays) { _routeOverlays.remove(); _routeOverlays = null; }
@@ -552,14 +552,14 @@ function initMap() {
   }).setView([52, 15], 4);
   _map = map;
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-    subdomains: 'abcd',
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    subdomains: 'abc',
     maxZoom: 18,
     noWrap: true,
   }).addTo(map);
 
   L.control.attribution({ position: 'bottomright' })
-    .addAttribution('© <a href="https://carto.com/attributions">CARTO</a> | © <a href="https://openstreetmap.org/copyright">OSM</a>')
+    .addAttribution('© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors')
     .addTo(map);
 
   // Force Leaflet to recalculate container size then re-center
