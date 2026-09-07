@@ -930,6 +930,7 @@ function buildEditorHTML(p = {}) {
     : buildCityBlock(0, { name: p.cityName || '', tips: p.tips || [] });
 
   return `
+  <input type="hidden" id="ed-slug" value="${p.slug || ''}">
   <div class="section-sep">Pays & identifiant</div>
   <div class="row g-2 mb-2">
     <div class="col-md-8">
@@ -1181,9 +1182,15 @@ function parseIconStr(iconStr) {
   return { icon: cl ? 'bi-' + cl[1] : 'bi-buildings', color: co ? co[1] : '#1c2d52' };
 }
 
+function slugify(str) {
+  return (str || '').toString().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
 function buildStoryEntry() {
   const countryId   = document.getElementById('ed-country').value;
   if (!countryId) throw new Error('Sélectionne un pays');
+  const existingSlug = document.getElementById('ed-slug')?.value.trim() || '';
   const countryName = document.getElementById('ed-country-name').value.trim();
   const author      = document.getElementById('ed-author').value.trim();
   const route       = document.getElementById('ed-route').value.trim();
@@ -1206,7 +1213,21 @@ function buildStoryEntry() {
   if (narrative) entry.narrative = narrative;
   if (highlights.length) entry.highlights = highlights;
   if (photos.length) entry.photos = photos;
-  return { countryId, entry };
+  return { countryId, slug: existingSlug, entry };
+}
+
+// A country can have several trips: editing an existing trip keeps its original
+// slug (e.g. "724-grenade"); a brand-new trip reuses the bare country code only
+// if that country has no trip yet, otherwise it gets its own suffixed slug so it
+// doesn't overwrite the existing one.
+function resolveTargetSlug(countryId, existingSlug, entry, stories) {
+  if (existingSlug) return existingSlug;
+  if (!stories[countryId]) return countryId;
+  const dest = (entry.route || '').split('→').pop().trim();
+  const base = `${countryId}-${slugify(dest) || slugify(entry.name) || 'voyage'}`;
+  let slug = base, n = 2;
+  while (stories[slug]) slug = `${base}-${n++}`;
+  return slug;
 }
 
 document.getElementById('btn-preview').addEventListener('click', () => {
@@ -1229,10 +1250,11 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Publication…';
   try {
-    const { countryId, entry } = buildStoryEntry();
+    const { countryId, slug: existingSlug, entry } = buildStoryEntry();
     const { stories, indexSha, indexCodes } = await ghGetStories();
-    const isNew = !stories[countryId];
-    await ghPutStory(countryId, entry, isNew, indexSha, indexCodes);
+    const slug = resolveTargetSlug(countryId, existingSlug, entry, stories);
+    const isNew = !stories[slug];
+    await ghPutStory(slug, entry, isNew, indexSha, indexCodes);
     document.getElementById('gh-dot').className = 'rs-dot ok';
     setMsg('✓ Publié sur GitHub !', 'success');
   } catch (e) {
@@ -1314,6 +1336,9 @@ function renderTripsView(stories) {
 window.editTrip = function(countryId) {
   const data = cachedTrips?.[countryId];
   if (!data) return;
+  // countryId here is the story's full slug (e.g. "724-grenade"); the country
+  // dropdown only knows bare ISO codes, so strip any "-suffix" for that.
+  const bareCode = countryId.split('-')[0];
   // Parse route to extract dep/arr/stopovers country codes
   const routeParts = (data.route || '').split('→').map(s => s.trim());
   const nameToCode = Object.fromEntries(Object.entries(COUNTRY_NAMES_FR).map(([id,n]) => [n.toLowerCase(), id]));
@@ -1321,7 +1346,7 @@ window.editTrip = function(countryId) {
   const arrCode  = nameToCode[routeParts[routeParts.length-1]?.toLowerCase()] || '';
   const stopovers = routeParts.slice(1,-1).map(p => nameToCode[p.toLowerCase()]||'').filter(Boolean);
   document.querySelector('[data-section="soumissions"]').click();
-  showEditor({ countryId, countryName: data.name, author: data.author || '', route: data.route || '',
+  showEditor({ countryId: bareCode, slug: countryId, countryName: data.name, author: data.author || '', route: data.route || '',
     depCode, arrCode, stopovers,
     duration: data.duration || '', price: data.price || '', booking: data.booking || '',
     warning: data.warning || '', narrative: htmlToNarrative(data.narrative || ''),
