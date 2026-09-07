@@ -356,10 +356,10 @@ function initRouteMap(route) {
     attributionControl: false,
   });
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=' + CARTO_API_KEY, { maxZoom: 19 }).addTo(_routeMap);
-  const line = L.polyline(coords, { color: '#10318f', weight: 2.5, opacity: 0.85, dashArray: '6 4' }).addTo(_routeMap);
+  const line = L.polyline(coords, { color: '#2f4858', weight: 2.5, opacity: 0.85, dashArray: '6 4' }).addTo(_routeMap);
   const markerPoints = customPoints ? [coords[0], coords[coords.length - 1]] : coords;
   markerPoints.forEach(c => {
-    L.circleMarker(c, { radius: 5, fillColor: '#10318f', color: '#fff', weight: 2, fillOpacity: 1 }).addTo(_routeMap);
+    L.circleMarker(c, { radius: 5, fillColor: '#2f4858', color: '#fff', weight: 2, fillOpacity: 1 }).addTo(_routeMap);
   });
   _routeMap.fitBounds(line.getBounds(), { padding: [18, 18] });
 }
@@ -463,7 +463,7 @@ function showCountryRoutes(map, storiesForCode) {
       const keyR = `${b[0]},${b[1]}|${a[0]},${a[1]}`;
       if (!seenSegs.has(key) && !seenSegs.has(keyR)) {
         seenSegs.add(key);
-        L.polyline([a, b], { color: '#10318f', weight: 3, opacity: 0.85, dashArray: '6 4' }).addTo(_routeOverlays);
+        L.polyline([a, b], { color: '#2f4858', weight: 3, opacity: 0.85, dashArray: '6 4' }).addTo(_routeOverlays);
       }
     }
   });
@@ -492,9 +492,9 @@ function showCountryRoutes(map, storiesForCode) {
         </div>
       </div>`;
     let highlight = null;
-    L.polyline(coords, { color: '#10318f', weight: 20, opacity: 0, className: 'rs-route-hit' })
+    L.polyline(coords, { color: '#2f4858', weight: 20, opacity: 0, className: 'rs-route-hit' })
       .bindTooltip(ticketHtml, { sticky: true, className: 'rs-route-ticket', direction: 'top', offset: [0, -6] })
-      .on('mouseover', () => { highlight = L.polyline(coords, { color: '#0a1f6e', weight: 5, opacity: 1 }).addTo(_routeOverlays); })
+      .on('mouseover', () => { highlight = L.polyline(coords, { color: '#1e2f39', weight: 5, opacity: 1 }).addTo(_routeOverlays); })
       .on('mouseout',  () => { if (highlight) { highlight.remove(); highlight = null; } })
       .on('click', (e) => { L.DomEvent.stopPropagation(e); window.location.href = `${BASE}histoire/?story=${slug}`; })
       .addTo(_routeOverlays);
@@ -505,7 +505,7 @@ function showCountryRoutes(map, storiesForCode) {
       const mk = `${c[0]},${c[1]}`;
       if (seenMarkers.has(mk)) return;
       seenMarkers.add(mk);
-      L.circleMarker(c, { radius: 4, fillColor: '#fff', color: '#10318f', weight: 2, fillOpacity: 1 })
+      L.circleMarker(c, { radius: 4, fillColor: '#fff', color: '#2f4858', weight: 2, fillOpacity: 1 })
         .on('click', (e) => { L.DomEvent.stopPropagation(e); window.location.href = `${BASE}histoire/?story=${slug}`; })
         .addTo(_routeOverlays);
     });
@@ -515,7 +515,7 @@ function showCountryRoutes(map, storiesForCode) {
       const mk = `${c[0]},${c[1]}`;
       if (seenMarkers.has(mk)) return;
       seenMarkers.add(mk);
-      L.circleMarker(c, { radius: 5, fillColor: '#10318f', color: '#fff', weight: 2, fillOpacity: 1 })
+      L.circleMarker(c, { radius: 5, fillColor: '#2f4858', color: '#fff', weight: 2, fillOpacity: 1 })
         .on('click', (e) => { L.DomEvent.stopPropagation(e); window.location.href = `${BASE}histoire/?story=${slug}`; })
         .addTo(_routeOverlays);
     });
