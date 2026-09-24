@@ -1,0 +1,20 @@
+{
+  "name": "France",
+  "author": "Lola",
+  "route": "Bruxelles → Paris → Lorient",
+  "duration": "5h30",
+  "price": "~70 €",
+  "booking": "https://www.sncf-connect.com",
+  "narrative": "<p>Direction Lorient !</p><p>Quel plaisir de retourner en Bretagne.  C'était facile avec un stop à Paris, on change de gare et on y est.  J'ai pu partir le mercredi après le travail et suis arrivée à 23h à Lorient.  Efficace pour la plus belle région de France, j'ai nommé LA BRETAGNE encore et encore !!!!</p><p>Foncez foncez foncez !</p><p>Juste la mer, les galettes, la belle vie>>></p>",
+  "highlights": [
+    "La cité de la voile",
+    "Quiberon",
+    "Belle-Île",
+    "Île-d'Houat",
+    "Golf du Morbihan",
+    "île de Groix"
+  ],
+  "photos": [
+    "stories/img/250/1790284281105.jpg"
+  ]
+}
