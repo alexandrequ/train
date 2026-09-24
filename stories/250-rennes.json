@@ -1,5 +1,6 @@
 {
   "name": "France",
+  "countryCode": "250",
   "author": "Lola",
   "route": "Bruxelles → Rennes",
   "duration": "4h40",
