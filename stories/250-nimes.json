@@ -1,0 +1,12 @@
+{
+  "name": "France",
+  "author": "Lola",
+  "route": "Bruxelles → Nîmes",
+  "duration": "5h30",
+  "price": "~120 €",
+  "booking": "https://www.sncf-connect.com",
+  "narrative": "<p>C'est quand même incroyable le train : en 5h30, je me retrouve à Nîmes !</p><p>Billet de train pris en dernière minute et en plein août donc le prix était plus élevé que d'habitude...</p><p>Mais quel plaisir de rejoindre les copaines dans le Sud de la France en 5h30 avec un direct :)</p>",
+  "photos": [
+    "stories/img/250/1790283179239.jpg"
+  ]
+}
