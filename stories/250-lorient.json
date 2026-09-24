@@ -2,6 +2,11 @@
   "name": "France",
   "author": "Lola",
   "route": "Bruxelles → Paris → Lorient",
+  "routePoints": [
+    [50.8503, 4.3517],
+    [48.8566, 2.3522],
+    [47.7485, -3.3660]
+  ],
   "duration": "5h30",
   "price": "~70 €",
   "booking": "https://www.sncf-connect.com",
