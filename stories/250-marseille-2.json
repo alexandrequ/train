@@ -1,0 +1,19 @@
+{
+  "name": "France",
+  "author": "Lola",
+  "route": "Bruxelles → Marseille",
+  "duration": "5h35",
+  "price": "~80 €",
+  "booking": "https://www.sncf-connect.com",
+  "narrative": "<p>5h30 pour être à Marseille avec un tgv direct, c'est le rêve non??  let's goooo</p>",
+  "highlights": [
+    "Pour chiller : Port de Malmousque, Anse de Maldorme",
+    "Testé et validé 100% : Chez Gilda >>>",
+    "Bar: Au Petit Nice",
+    "Restau: Pizzeria la bonne mère, Sur le Pouce (couscouuuus), la Cantinetta, Zesti (grec)",
+    "Café/lunch: Pollux, Petrin couchette, Chez Lucas"
+  ],
+  "photos": [
+    "stories/img/250/1790280180205.jpg"
+  ]
+}
