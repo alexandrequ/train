@@ -1,5 +1,6 @@
 {
   "name": "Suisse",
+  "countryCode": "756",
   "author": "Léa",
   "route": "Bruxelles → Paris → Genève",
   "routePoints": [
