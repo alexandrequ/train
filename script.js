@@ -976,7 +976,14 @@ const mapObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 
 const _mapEl = document.getElementById('map');
-if (_mapEl) mapObserver.observe(_mapEl);
+if (_mapEl) {
+  mapObserver.observe(_mapEl);
+
+  // Explicitly arm the map. The existing async loaders will call initMap()
+  // as soon as both stories and tips are ready.
+  _mapPending = true;
+  if (_storiesLoaded && _bonsPlansLoaded) initMap();
+}
 
 // ─── PAGE RÉCIT ──────────────────────────────────────────────────────────────
 
