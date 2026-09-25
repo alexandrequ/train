@@ -407,7 +407,11 @@ if (!window.RS_STORY_PAGE) {
       renderRecitsSection();
       openStoryFromHash();
     })
-    .catch(() => console.error('Impossible de charger les récits'));
+    .catch(() => {
+      _storiesLoaded = true;
+      if (_mapPending && _bonsPlansLoaded) initMap();
+      console.error('Impossible de charger les récits');
+    });
 }
 
 // ─── DEEP LINK ────────────────────────────────────────────────────────────────
@@ -544,10 +548,11 @@ function showMapBack(map) {
 let mapReady = false;
 
 function initMap() {
-  if (mapReady) return;
-  mapReady = true;
+  if (mapReady || _map) return;
+  const mapEl = document.getElementById('map');
+  if (!mapEl || typeof L === 'undefined') return;
 
-  const map = L.map('map', {
+  const map = L.map(mapEl, {
     scrollWheelZoom: false,
     zoomControl: true,
     attributionControl: false,
@@ -555,6 +560,7 @@ function initMap() {
     maxBoundsViscosity: 1.0,
   }).setView([52, 15], 4);
   _map = map;
+  mapReady = true;
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png?key=' + CARTO_API_KEY, {
     subdomains: 'abcd',
@@ -977,11 +983,8 @@ const mapObserver = new IntersectionObserver(entries => {
 
 const _mapEl = document.getElementById('map');
 if (_mapEl) {
-  mapObserver.observe(_mapEl);
-
-  // Explicitly arm the map. The existing async loaders will call initMap()
-  // as soon as both stories and tips are ready.
   _mapPending = true;
+  mapObserver.observe(_mapEl);
   if (_storiesLoaded && _bonsPlansLoaded) initMap();
 }
 
