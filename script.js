@@ -394,18 +394,29 @@ function buildStoryIndex() {
 if (!window.RS_STORY_PAGE) {
   fetch(BASE + 'stories/index.json')
     .then(r => r.json())
-    .then(codes => Promise.all(
+    .then(codes => Promise.allSettled(
       codes.map(code =>
-        fetch(BASE + `stories/${code}.json`).then(r => r.json()).then(data => [code, data])
+        fetch(BASE + `stories/${code}.json`).then(r => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.json();
+        }).then(data => [code, data])
       )
     ))
-    .then(entries => {
+    .then(results => {
+      // Keep every valid story; one broken/missing file must not hide the others.
+      const entries = results
+        .filter(result => result.status === 'fulfilled')
+        .map(result => result.value);
+
       STORIES = Object.fromEntries(entries);
       STORY_INDEX = buildStoryIndex();
       _storiesLoaded = true;
       if (_mapPending && _bonsPlansLoaded) initMap();
       renderRecitsSection();
       openStoryFromHash();
+
+      const failed = results.filter(result => result.status === 'rejected').length;
+      if (failed) console.error(`${failed} récit(s) n'ont pas pu être chargés`);
     })
     .catch(() => {
       _storiesLoaded = true;
