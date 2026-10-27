@@ -2,6 +2,20 @@
   "name": "Suisse",
   "author": "Elinamusée",
   "route": "Bruxelles → Lyon → Genève",
+  "routePoints": [
+    [
+      50.8503,
+      4.3517
+    ],
+    [
+      45.7640,
+      4.8357
+    ],
+    [
+      46.2044,
+      6.1432
+    ]
+  ],
   "duration": "4h30",
   "price": "~115,1 €",
   "booking": "sncf-connect.com",
