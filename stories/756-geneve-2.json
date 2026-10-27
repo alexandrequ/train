@@ -2,6 +2,7 @@
   "name": "Suisse",
   "author": "Elinamusée",
   "route": "Bruxelles → Lyon → Genève",
+  "countryCode": "756",
   "routePoints": [
     [
       50.8503,
