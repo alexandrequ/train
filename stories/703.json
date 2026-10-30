@@ -1,0 +1,17 @@
+{
+  "name": "Slovaquie",
+  "warning": "Pensez à bien réserver un siège lors de la réservation ; ça coûte un euro de plus, mais c'est vraiment utile, car les trains peuvent vite être bien remplis.",
+  "author": "Mathilde",
+  "route": "Bratislava → Vrútky",
+  "duration": "2h25",
+  "price": "~6,20 €",
+  "booking": "slovakrail.transport-ticket.com/?marketingCarrierCode=SRAI&retailerPartnerNumber=130331",
+  "narrative": "<p>Découvrir les montagnes, à moins de 3 heures de Bratislava !</p><p>À seulement 2 h 25 en train depuis Bratislava, vous voilà au cœur des montagnes de Slovaquie, plus précisément à Vrútky. De là, plusieurs taxis vous emmènent dans les hauteurs.</p><p>J'ai fait ce voyage en automne avec des amis, donc il n'y avait pas beaucoup de touristes, et on a pu profiter du calme de la montagne !</p>",
+  "highlights": [
+    "La ferrata HZS (la première de Slovaquie)"
+  ],
+  "photos": [
+    "stories/img/703/1793380255711.jpg",
+    "stories/img/703/1793380262020.jpg"
+  ]
+}
